@@ -1,0 +1,13 @@
+import 'package:postgresUn/modules/projects/domain/entities/project.dart';
+import 'package:postgresUn/modules/projects/domain/entities/project_user.dart';
+import 'package:postgresUn/modules/users/domain/entities/user.dart';
+
+abstract class ProjectsDatasource {
+  Future<Project> create(StartProject project);
+  Future<void> update(Project project);
+  Future<void> delete(Project project);
+  Future<List<Project>> projects(User user);
+  Future<Project> project(String id);
+  Future<void> removeParticipants(Project project, ProjectUser projectUser);
+  Future<void> addParticipants(Project project, ProjectUser projectUser);
+}

@@ -24,7 +24,7 @@ class _$RegisterUserTearOff {
       required String patronymic,
       required String email,
       required int phone,
-      required String photo,
+      @FileConverter() required File photo,
       required String password,
       String permission = 'user',
       DateTime? birthdate}) {
@@ -52,7 +52,8 @@ mixin _$RegisterUser {
   String get patronymic => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   int get phone => throw _privateConstructorUsedError;
-  String get photo => throw _privateConstructorUsedError;
+  @FileConverter()
+  File get photo => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
   String get permission => throw _privateConstructorUsedError;
   DateTime? get birthdate => throw _privateConstructorUsedError;
@@ -73,7 +74,7 @@ abstract class $RegisterUserCopyWith<$Res> {
       String patronymic,
       String email,
       int phone,
-      String photo,
+      @FileConverter() File photo,
       String password,
       String permission,
       DateTime? birthdate});
@@ -123,7 +124,7 @@ class _$RegisterUserCopyWithImpl<$Res> implements $RegisterUserCopyWith<$Res> {
       photo: photo == freezed
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
-              as String,
+              as File,
       password: password == freezed
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
@@ -153,7 +154,7 @@ abstract class _$RegisterUserCopyWith<$Res>
       String patronymic,
       String email,
       int phone,
-      String photo,
+      @FileConverter() File photo,
       String password,
       String permission,
       DateTime? birthdate});
@@ -205,7 +206,7 @@ class __$RegisterUserCopyWithImpl<$Res> extends _$RegisterUserCopyWithImpl<$Res>
       photo: photo == freezed
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
-              as String,
+              as File,
       password: password == freezed
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
@@ -231,7 +232,7 @@ class _$_RegisterUser implements _RegisterUser {
       required this.patronymic,
       required this.email,
       required this.phone,
-      required this.photo,
+      @FileConverter() required this.photo,
       required this.password,
       this.permission = 'user',
       this.birthdate});
@@ -247,7 +248,8 @@ class _$_RegisterUser implements _RegisterUser {
   @override
   final int phone;
   @override
-  final String photo;
+  @FileConverter()
+  final File photo;
   @override
   final String password;
   @JsonKey()
@@ -305,7 +307,7 @@ abstract class _RegisterUser implements RegisterUser {
       required String patronymic,
       required String email,
       required int phone,
-      required String photo,
+      @FileConverter() required File photo,
       required String password,
       String permission,
       DateTime? birthdate}) = _$_RegisterUser;
@@ -321,7 +323,8 @@ abstract class _RegisterUser implements RegisterUser {
   @override
   int get phone;
   @override
-  String get photo;
+  @FileConverter()
+  File get photo;
   @override
   String get password;
   @override

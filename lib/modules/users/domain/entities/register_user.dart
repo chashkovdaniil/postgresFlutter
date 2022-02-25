@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:postgresUn/core/converters/file_converter.dart';
 
 part 'register_user.freezed.dart';
 
@@ -10,7 +13,7 @@ class RegisterUser with _$RegisterUser {
     required String patronymic,
     required String email,
     required int phone,
-    required String photo,
+    @FileConverter() required File photo,
     required String password,
     @Default('user') String permission,
     DateTime? birthdate,

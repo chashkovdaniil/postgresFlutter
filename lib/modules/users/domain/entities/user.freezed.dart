@@ -29,7 +29,7 @@ class _$UserTearOff {
       required String patronymic,
       required String email,
       required int phone,
-      required String photo,
+      @FileConverter() required File photo,
       required String permission,
       required String password,
       @JsonKey(fromJson: User.dateTimeFromJson) DateTime? birthdate}) {
@@ -64,7 +64,8 @@ mixin _$User {
   String get patronymic => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   int get phone => throw _privateConstructorUsedError;
-  String get photo => throw _privateConstructorUsedError;
+  @FileConverter()
+  File get photo => throw _privateConstructorUsedError;
   String get permission => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
   @JsonKey(fromJson: User.dateTimeFromJson)
@@ -86,7 +87,7 @@ abstract class $UserCopyWith<$Res> {
       String patronymic,
       String email,
       int phone,
-      String photo,
+      @FileConverter() File photo,
       String permission,
       String password,
       @JsonKey(fromJson: User.dateTimeFromJson) DateTime? birthdate});
@@ -141,7 +142,7 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
       photo: photo == freezed
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
-              as String,
+              as File,
       permission: permission == freezed
           ? _value.permission
           : permission // ignore: cast_nullable_to_non_nullable
@@ -170,7 +171,7 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       String patronymic,
       String email,
       int phone,
-      String photo,
+      @FileConverter() File photo,
       String permission,
       String password,
       @JsonKey(fromJson: User.dateTimeFromJson) DateTime? birthdate});
@@ -226,7 +227,7 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
       photo: photo == freezed
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
-              as String,
+              as File,
       permission: permission == freezed
           ? _value.permission
           : permission // ignore: cast_nullable_to_non_nullable
@@ -245,7 +246,7 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_User implements _User {
+class _$_User extends _User {
   const _$_User(
       {required this.id,
       required this.name,
@@ -253,10 +254,11 @@ class _$_User implements _User {
       required this.patronymic,
       required this.email,
       required this.phone,
-      required this.photo,
+      @FileConverter() required this.photo,
       required this.permission,
       required this.password,
-      @JsonKey(fromJson: User.dateTimeFromJson) this.birthdate});
+      @JsonKey(fromJson: User.dateTimeFromJson) this.birthdate})
+      : super._();
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
 
@@ -274,7 +276,8 @@ class _$_User implements _User {
   @override
   final int phone;
   @override
-  final String photo;
+  @FileConverter()
+  final File photo;
   @override
   final String permission;
   @override
@@ -332,7 +335,7 @@ class _$_User implements _User {
   }
 }
 
-abstract class _User implements User {
+abstract class _User extends User {
   const factory _User(
       {required int id,
       required String name,
@@ -340,10 +343,11 @@ abstract class _User implements User {
       required String patronymic,
       required String email,
       required int phone,
-      required String photo,
+      @FileConverter() required File photo,
       required String permission,
       required String password,
       @JsonKey(fromJson: User.dateTimeFromJson) DateTime? birthdate}) = _$_User;
+  const _User._() : super._();
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
@@ -361,7 +365,8 @@ abstract class _User implements User {
   @override
   int get phone;
   @override
-  String get photo;
+  @FileConverter()
+  File get photo;
   @override
   String get permission;
   @override

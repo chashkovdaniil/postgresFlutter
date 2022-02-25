@@ -4,9 +4,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:postgresUn/core/constants.dart';
 import 'package:postgresUn/core/providers/projects_provider.dart';
 import 'package:postgresUn/core/providers/user_provider.dart';
+import 'package:postgresUn/modules/messages/data/entities/message.dart';
 import 'package:postgresUn/modules/projects/domain/entities/project.dart';
-import 'package:postgresUn/modules/users/domain/entities/user.dart';
 import 'package:postgresUn/modules/projects/domain/entities/project_user.dart';
+import 'package:postgresUn/modules/projects/presentation/dialog_task.dart';
+import 'package:postgresUn/modules/projects/presentation/messages.dart';
+import 'package:postgresUn/modules/projects/presentation/participants.dart';
+import 'package:postgresUn/modules/projects/presentation/state/projects_manager.dart';
+import 'package:postgresUn/modules/projects/presentation/tasks_tab.dart';
 
 class ProjectPage extends HookConsumerWidget {
   static const route = 'project';
@@ -20,12 +25,13 @@ class ProjectPage extends HookConsumerWidget {
     }
 
     final projectsManager = ref.watch(ProjectsProvider.projectsManager);
-    useEffect(
-      () {
+
+    final streamData = useStream(
+      Stream.periodic(const Duration(milliseconds: 1000), (_) {
         projectsManager.project(args.id.toString());
-        return;
-      },
-      const [],
+        return _;
+      }),
+      initialData: 0,
     );
     final project = ref.watch(ProjectsProvider.projectsState).currentProject;
     if (project == null) {
@@ -33,237 +39,78 @@ class ProjectPage extends HookConsumerWidget {
     }
 
     final user = ref.watch(UserProvider.userState).user!;
-    final creator = project.creator!;
-    final tabsController = useTabController(initialLength: 2);
     final tabs = [
+      Tab(
+        icon: IconButton(
+          padding: EdgeInsets.zero,
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return DialogTask(project: project);
+              },
+            );
+          },
+          icon: Icon(Icons.add),
+        ),
+        child: Text('Tasks (${project.countDoneTasks}/${project.countTasks})'),
+      ),
       const Tab(
-        child: Text('Tasks'),
+        child: Text('Chat'),
       ),
       const Tab(
         child: Text('Participants'),
       ),
     ];
+    final tabsController = useTabController(initialLength: tabs.length);
     final manager = ref.watch(ProjectsProvider.projectsManager);
     return Scaffold(
       appBar: AppBar(
-        title: Text(project.title),
+        title: Row(
+          children: [
+            Text(project.title),
+            const SizedBox(width: 100),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.3,
+              child: Expanded(
+                child: TabBar(
+                  controller: tabsController,
+                  tabs: tabs,
+                ),
+              ),
+            )
+          ],
+        ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: (user.id == creator.id)
-                ? ElevatedButton(
-                    onPressed: () {
+          PopupMenuButton(
+            itemBuilder: (context) {
+              return [
+                if (project.admins!.any((element) => element.id == user.id))
+                  PopupMenuItem(
+                    value: 0,
+                    onTap: () {
                       manager.delete(project);
                       Navigator.pop(context);
                     },
-                    child: const Text('Delete'),
+                    child: Text('Delete project'),
                   )
-                : null,
+              ];
+            },
           ),
         ],
         // centerTitle: true,
       ),
       body: Padding(
         padding: AppConstants.bodyPadding,
-        child: Column(
-          children: [
-            TabBar(
-              controller: tabsController,
-              tabs: tabs,
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: tabsController,
-                children: [
-                  ListView.builder(
-                    itemBuilder: (context, index) {
-                      return const ListTile();
-                    },
-                  ),
-                  ProjectParticipants(
-                    project: project,
-                    user: user,
-                    creator: creator,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ProjectParticipants extends StatelessWidget {
-  const ProjectParticipants({
-    Key? key,
-    required this.project,
-    required this.user,
-    required this.creator,
-  }) : super(key: key);
-
-  final Project project;
-  final User user;
-  final ProjectUser creator;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 10),
-        ElevatedButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return const AddParticipantsDialog();
-              },
-            );
-          },
-          child: const Text('Add participant'),
-        ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: project.participants!.length,
-            itemBuilder: (context, index) {
-              final participant = project.participants!.elementAt(index);
-              return ListTile(
-                key: ValueKey(participant.id),
-                title: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      '${participant.lastName} '
-                      '${participant.name} '
-                      '${participant.patronymic} '
-                      '(${participant.email})',
-                    ),
-                    if (participant.id == project.creator!.id)
-                      const Icon(
-                        Icons.star,
-                      ),
-                  ],
-                ),
-                trailing: (project.creator!.id == user.id)
-                    ? Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (creator.id != participant.id)
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.star),
-                            ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.delete),
-                          ),
-                        ],
-                      )
-                    : null,
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class AddParticipantsDialog extends HookConsumerWidget {
-  // final Project project;
-  const AddParticipantsDialog({
-    // required this.project,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(context, ref) {
-    final project = ref.watch(ProjectsProvider.projectsState).currentProject!;
-    final userRepository = ref.watch(UserProvider.userRepository);
-    final _participants = project.participants ?? Set<ProjectUser>.identity();
-    final participantFieldController = useTextEditingController();
-    final formKey = GlobalKey<FormState>(debugLabel: 'addParticipantsForm');
-    final projectUser = useState<User?>(null);
-    final projectsManager = ref.watch(ProjectsProvider.projectsManager);
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.7,
-      ),
-      child: Form(
-        key: formKey,
-        child: AlertDialog(
-          title: const Text('Add participants'),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+        child: Expanded(
+          child: TabBarView(
+            controller: tabsController,
             children: [
-              Wrap(
-                spacing: 10,
-                children: _participants
-                    .map(
-                      (e) => Chip(
-                        avatar: const CircleAvatar(),
-                        label: Text(e.email),
-                        onDeleted: () {
-                          projectsManager.removeParticipant(e);
-                        },
-                      ),
-                    )
-                    .toList(),
-              ),
-              TextFormField(
-                controller: participantFieldController,
-                autofocus: true,
-                validator: (val) {
-                  if (val == null || val.isEmpty) {
-                    return 'Fill field';
-                  }
-                  if (val.isNotEmpty && projectUser.value == null) {
-                    return 'User not found';
-                  }
-                  return null;
-                },
-                onFieldSubmitted: (text) async {
-                  try {
-                    projectUser.value = await userRepository.userByEmail(text);
-                    if (projectUser.value != null) {
-                      final participant = ProjectUser.fromUser(
-                        projectUser.value!,
-                        ProjectUserRoles.user,
-                      );
-                      projectsManager.addParticipant(participant);
-                      participantFieldController.clear();
-                    }
-                  } catch (err) {
-                    formKey.currentState?.validate();
-                  }
-                },
-                decoration: InputDecoration(
-                  label: const Text('Email'),
-                  suffix: IconButton(
-                    onPressed: () async {
-                      try {
-                        projectUser.value = await userRepository.userByEmail(
-                          participantFieldController.text,
-                        );
-                        if (projectUser.value != null) {
-                          final participant = ProjectUser.fromUser(
-                            projectUser.value!,
-                            ProjectUserRoles.user,
-                          );
-                          projectsManager.addParticipant(participant);
-                          participantFieldController.clear();
-                        }
-                      } catch (err) {
-                        formKey.currentState?.validate();
-                      }
-                    },
-                    icon: const Icon(
-                      Icons.add,
-                    ),
-                  ),
-                ),
+              if (project.tasks != null) Tasks(project: project),
+              Messages(),
+              ProjectParticipants(
+                project: project,
+                user: user,
               ),
             ],
           ),

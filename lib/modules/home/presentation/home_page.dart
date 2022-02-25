@@ -1,13 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:postgresUn/core/providers/user_provider.dart';
 import 'package:postgresUn/modules/home/presentation/widgets/navbar.dart';
 import 'package:postgresUn/modules/projects/presentation/projects_page.dart';
-import 'package:postgresUn/modules/tasks/presentation/tasks_page.dart';
-import 'package:postgresUn/modules/users/domain/entities/user.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,11 +13,9 @@ class HomePage extends HookConsumerWidget {
   Widget build(context, ref) {
     final pagesRoutes = [
       ProjectsPage.route,
-      TasksPage.route,
     ];
     final pages = [
       const ProjectsPage(),
-      const TasksPage(),
     ];
     final user = ref.watch(UserProvider.userState).user!;
     final pageController = useStreamController<String>();

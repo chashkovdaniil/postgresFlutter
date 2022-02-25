@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:postgresUn/core/converters/file_converter.dart';
 import 'package:postgresUn/modules/users/domain/entities/user.dart';
 
 part 'project_user.freezed.dart';
@@ -8,17 +11,19 @@ enum ProjectUserRoles { user, admin }
 
 @freezed
 class ProjectUser with _$ProjectUser {
+  const ProjectUser._();
   const factory ProjectUser({
-    @JsonKey(name: 'user_id') required int id,
-    @JsonKey(name: 'user_name') required String name,
-    @JsonKey(name: 'user_last_name') required String lastName,
-    @JsonKey(name: 'user_patronymic') required String patronymic,
-    @JsonKey(name: 'user_email') required String email,
-    @JsonKey(name: 'user_phone') required int phone,
-    @JsonKey(name: 'user_photo') required String photo,
-    @JsonKey(name: 'user_role', fromJson: ProjectUser.roleFromJson)
+    @JsonKey(name: 'id') required int id,
+    @JsonKey(name: 'name') required String name,
+    @JsonKey(name: 'last_name') required String lastName,
+    @JsonKey(name: 'patronymic') required String patronymic,
+    @JsonKey(name: 'email') required String email,
+    @JsonKey(name: 'phone') required int phone,
+    @FileConverter() required File photo,
+    @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
         required ProjectUserRoles role,
   }) = _ProjectUser;
+  String get fullname => '$lastName $name $patronymic';
 
   factory ProjectUser.fromUser(User user, ProjectUserRoles role) {
     return ProjectUser(
@@ -44,5 +49,10 @@ class ProjectUser with _$ProjectUser {
       default:
         return ProjectUserRoles.user;
     }
+  }
+
+  @override
+  bool operator ==(dynamic nex) {
+    return email == (nex as ProjectUser).email;
   }
 }

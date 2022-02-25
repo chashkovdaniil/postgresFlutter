@@ -23,7 +23,7 @@ class UserLocalDatasource implements UserDatasource {
         'phone': registerUser.phone,
         'permission': registerUser.permission,
         'password': registerUser.password,
-        'photo': registerUser.photo,
+        'photo': registerUser.photo.path,
       },
     );
     final response = await _postgresService.mappedResultsQuery(

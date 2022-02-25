@@ -51,29 +51,30 @@ class ProjectsPage extends HookConsumerWidget {
             ),
           ],
         ),
-        Expanded(
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-              mainAxisSpacing: 20,
-              mainAxisExtent: 50,
+        if (projects.isNotEmpty)
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+                mainAxisSpacing: 20,
+                mainAxisExtent: 50,
+              ),
+              itemCount: projects.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  key: ValueKey(projects[index].id),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      ProjectPage.route,
+                      arguments: projects[index],
+                    );
+                  },
+                  title: Text(projects[index].title),
+                );
+              },
             ),
-            itemCount: projects.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                key: ValueKey(projects[index].id),
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    ProjectPage.route,
-                    arguments: projects[index],
-                  );
-                },
-                title: Text(projects[index].title),
-              );
-            },
           ),
-        ),
       ],
     );
   }
@@ -111,6 +112,7 @@ class CreateProjectDialog extends HookConsumerWidget {
                   }
                   return null;
                 },
+                maxLength: 50,
                 decoration: const InputDecoration(
                   label: Text('Title'),
                 ),
@@ -128,10 +130,13 @@ class CreateProjectDialog extends HookConsumerWidget {
           TextButton(
             onPressed: () {
               if (formKey.currentState?.validate() == true) {
+                final users = {
+                  ProjectUser.fromUser(user!, ProjectUserRoles.admin)
+                };
                 final startProject = StartProject(
                   title: titleFieldController.text,
-                  creator: ProjectUser.fromUser(user!, ProjectUserRoles.admin),
-                  participants: {},
+                  users: users,
+                  admins: users,
                 );
                 manager.create(startProject);
                 Navigator.pop(context);

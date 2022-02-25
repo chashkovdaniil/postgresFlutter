@@ -23,21 +23,21 @@ class _$ProjectUserTearOff {
   const _$ProjectUserTearOff();
 
   _ProjectUser call(
-      {@JsonKey(name: 'user_id')
+      {@JsonKey(name: 'id')
           required int id,
-      @JsonKey(name: 'user_name')
+      @JsonKey(name: 'name')
           required String name,
-      @JsonKey(name: 'user_last_name')
+      @JsonKey(name: 'last_name')
           required String lastName,
-      @JsonKey(name: 'user_patronymic')
+      @JsonKey(name: 'patronymic')
           required String patronymic,
-      @JsonKey(name: 'user_email')
+      @JsonKey(name: 'email')
           required String email,
-      @JsonKey(name: 'user_phone')
+      @JsonKey(name: 'phone')
           required int phone,
-      @JsonKey(name: 'user_photo')
-          required String photo,
-      @JsonKey(name: 'user_role', fromJson: ProjectUser.roleFromJson)
+      @FileConverter()
+          required File photo,
+      @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
           required ProjectUserRoles role}) {
     return _ProjectUser(
       id: id,
@@ -61,21 +61,21 @@ const $ProjectUser = _$ProjectUserTearOff();
 
 /// @nodoc
 mixin _$ProjectUser {
-  @JsonKey(name: 'user_id')
+  @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_name')
+  @JsonKey(name: 'name')
   String get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_last_name')
+  @JsonKey(name: 'last_name')
   String get lastName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_patronymic')
+  @JsonKey(name: 'patronymic')
   String get patronymic => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_email')
+  @JsonKey(name: 'email')
   String get email => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_phone')
+  @JsonKey(name: 'phone')
   int get phone => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_photo')
-  String get photo => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_role', fromJson: ProjectUser.roleFromJson)
+  @FileConverter()
+  File get photo => throw _privateConstructorUsedError;
+  @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
   ProjectUserRoles get role => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -90,21 +90,21 @@ abstract class $ProjectUserCopyWith<$Res> {
           ProjectUser value, $Res Function(ProjectUser) then) =
       _$ProjectUserCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: 'user_id')
+      {@JsonKey(name: 'id')
           int id,
-      @JsonKey(name: 'user_name')
+      @JsonKey(name: 'name')
           String name,
-      @JsonKey(name: 'user_last_name')
+      @JsonKey(name: 'last_name')
           String lastName,
-      @JsonKey(name: 'user_patronymic')
+      @JsonKey(name: 'patronymic')
           String patronymic,
-      @JsonKey(name: 'user_email')
+      @JsonKey(name: 'email')
           String email,
-      @JsonKey(name: 'user_phone')
+      @JsonKey(name: 'phone')
           int phone,
-      @JsonKey(name: 'user_photo')
-          String photo,
-      @JsonKey(name: 'user_role', fromJson: ProjectUser.roleFromJson)
+      @FileConverter()
+          File photo,
+      @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
           ProjectUserRoles role});
 }
 
@@ -155,7 +155,7 @@ class _$ProjectUserCopyWithImpl<$Res> implements $ProjectUserCopyWith<$Res> {
       photo: photo == freezed
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
-              as String,
+              as File,
       role: role == freezed
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
@@ -172,21 +172,21 @@ abstract class _$ProjectUserCopyWith<$Res>
       __$ProjectUserCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: 'user_id')
+      {@JsonKey(name: 'id')
           int id,
-      @JsonKey(name: 'user_name')
+      @JsonKey(name: 'name')
           String name,
-      @JsonKey(name: 'user_last_name')
+      @JsonKey(name: 'last_name')
           String lastName,
-      @JsonKey(name: 'user_patronymic')
+      @JsonKey(name: 'patronymic')
           String patronymic,
-      @JsonKey(name: 'user_email')
+      @JsonKey(name: 'email')
           String email,
-      @JsonKey(name: 'user_phone')
+      @JsonKey(name: 'phone')
           int phone,
-      @JsonKey(name: 'user_photo')
-          String photo,
-      @JsonKey(name: 'user_role', fromJson: ProjectUser.roleFromJson)
+      @FileConverter()
+          File photo,
+      @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
           ProjectUserRoles role});
 }
 
@@ -239,7 +239,7 @@ class __$ProjectUserCopyWithImpl<$Res> extends _$ProjectUserCopyWithImpl<$Res>
       photo: photo == freezed
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
-              as String,
+              as File,
       role: role == freezed
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
@@ -250,85 +250,58 @@ class __$ProjectUserCopyWithImpl<$Res> extends _$ProjectUserCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ProjectUser implements _ProjectUser {
+class _$_ProjectUser extends _ProjectUser {
   const _$_ProjectUser(
-      {@JsonKey(name: 'user_id')
+      {@JsonKey(name: 'id')
           required this.id,
-      @JsonKey(name: 'user_name')
+      @JsonKey(name: 'name')
           required this.name,
-      @JsonKey(name: 'user_last_name')
+      @JsonKey(name: 'last_name')
           required this.lastName,
-      @JsonKey(name: 'user_patronymic')
+      @JsonKey(name: 'patronymic')
           required this.patronymic,
-      @JsonKey(name: 'user_email')
+      @JsonKey(name: 'email')
           required this.email,
-      @JsonKey(name: 'user_phone')
+      @JsonKey(name: 'phone')
           required this.phone,
-      @JsonKey(name: 'user_photo')
+      @FileConverter()
           required this.photo,
-      @JsonKey(name: 'user_role', fromJson: ProjectUser.roleFromJson)
-          required this.role});
+      @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
+          required this.role})
+      : super._();
 
   factory _$_ProjectUser.fromJson(Map<String, dynamic> json) =>
       _$$_ProjectUserFromJson(json);
 
   @override
-  @JsonKey(name: 'user_id')
+  @JsonKey(name: 'id')
   final int id;
   @override
-  @JsonKey(name: 'user_name')
+  @JsonKey(name: 'name')
   final String name;
   @override
-  @JsonKey(name: 'user_last_name')
+  @JsonKey(name: 'last_name')
   final String lastName;
   @override
-  @JsonKey(name: 'user_patronymic')
+  @JsonKey(name: 'patronymic')
   final String patronymic;
   @override
-  @JsonKey(name: 'user_email')
+  @JsonKey(name: 'email')
   final String email;
   @override
-  @JsonKey(name: 'user_phone')
+  @JsonKey(name: 'phone')
   final int phone;
   @override
-  @JsonKey(name: 'user_photo')
-  final String photo;
+  @FileConverter()
+  final File photo;
   @override
-  @JsonKey(name: 'user_role', fromJson: ProjectUser.roleFromJson)
+  @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
   final ProjectUserRoles role;
 
   @override
   String toString() {
     return 'ProjectUser(id: $id, name: $name, lastName: $lastName, patronymic: $patronymic, email: $email, phone: $phone, photo: $photo, role: $role)';
   }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _ProjectUser &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.lastName, lastName) &&
-            const DeepCollectionEquality()
-                .equals(other.patronymic, patronymic) &&
-            const DeepCollectionEquality().equals(other.email, email) &&
-            const DeepCollectionEquality().equals(other.phone, phone) &&
-            const DeepCollectionEquality().equals(other.photo, photo) &&
-            const DeepCollectionEquality().equals(other.role, role));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(lastName),
-      const DeepCollectionEquality().hash(patronymic),
-      const DeepCollectionEquality().hash(email),
-      const DeepCollectionEquality().hash(phone),
-      const DeepCollectionEquality().hash(photo),
-      const DeepCollectionEquality().hash(role));
 
   @JsonKey(ignore: true)
   @override
@@ -341,51 +314,52 @@ class _$_ProjectUser implements _ProjectUser {
   }
 }
 
-abstract class _ProjectUser implements ProjectUser {
+abstract class _ProjectUser extends ProjectUser {
   const factory _ProjectUser(
-      {@JsonKey(name: 'user_id')
+      {@JsonKey(name: 'id')
           required int id,
-      @JsonKey(name: 'user_name')
+      @JsonKey(name: 'name')
           required String name,
-      @JsonKey(name: 'user_last_name')
+      @JsonKey(name: 'last_name')
           required String lastName,
-      @JsonKey(name: 'user_patronymic')
+      @JsonKey(name: 'patronymic')
           required String patronymic,
-      @JsonKey(name: 'user_email')
+      @JsonKey(name: 'email')
           required String email,
-      @JsonKey(name: 'user_phone')
+      @JsonKey(name: 'phone')
           required int phone,
-      @JsonKey(name: 'user_photo')
-          required String photo,
-      @JsonKey(name: 'user_role', fromJson: ProjectUser.roleFromJson)
+      @FileConverter()
+          required File photo,
+      @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
           required ProjectUserRoles role}) = _$_ProjectUser;
+  const _ProjectUser._() : super._();
 
   factory _ProjectUser.fromJson(Map<String, dynamic> json) =
       _$_ProjectUser.fromJson;
 
   @override
-  @JsonKey(name: 'user_id')
+  @JsonKey(name: 'id')
   int get id;
   @override
-  @JsonKey(name: 'user_name')
+  @JsonKey(name: 'name')
   String get name;
   @override
-  @JsonKey(name: 'user_last_name')
+  @JsonKey(name: 'last_name')
   String get lastName;
   @override
-  @JsonKey(name: 'user_patronymic')
+  @JsonKey(name: 'patronymic')
   String get patronymic;
   @override
-  @JsonKey(name: 'user_email')
+  @JsonKey(name: 'email')
   String get email;
   @override
-  @JsonKey(name: 'user_phone')
+  @JsonKey(name: 'phone')
   int get phone;
   @override
-  @JsonKey(name: 'user_photo')
-  String get photo;
+  @FileConverter()
+  File get photo;
   @override
-  @JsonKey(name: 'user_role', fromJson: ProjectUser.roleFromJson)
+  @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
   ProjectUserRoles get role;
   @override
   @JsonKey(ignore: true)

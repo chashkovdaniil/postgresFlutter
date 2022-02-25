@@ -23,19 +23,23 @@ class _$ProjectTearOff {
   const _$ProjectTearOff();
 
   _Project call(
-      {@JsonKey(name: 'project_id') required int id,
-      @JsonKey(name: 'project_title') required String title,
-      @JsonKey(name: 'project_count_tasks') required int countTasks,
-      @JsonKey(name: 'project_count_done_tasks') required int countDoneTasks,
-      @JsonKey(name: 'project_participants') Set<ProjectUser>? participants,
-      @JsonKey(name: 'project_creator') ProjectUser? creator}) {
+      {@JsonKey(name: 'id') required int id,
+      @JsonKey(name: 'title') required String title,
+      @JsonKey(name: 'count_tasks') required int countTasks,
+      @JsonKey(name: 'count_done_tasks') required int countDoneTasks,
+      @JsonKey(name: 'tasks') List<Task>? tasks,
+      @JsonKey(name: 'messages') List<Message>? messages,
+      @JsonKey(name: 'users') Set<ProjectUser>? users,
+      @JsonKey(name: 'admins') Set<ProjectUser>? admins}) {
     return _Project(
       id: id,
       title: title,
       countTasks: countTasks,
       countDoneTasks: countDoneTasks,
-      participants: participants,
-      creator: creator,
+      tasks: tasks,
+      messages: messages,
+      users: users,
+      admins: admins,
     );
   }
 
@@ -49,18 +53,22 @@ const $Project = _$ProjectTearOff();
 
 /// @nodoc
 mixin _$Project {
-  @JsonKey(name: 'project_id')
+  @JsonKey(name: 'id')
   int get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'project_title')
+  @JsonKey(name: 'title')
   String get title => throw _privateConstructorUsedError;
-  @JsonKey(name: 'project_count_tasks')
+  @JsonKey(name: 'count_tasks')
   int get countTasks => throw _privateConstructorUsedError;
-  @JsonKey(name: 'project_count_done_tasks')
+  @JsonKey(name: 'count_done_tasks')
   int get countDoneTasks => throw _privateConstructorUsedError;
-  @JsonKey(name: 'project_participants')
-  Set<ProjectUser>? get participants => throw _privateConstructorUsedError;
-  @JsonKey(name: 'project_creator')
-  ProjectUser? get creator => throw _privateConstructorUsedError;
+  @JsonKey(name: 'tasks')
+  List<Task>? get tasks => throw _privateConstructorUsedError;
+  @JsonKey(name: 'messages')
+  List<Message>? get messages => throw _privateConstructorUsedError;
+  @JsonKey(name: 'users')
+  Set<ProjectUser>? get users => throw _privateConstructorUsedError;
+  @JsonKey(name: 'admins')
+  Set<ProjectUser>? get admins => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -72,14 +80,14 @@ abstract class $ProjectCopyWith<$Res> {
   factory $ProjectCopyWith(Project value, $Res Function(Project) then) =
       _$ProjectCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: 'project_id') int id,
-      @JsonKey(name: 'project_title') String title,
-      @JsonKey(name: 'project_count_tasks') int countTasks,
-      @JsonKey(name: 'project_count_done_tasks') int countDoneTasks,
-      @JsonKey(name: 'project_participants') Set<ProjectUser>? participants,
-      @JsonKey(name: 'project_creator') ProjectUser? creator});
-
-  $ProjectUserCopyWith<$Res>? get creator;
+      {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'title') String title,
+      @JsonKey(name: 'count_tasks') int countTasks,
+      @JsonKey(name: 'count_done_tasks') int countDoneTasks,
+      @JsonKey(name: 'tasks') List<Task>? tasks,
+      @JsonKey(name: 'messages') List<Message>? messages,
+      @JsonKey(name: 'users') Set<ProjectUser>? users,
+      @JsonKey(name: 'admins') Set<ProjectUser>? admins});
 }
 
 /// @nodoc
@@ -96,8 +104,10 @@ class _$ProjectCopyWithImpl<$Res> implements $ProjectCopyWith<$Res> {
     Object? title = freezed,
     Object? countTasks = freezed,
     Object? countDoneTasks = freezed,
-    Object? participants = freezed,
-    Object? creator = freezed,
+    Object? tasks = freezed,
+    Object? messages = freezed,
+    Object? users = freezed,
+    Object? admins = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -116,26 +126,23 @@ class _$ProjectCopyWithImpl<$Res> implements $ProjectCopyWith<$Res> {
           ? _value.countDoneTasks
           : countDoneTasks // ignore: cast_nullable_to_non_nullable
               as int,
-      participants: participants == freezed
-          ? _value.participants
-          : participants // ignore: cast_nullable_to_non_nullable
+      tasks: tasks == freezed
+          ? _value.tasks
+          : tasks // ignore: cast_nullable_to_non_nullable
+              as List<Task>?,
+      messages: messages == freezed
+          ? _value.messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<Message>?,
+      users: users == freezed
+          ? _value.users
+          : users // ignore: cast_nullable_to_non_nullable
               as Set<ProjectUser>?,
-      creator: creator == freezed
-          ? _value.creator
-          : creator // ignore: cast_nullable_to_non_nullable
-              as ProjectUser?,
+      admins: admins == freezed
+          ? _value.admins
+          : admins // ignore: cast_nullable_to_non_nullable
+              as Set<ProjectUser>?,
     ));
-  }
-
-  @override
-  $ProjectUserCopyWith<$Res>? get creator {
-    if (_value.creator == null) {
-      return null;
-    }
-
-    return $ProjectUserCopyWith<$Res>(_value.creator!, (value) {
-      return _then(_value.copyWith(creator: value));
-    });
   }
 }
 
@@ -145,15 +152,14 @@ abstract class _$ProjectCopyWith<$Res> implements $ProjectCopyWith<$Res> {
       __$ProjectCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: 'project_id') int id,
-      @JsonKey(name: 'project_title') String title,
-      @JsonKey(name: 'project_count_tasks') int countTasks,
-      @JsonKey(name: 'project_count_done_tasks') int countDoneTasks,
-      @JsonKey(name: 'project_participants') Set<ProjectUser>? participants,
-      @JsonKey(name: 'project_creator') ProjectUser? creator});
-
-  @override
-  $ProjectUserCopyWith<$Res>? get creator;
+      {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'title') String title,
+      @JsonKey(name: 'count_tasks') int countTasks,
+      @JsonKey(name: 'count_done_tasks') int countDoneTasks,
+      @JsonKey(name: 'tasks') List<Task>? tasks,
+      @JsonKey(name: 'messages') List<Message>? messages,
+      @JsonKey(name: 'users') Set<ProjectUser>? users,
+      @JsonKey(name: 'admins') Set<ProjectUser>? admins});
 }
 
 /// @nodoc
@@ -171,8 +177,10 @@ class __$ProjectCopyWithImpl<$Res> extends _$ProjectCopyWithImpl<$Res>
     Object? title = freezed,
     Object? countTasks = freezed,
     Object? countDoneTasks = freezed,
-    Object? participants = freezed,
-    Object? creator = freezed,
+    Object? tasks = freezed,
+    Object? messages = freezed,
+    Object? users = freezed,
+    Object? admins = freezed,
   }) {
     return _then(_Project(
       id: id == freezed
@@ -191,14 +199,22 @@ class __$ProjectCopyWithImpl<$Res> extends _$ProjectCopyWithImpl<$Res>
           ? _value.countDoneTasks
           : countDoneTasks // ignore: cast_nullable_to_non_nullable
               as int,
-      participants: participants == freezed
-          ? _value.participants
-          : participants // ignore: cast_nullable_to_non_nullable
+      tasks: tasks == freezed
+          ? _value.tasks
+          : tasks // ignore: cast_nullable_to_non_nullable
+              as List<Task>?,
+      messages: messages == freezed
+          ? _value.messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<Message>?,
+      users: users == freezed
+          ? _value.users
+          : users // ignore: cast_nullable_to_non_nullable
               as Set<ProjectUser>?,
-      creator: creator == freezed
-          ? _value.creator
-          : creator // ignore: cast_nullable_to_non_nullable
-              as ProjectUser?,
+      admins: admins == freezed
+          ? _value.admins
+          : admins // ignore: cast_nullable_to_non_nullable
+              as Set<ProjectUser>?,
     ));
   }
 }
@@ -207,38 +223,46 @@ class __$ProjectCopyWithImpl<$Res> extends _$ProjectCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Project implements _Project {
   const _$_Project(
-      {@JsonKey(name: 'project_id') required this.id,
-      @JsonKey(name: 'project_title') required this.title,
-      @JsonKey(name: 'project_count_tasks') required this.countTasks,
-      @JsonKey(name: 'project_count_done_tasks') required this.countDoneTasks,
-      @JsonKey(name: 'project_participants') this.participants,
-      @JsonKey(name: 'project_creator') this.creator});
+      {@JsonKey(name: 'id') required this.id,
+      @JsonKey(name: 'title') required this.title,
+      @JsonKey(name: 'count_tasks') required this.countTasks,
+      @JsonKey(name: 'count_done_tasks') required this.countDoneTasks,
+      @JsonKey(name: 'tasks') this.tasks,
+      @JsonKey(name: 'messages') this.messages,
+      @JsonKey(name: 'users') this.users,
+      @JsonKey(name: 'admins') this.admins});
 
   factory _$_Project.fromJson(Map<String, dynamic> json) =>
       _$$_ProjectFromJson(json);
 
   @override
-  @JsonKey(name: 'project_id')
+  @JsonKey(name: 'id')
   final int id;
   @override
-  @JsonKey(name: 'project_title')
+  @JsonKey(name: 'title')
   final String title;
   @override
-  @JsonKey(name: 'project_count_tasks')
+  @JsonKey(name: 'count_tasks')
   final int countTasks;
   @override
-  @JsonKey(name: 'project_count_done_tasks')
+  @JsonKey(name: 'count_done_tasks')
   final int countDoneTasks;
   @override
-  @JsonKey(name: 'project_participants')
-  final Set<ProjectUser>? participants;
+  @JsonKey(name: 'tasks')
+  final List<Task>? tasks;
   @override
-  @JsonKey(name: 'project_creator')
-  final ProjectUser? creator;
+  @JsonKey(name: 'messages')
+  final List<Message>? messages;
+  @override
+  @JsonKey(name: 'users')
+  final Set<ProjectUser>? users;
+  @override
+  @JsonKey(name: 'admins')
+  final Set<ProjectUser>? admins;
 
   @override
   String toString() {
-    return 'Project(id: $id, title: $title, countTasks: $countTasks, countDoneTasks: $countDoneTasks, participants: $participants, creator: $creator)';
+    return 'Project(id: $id, title: $title, countTasks: $countTasks, countDoneTasks: $countDoneTasks, tasks: $tasks, messages: $messages, users: $users, admins: $admins)';
   }
 
   @override
@@ -252,9 +276,10 @@ class _$_Project implements _Project {
                 .equals(other.countTasks, countTasks) &&
             const DeepCollectionEquality()
                 .equals(other.countDoneTasks, countDoneTasks) &&
-            const DeepCollectionEquality()
-                .equals(other.participants, participants) &&
-            const DeepCollectionEquality().equals(other.creator, creator));
+            const DeepCollectionEquality().equals(other.tasks, tasks) &&
+            const DeepCollectionEquality().equals(other.messages, messages) &&
+            const DeepCollectionEquality().equals(other.users, users) &&
+            const DeepCollectionEquality().equals(other.admins, admins));
   }
 
   @override
@@ -264,8 +289,10 @@ class _$_Project implements _Project {
       const DeepCollectionEquality().hash(title),
       const DeepCollectionEquality().hash(countTasks),
       const DeepCollectionEquality().hash(countDoneTasks),
-      const DeepCollectionEquality().hash(participants),
-      const DeepCollectionEquality().hash(creator));
+      const DeepCollectionEquality().hash(tasks),
+      const DeepCollectionEquality().hash(messages),
+      const DeepCollectionEquality().hash(users),
+      const DeepCollectionEquality().hash(admins));
 
   @JsonKey(ignore: true)
   @override
@@ -280,33 +307,41 @@ class _$_Project implements _Project {
 
 abstract class _Project implements Project {
   const factory _Project(
-      {@JsonKey(name: 'project_id') required int id,
-      @JsonKey(name: 'project_title') required String title,
-      @JsonKey(name: 'project_count_tasks') required int countTasks,
-      @JsonKey(name: 'project_count_done_tasks') required int countDoneTasks,
-      @JsonKey(name: 'project_participants') Set<ProjectUser>? participants,
-      @JsonKey(name: 'project_creator') ProjectUser? creator}) = _$_Project;
+      {@JsonKey(name: 'id') required int id,
+      @JsonKey(name: 'title') required String title,
+      @JsonKey(name: 'count_tasks') required int countTasks,
+      @JsonKey(name: 'count_done_tasks') required int countDoneTasks,
+      @JsonKey(name: 'tasks') List<Task>? tasks,
+      @JsonKey(name: 'messages') List<Message>? messages,
+      @JsonKey(name: 'users') Set<ProjectUser>? users,
+      @JsonKey(name: 'admins') Set<ProjectUser>? admins}) = _$_Project;
 
   factory _Project.fromJson(Map<String, dynamic> json) = _$_Project.fromJson;
 
   @override
-  @JsonKey(name: 'project_id')
+  @JsonKey(name: 'id')
   int get id;
   @override
-  @JsonKey(name: 'project_title')
+  @JsonKey(name: 'title')
   String get title;
   @override
-  @JsonKey(name: 'project_count_tasks')
+  @JsonKey(name: 'count_tasks')
   int get countTasks;
   @override
-  @JsonKey(name: 'project_count_done_tasks')
+  @JsonKey(name: 'count_done_tasks')
   int get countDoneTasks;
   @override
-  @JsonKey(name: 'project_participants')
-  Set<ProjectUser>? get participants;
+  @JsonKey(name: 'tasks')
+  List<Task>? get tasks;
   @override
-  @JsonKey(name: 'project_creator')
-  ProjectUser? get creator;
+  @JsonKey(name: 'messages')
+  List<Message>? get messages;
+  @override
+  @JsonKey(name: 'users')
+  Set<ProjectUser>? get users;
+  @override
+  @JsonKey(name: 'admins')
+  Set<ProjectUser>? get admins;
   @override
   @JsonKey(ignore: true)
   _$ProjectCopyWith<_Project> get copyWith =>
@@ -325,14 +360,14 @@ class _$StartProjectTearOff {
       {required String title,
       int? countTasks,
       int? countDoneTasks,
-      required Set<ProjectUser> participants,
-      required ProjectUser creator}) {
+      required Set<ProjectUser> users,
+      required Set<ProjectUser> admins}) {
     return _StartProject(
       title: title,
       countTasks: countTasks,
       countDoneTasks: countDoneTasks,
-      participants: participants,
-      creator: creator,
+      users: users,
+      admins: admins,
     );
   }
 
@@ -349,8 +384,8 @@ mixin _$StartProject {
   String get title => throw _privateConstructorUsedError;
   int? get countTasks => throw _privateConstructorUsedError;
   int? get countDoneTasks => throw _privateConstructorUsedError;
-  Set<ProjectUser> get participants => throw _privateConstructorUsedError;
-  ProjectUser get creator => throw _privateConstructorUsedError;
+  Set<ProjectUser> get users => throw _privateConstructorUsedError;
+  Set<ProjectUser> get admins => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -367,10 +402,8 @@ abstract class $StartProjectCopyWith<$Res> {
       {String title,
       int? countTasks,
       int? countDoneTasks,
-      Set<ProjectUser> participants,
-      ProjectUser creator});
-
-  $ProjectUserCopyWith<$Res> get creator;
+      Set<ProjectUser> users,
+      Set<ProjectUser> admins});
 }
 
 /// @nodoc
@@ -386,8 +419,8 @@ class _$StartProjectCopyWithImpl<$Res> implements $StartProjectCopyWith<$Res> {
     Object? title = freezed,
     Object? countTasks = freezed,
     Object? countDoneTasks = freezed,
-    Object? participants = freezed,
-    Object? creator = freezed,
+    Object? users = freezed,
+    Object? admins = freezed,
   }) {
     return _then(_value.copyWith(
       title: title == freezed
@@ -402,22 +435,15 @@ class _$StartProjectCopyWithImpl<$Res> implements $StartProjectCopyWith<$Res> {
           ? _value.countDoneTasks
           : countDoneTasks // ignore: cast_nullable_to_non_nullable
               as int?,
-      participants: participants == freezed
-          ? _value.participants
-          : participants // ignore: cast_nullable_to_non_nullable
+      users: users == freezed
+          ? _value.users
+          : users // ignore: cast_nullable_to_non_nullable
               as Set<ProjectUser>,
-      creator: creator == freezed
-          ? _value.creator
-          : creator // ignore: cast_nullable_to_non_nullable
-              as ProjectUser,
+      admins: admins == freezed
+          ? _value.admins
+          : admins // ignore: cast_nullable_to_non_nullable
+              as Set<ProjectUser>,
     ));
-  }
-
-  @override
-  $ProjectUserCopyWith<$Res> get creator {
-    return $ProjectUserCopyWith<$Res>(_value.creator, (value) {
-      return _then(_value.copyWith(creator: value));
-    });
   }
 }
 
@@ -432,11 +458,8 @@ abstract class _$StartProjectCopyWith<$Res>
       {String title,
       int? countTasks,
       int? countDoneTasks,
-      Set<ProjectUser> participants,
-      ProjectUser creator});
-
-  @override
-  $ProjectUserCopyWith<$Res> get creator;
+      Set<ProjectUser> users,
+      Set<ProjectUser> admins});
 }
 
 /// @nodoc
@@ -454,8 +477,8 @@ class __$StartProjectCopyWithImpl<$Res> extends _$StartProjectCopyWithImpl<$Res>
     Object? title = freezed,
     Object? countTasks = freezed,
     Object? countDoneTasks = freezed,
-    Object? participants = freezed,
-    Object? creator = freezed,
+    Object? users = freezed,
+    Object? admins = freezed,
   }) {
     return _then(_StartProject(
       title: title == freezed
@@ -470,14 +493,14 @@ class __$StartProjectCopyWithImpl<$Res> extends _$StartProjectCopyWithImpl<$Res>
           ? _value.countDoneTasks
           : countDoneTasks // ignore: cast_nullable_to_non_nullable
               as int?,
-      participants: participants == freezed
-          ? _value.participants
-          : participants // ignore: cast_nullable_to_non_nullable
+      users: users == freezed
+          ? _value.users
+          : users // ignore: cast_nullable_to_non_nullable
               as Set<ProjectUser>,
-      creator: creator == freezed
-          ? _value.creator
-          : creator // ignore: cast_nullable_to_non_nullable
-              as ProjectUser,
+      admins: admins == freezed
+          ? _value.admins
+          : admins // ignore: cast_nullable_to_non_nullable
+              as Set<ProjectUser>,
     ));
   }
 }
@@ -489,8 +512,8 @@ class _$_StartProject implements _StartProject {
       {required this.title,
       this.countTasks,
       this.countDoneTasks,
-      required this.participants,
-      required this.creator});
+      required this.users,
+      required this.admins});
 
   factory _$_StartProject.fromJson(Map<String, dynamic> json) =>
       _$$_StartProjectFromJson(json);
@@ -502,13 +525,13 @@ class _$_StartProject implements _StartProject {
   @override
   final int? countDoneTasks;
   @override
-  final Set<ProjectUser> participants;
+  final Set<ProjectUser> users;
   @override
-  final ProjectUser creator;
+  final Set<ProjectUser> admins;
 
   @override
   String toString() {
-    return 'StartProject(title: $title, countTasks: $countTasks, countDoneTasks: $countDoneTasks, participants: $participants, creator: $creator)';
+    return 'StartProject(title: $title, countTasks: $countTasks, countDoneTasks: $countDoneTasks, users: $users, admins: $admins)';
   }
 
   @override
@@ -521,9 +544,8 @@ class _$_StartProject implements _StartProject {
                 .equals(other.countTasks, countTasks) &&
             const DeepCollectionEquality()
                 .equals(other.countDoneTasks, countDoneTasks) &&
-            const DeepCollectionEquality()
-                .equals(other.participants, participants) &&
-            const DeepCollectionEquality().equals(other.creator, creator));
+            const DeepCollectionEquality().equals(other.users, users) &&
+            const DeepCollectionEquality().equals(other.admins, admins));
   }
 
   @override
@@ -532,8 +554,8 @@ class _$_StartProject implements _StartProject {
       const DeepCollectionEquality().hash(title),
       const DeepCollectionEquality().hash(countTasks),
       const DeepCollectionEquality().hash(countDoneTasks),
-      const DeepCollectionEquality().hash(participants),
-      const DeepCollectionEquality().hash(creator));
+      const DeepCollectionEquality().hash(users),
+      const DeepCollectionEquality().hash(admins));
 
   @JsonKey(ignore: true)
   @override
@@ -551,8 +573,8 @@ abstract class _StartProject implements StartProject {
       {required String title,
       int? countTasks,
       int? countDoneTasks,
-      required Set<ProjectUser> participants,
-      required ProjectUser creator}) = _$_StartProject;
+      required Set<ProjectUser> users,
+      required Set<ProjectUser> admins}) = _$_StartProject;
 
   factory _StartProject.fromJson(Map<String, dynamic> json) =
       _$_StartProject.fromJson;
@@ -564,9 +586,9 @@ abstract class _StartProject implements StartProject {
   @override
   int? get countDoneTasks;
   @override
-  Set<ProjectUser> get participants;
+  Set<ProjectUser> get users;
   @override
-  ProjectUser get creator;
+  Set<ProjectUser> get admins;
   @override
   @JsonKey(ignore: true)
   _$StartProjectCopyWith<_StartProject> get copyWith =>

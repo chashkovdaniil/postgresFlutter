@@ -1,7 +1,9 @@
+import 'package:postgresUn/modules/messages/data/entities/message.dart';
 import 'package:postgresUn/modules/projects/data/projects_repository.dart';
 import 'package:postgresUn/modules/projects/domain/entities/project.dart';
 import 'package:postgresUn/modules/projects/domain/entities/project_user.dart';
 import 'package:postgresUn/modules/projects/presentation/state/projects_state.dart';
+import 'package:postgresUn/modules/tasks/domain/task.dart';
 import 'package:postgresUn/modules/users/presentation/state/user_state.dart';
 import 'package:riverpod/riverpod.dart';
 
@@ -46,8 +48,59 @@ class ProjectsManager extends StateNotifier<ProjectsState> {
     if (userState.user == null) {
       throw Exception('User not auth');
     }
+    final updatedProject = await _projectsRepository.project(id);
+    if (updatedProject == state.currentProject) {
+      return;
+    }
+    var isAllowedAdmin = false;
+    if (updatedProject.users != null) {
+      isAllowedAdmin = updatedProject.users!.any((element) {
+        return element.role == ProjectUserRoles.admin &&
+            element.id == userState.user!.id;
+      });
+    }
     state = state.copyWith(
-      currentProject: await _projectsRepository.project(id),
+      currentProject: updatedProject,
+      isAllowedAdmin: isAllowedAdmin,
+    );
+  }
+
+  Future<void> addTask(Task task) async {
+    final project = state.currentProject!;
+    final result = await _projectsRepository.addTask(project, task);
+    state = state.copyWith(
+      currentProject: state.currentProject!.copyWith(
+        tasks: [
+          result,
+          if (state.currentProject!.tasks != null)
+            ...state.currentProject!.tasks!,
+        ],
+      ),
+    );
+  }
+
+  Future<void> updateTask(Task task) async {
+    final project = state.currentProject!;
+    await _projectsRepository.updateTask(project, task);
+    state = state.copyWith(
+      currentProject: project.copyWith(
+        tasks: project.tasks!.map((e) {
+          if (e.id == task.id) {
+            return task;
+          }
+          return e;
+        }).toList(),
+      ),
+    );
+  }
+
+  Future<void> deleteTask(Task task) async {
+    await _projectsRepository.deleteTask(task);
+    final project = state.currentProject!;
+    state = state.copyWith(
+      currentProject: project.copyWith(
+        tasks: project.tasks!..removeWhere((element) => element.id == task.id),
+      ),
     );
   }
 
@@ -55,16 +108,15 @@ class ProjectsManager extends StateNotifier<ProjectsState> {
     if (state.currentProject == null) {
       return;
     }
-    if (state.currentProject!.participants != null &&
-        state.currentProject!.participants!
-            .any((e) => e.id == participant.id)) {
+    if (state.currentProject!.users != null &&
+        state.currentProject!.users!.any((e) => e.id == participant.id)) {
       return;
     }
-    final participants = state.currentProject!.participants;
+    final users = state.currentProject!.users;
     state = state.copyWith(
       currentProject: state.currentProject!.copyWith(
-        participants: {
-          if (participants != null) ...participants,
+        users: {
+          if (users != null) ...users,
           participant,
         },
       ),
@@ -79,8 +131,8 @@ class ProjectsManager extends StateNotifier<ProjectsState> {
     if (state.currentProject == null) {
       return;
     }
-    final participants = state.currentProject!.participants;
-    participants?.removeWhere(
+    final users = state.currentProject!.users;
+    users?.removeWhere(
       (element) => element.id == participant.id,
     );
     await _projectsRepository.removeParticipants(
@@ -89,7 +141,17 @@ class ProjectsManager extends StateNotifier<ProjectsState> {
     );
     state = state.copyWith(
       currentProject: state.currentProject!.copyWith(
-        participants: {if (participants != null) ...participants},
+        users: {if (users != null) ...users},
+      ),
+    );
+  }
+
+  Future<void> sendMessage(Message message) async {
+    final project = state.currentProject!;
+    final result = await _projectsRepository.sendMessage(project, message);
+    state = state.copyWith(
+      currentProject: project.copyWith(
+        messages: project.messages!..add(result),
       ),
     );
   }

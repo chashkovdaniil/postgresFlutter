@@ -7,6 +7,7 @@ class PostgresService {
     'dart',
     username: 'dart',
     password: 'dart',
+    timeZone: DateTime.now().timeZoneName,
   );
   void init() async {
     await _connection.open();

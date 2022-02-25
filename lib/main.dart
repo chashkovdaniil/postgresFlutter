@@ -21,6 +21,7 @@ class MyApp extends HookConsumerWidget {
   Widget build(context, ref) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         tabBarTheme: const TabBarTheme(
@@ -39,6 +40,7 @@ class MyApp extends HookConsumerWidget {
         RegisterPage.route: (_) => const RegisterPage(),
         ProjectPage.route: (_) => const ProjectPage(),
       },
+      scrollBehavior: ScrollBehavior(),
     );
   }
 }
@@ -49,7 +51,8 @@ class MainPage extends HookConsumerWidget {
 
   @override
   Widget build(context, ref) {
-    if (ref.watch(UserProvider.userState).isAuth) {
+    final userState = ref.watch(UserProvider.userState);
+    if (userState.isAuth) {
       return const HomePage();
     }
     return const LoginPage();

@@ -59,6 +59,7 @@ class ProjectsProvider {
       projectsRepository: ref.watch(projectsRepository),
       projectStateHolder: ref.watch(projectStateProvider.notifier),
       tasksStateHolder: ref.watch(tasksStateProvider.notifier),
+      userState: ref.watch(UserProvider.userState),
     ),
   );
   static AutoDisposeStateNotifierProvider<TasksStateHolder, TasksState>

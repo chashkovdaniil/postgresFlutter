@@ -30,9 +30,8 @@ class ProjectManager {
   }
 
   Future<void> onInit(int projectId) async {
-    if (userState.user == null) {
-      throw Exception('User not auth');
-    }
+    if (userState.user == null) throw UserNotAuthExceptions();
+
     if (projectSubscription != null) return;
     projectSubscription = projectStream.listen((_) async {
       final project = await projectsRepository.project(projectId);
@@ -47,8 +46,6 @@ class ProjectManager {
         );
       }
       stateHolder.setProject(project, isAllowedAdmin);
-
-      print('Updated');
     });
   }
 

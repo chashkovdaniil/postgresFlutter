@@ -8,6 +8,7 @@ class TasksPage extends HookConsumerWidget {
 
   @override
   Widget build(context, ref) {
+    print('build tasksPage');
     return Column(
       children: [
         const SizedBox(height: 10),

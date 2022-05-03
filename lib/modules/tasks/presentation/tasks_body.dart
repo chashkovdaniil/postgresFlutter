@@ -9,7 +9,7 @@ class TasksPageBody extends HookConsumerWidget {
 
   @override
   Widget build(context, ref) {
-    final tasksManager = ref.watch(ProjectsProvider.tasksManagerProvider);
+    final tasksManager = ref.read(ProjectsProvider.tasksManagerProvider);
     final tasks = ref.watch(
       ProjectsProvider.tasksStateProvider.select((s) => s.tasks),
     );

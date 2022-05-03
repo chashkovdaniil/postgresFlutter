@@ -1,3 +1,4 @@
+import 'package:postgresUn/core/exceptions.dart';
 import 'package:postgresUn/modules/messages/data/entities/message.dart';
 import 'package:postgresUn/modules/projects/data/projects_repository.dart';
 import 'package:postgresUn/modules/projects/domain/entities/project.dart';
@@ -17,9 +18,8 @@ class ProjectsManager extends StateNotifier<ProjectsState> {
         super(const ProjectsState());
 
   Future<void> projects() async {
-    if (userState.user == null) {
-      throw Exception('User not auth');
-    }
+    if (userState.user == null) throw UserNotAuthExceptions();
+
     state = state.copyWith(
       projects: await _projectsRepository.projects(userState.user!),
     );
@@ -104,16 +104,6 @@ class ProjectsManager extends StateNotifier<ProjectsState> {
   //   state = state.copyWith(
   //     currentProject: state.currentProject!.copyWith(
   //       users: {if (users != null) ...users},
-  //     ),
-  //   );
-  // }
-
-  // Future<void> sendMessage(Message message) async {
-  //   final project = state.currentProject!;
-  //   final result = await _projectsRepository.sendMessage(project, message);
-  //   state = state.copyWith(
-  //     currentProject: project.copyWith(
-  //       messages: project.messages!..add(result),
   //     ),
   //   );
   // }

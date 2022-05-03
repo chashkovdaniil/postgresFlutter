@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'package:postgresUn/core/providers/projects_provider.dart';
 import 'package:postgresUn/core/providers/user_provider.dart';
 import 'package:postgresUn/modules/projects/domain/entities/project.dart';
@@ -17,17 +18,8 @@ class DialogTask extends HookConsumerWidget {
 
   @override
   Widget build(context, ref) {
-    final tasksManager = ref.watch(ProjectsProvider.tasksManagerProvider);
-    final project = ref.watch(
-      ProjectsProvider.projectStateProvider.select((s) => s.currentProject),
-    );
-
-    if (project == null) {
-      Navigator.maybePop(context);
-      return const CircularProgressIndicator();
-    }
-
-    final user = ref.watch(UserProvider.userState).user!;
+    print('build DialogTask');
+    final tasksManager = ref.read(ProjectsProvider.tasksManagerProvider);
     final titleController = useTextEditingController(
       text: task == null ? '' : task!.title,
     );
@@ -39,8 +31,6 @@ class DialogTask extends HookConsumerWidget {
     );
     final displaySize = MediaQuery.of(context).size;
     final formKey = GlobalKey<FormState>();
-    final users = project.users!.toList()
-      ..removeWhere((element) => element.id == 0);
 
     return AlertDialog(
       title: const Text('Task'),
@@ -82,35 +72,11 @@ class DialogTask extends HookConsumerWidget {
                   ),
                 ),
               ),
-              FormField<ProjectUser>(
-                initialValue: performer.value,
-                validator: (val) {
-                  if (val == null) {
-                    return 'Fill field';
-                  }
-                  return null;
-                },
-                onSaved: (val) {
+              SelectUserField(
+                performer: performer.value,
+                onChange: (val) {
                   performer.value = val;
                 },
-                builder: (state) => DropdownButton<ProjectUser>(
-                  isExpanded: true,
-                  hint: const Text('Performer'),
-                  value: state.value,
-                  items: users
-                      .map(
-                        (e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(e.fullname),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (val) {
-                    state
-                      ..didChange(val)
-                      ..save();
-                  },
-                ),
               ),
             ],
           ),
@@ -121,30 +87,76 @@ class DialogTask extends HookConsumerWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text('Close'),
+          child: const Text('Close'),
         ),
         TextButton(
           onPressed: () {
-            if (formKey.currentState?.validate() == true) {
-              final _task = Task(
-                id: task == null ? null : task!.id,
+            if (formKey.currentState?.validate() == true &&
+                performer.value != null) {
+              tasksManager.saveTask(
+                id: task?.id,
+                creator: task?.creator,
+                performer: performer.value!,
                 title: titleController.text,
                 description: descriptionController.text,
-                creator: users.firstWhere((element) => element.id == user.id),
-                performer: performer.value!,
-                isDone: task == null ? false : task!.isDone,
+                isDone: task?.isDone ?? false,
               );
-              if (task == null) {
-                tasksManager.addTask(_task);
-              } else {
-                tasksManager.updateTask(_task);
-              }
               Navigator.pop(context);
             }
           },
-          child: Text('Save'),
+          child: const Text('Save'),
         ),
       ],
+    );
+  }
+}
+
+class SelectUserField extends ConsumerWidget {
+  const SelectUserField({
+    Key? key,
+    required this.onChange,
+    required this.performer,
+  }) : super(key: key);
+
+  final ValueChanged<ProjectUser?> onChange;
+  final ProjectUser? performer;
+
+  @override
+  Widget build(context, ref) {
+    final users = ref.watch(
+      ProjectsProvider.projectStateProvider
+          .select((s) => s.currentProject?.users),
+    );
+    if (users == null) {
+      return const CircularProgressIndicator();
+    }
+    return FormField<ProjectUser>(
+      initialValue: performer,
+      validator: (val) {
+        if (val == null) {
+          return 'Fill field';
+        }
+        return null;
+      },
+      onSaved: onChange,
+      builder: (state) => DropdownButton<ProjectUser>(
+        isExpanded: true,
+        hint: const Text('Performer'),
+        value: state.value,
+        items: users
+            .map(
+              (e) => DropdownMenuItem(
+                value: e,
+                child: Text(e.fullname),
+              ),
+            )
+            .toList(),
+        onChanged: (val) {
+          state
+            ..didChange(val)
+            ..save();
+        },
+      ),
     );
   }
 }

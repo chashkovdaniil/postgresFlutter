@@ -7,6 +7,9 @@ import 'package:postgresUn/core/providers/user_provider.dart';
 import 'package:postgresUn/modules/tasks/presentation/dialog_task.dart';
 import 'package:postgresUn/modules/tasks/presentation/tasks_page.dart';
 
+import '../../../core/widgets/loading_widget.dart';
+import '../../messages/presentation/messages_page.dart';
+
 class ProjectPage extends StatefulHookConsumerWidget {
   static const route = 'project';
   const ProjectPage({Key? key}) : super(key: key);
@@ -23,16 +26,6 @@ class ProjectPageState extends ConsumerState<ProjectPage> {
       final projectId = ModalRoute.of(context)?.settings.arguments as int;
       ref.watch(ProjectsProvider.projectManagerProvider).onInit(projectId);
     });
-  }
-
-  @override
-  void dispose() {
-    // ref.r
-    // ref.onDispose(
-    //   () => ref.watch(ProjectsProvider.projectManagerProvider).onDispose(),
-    // );
-    // ref.watch(ProjectsProvider.projectManagerProvider).onDispose();
-    super.dispose();
   }
 
   @override
@@ -56,9 +49,9 @@ class ProjectPageState extends ConsumerState<ProjectPage> {
           const TasksTabButton(),
         ],
       ),
-      // const Tab(
-      //   child: Text('Chat'),
-      // ),
+      const Tab(
+        child: Text('Chat'),
+      ),
       // const Tab(
       //   child: Text('Participants'),
       // ),
@@ -68,6 +61,7 @@ class ProjectPageState extends ConsumerState<ProjectPage> {
     return Scaffold(
       appBar: AppBar(
         title: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             const ProjectPageTitle(),
             const SizedBox(width: 100),
@@ -89,7 +83,7 @@ class ProjectPageState extends ConsumerState<ProjectPage> {
           controller: tabsController,
           children: const [
             TasksPage(),
-            // Messages(),
+            MessagesPage(),
             // ProjectParticipants(),
           ],
         ),
@@ -113,23 +107,26 @@ class ProjectPageActions extends HookConsumerWidget {
     );
 
     if (project == null) {
-      return const Center(child: CircularProgressIndicator());
+      return const SizedBox.shrink();
     }
-    return PopupMenuButton(
-      itemBuilder: (context) {
-        return [
-          if (project.admins!.any((element) => element.id == user.id))
-            PopupMenuItem(
-              value: 0,
-              onTap: () {
-                projectsManager.delete(project);
-                Navigator.pop(context);
-              },
-              child: const Text('Delete project'),
-            )
-        ];
-      },
-    );
+    final items = [
+      if (project.admins!.any((element) => element.id == user.id))
+        PopupMenuItem(
+          value: 0,
+          onTap: () {
+            projectsManager.delete(project);
+            Navigator.pop(context);
+          },
+          child: const Text('Delete project'),
+        )
+    ];
+    return items.isEmpty
+        ? const SizedBox.shrink()
+        : PopupMenuButton(
+            itemBuilder: (context) {
+              return items;
+            },
+          );
   }
 }
 
@@ -143,9 +140,8 @@ class ProjectPageTitle extends HookConsumerWidget {
     );
 
     if (project == null) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(child: LoadingWidget());
     }
-
     return Text(project.title);
   }
 }
@@ -159,7 +155,10 @@ class TasksTabButton extends HookConsumerWidget {
       ProjectsProvider.projectStateProvider.select((s) => s.currentProject),
     );
     if (project == null) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(
+          child: LoadingWidget(
+        height: 15,
+      ));
     }
     return Text('Tasks (${project.countDoneTasks}/${project.countTasks})');
   }

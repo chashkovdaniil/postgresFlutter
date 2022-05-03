@@ -4,114 +4,163 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:postgresUn/core/constants.dart';
 import 'package:postgresUn/core/providers/projects_provider.dart';
 import 'package:postgresUn/core/providers/user_provider.dart';
-import 'package:postgresUn/modules/projects/domain/entities/project.dart';
 import 'package:postgresUn/modules/tasks/presentation/dialog_task.dart';
-import 'package:postgresUn/modules/projects/presentation/messages.dart';
-import 'package:postgresUn/modules/projects/presentation/participants.dart';
-import 'package:postgresUn/modules/tasks/presentation/tasks_tab.dart';
+import 'package:postgresUn/modules/tasks/presentation/tasks_page.dart';
 
-class ProjectPage extends HookConsumerWidget {
+class ProjectPage extends StatefulHookConsumerWidget {
   static const route = 'project';
   const ProjectPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(context, ref) {
-    final args = ModalRoute.of(context)?.settings.arguments as Project?;
-    if (args == null) {
-      return const Center(child: Text('Project not found'));
-    }
+  ConsumerState<ConsumerStatefulWidget> createState() => ProjectPageState();
+}
 
-    final projectsManager = ref.watch(ProjectsProvider.projectsManager);
+class ProjectPageState extends ConsumerState<ProjectPage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      final projectId = ModalRoute.of(context)?.settings.arguments as int;
+      ref.watch(ProjectsProvider.projectManagerProvider).onInit(projectId);
+    });
+  }
 
-    useStream(
-      Stream.periodic(const Duration(milliseconds: 1000), (_) {
-        projectsManager.selectProject(args.id);
-        return _;
-      }),
-      initialData: 0,
-    );
-    final project = ref.watch(ProjectsProvider.projectsState).currentProject;
+  @override
+  void dispose() {
+    // ref.r
+    // ref.onDispose(
+    //   () => ref.watch(ProjectsProvider.projectManagerProvider).onDispose(),
+    // );
+    // ref.watch(ProjectsProvider.projectManagerProvider).onDispose();
+    super.dispose();
+  }
 
-    if (project == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    final user = ref.watch(UserProvider.userState).user!;
+  @override
+  Widget build(context) {
     final tabs = [
-      Tab(
-        icon: IconButton(
-          padding: EdgeInsets.zero,
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return DialogTask(project: project);
-              },
-            );
-          },
-          icon: Icon(Icons.add),
-        ),
-        child: Text('Tasks (${project.countDoneTasks}/${project.countTasks})'),
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            padding: EdgeInsets.zero,
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return const DialogTask();
+                },
+              );
+            },
+            icon: const Icon(Icons.add),
+          ),
+          const TasksTabButton(),
+        ],
       ),
-      const Tab(
-        child: Text('Chat'),
-      ),
-      const Tab(
-        child: Text('Participants'),
-      ),
+      // const Tab(
+      //   child: Text('Chat'),
+      // ),
+      // const Tab(
+      //   child: Text('Participants'),
+      // ),
     ];
     final tabsController = useTabController(initialLength: tabs.length);
-    final manager = ref.watch(ProjectsProvider.projectsManager);
 
     return Scaffold(
       appBar: AppBar(
         title: Row(
           children: [
-            Text(project.title),
+            const ProjectPageTitle(),
             const SizedBox(width: 100),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.3,
-              child: Expanded(
-                child: TabBar(
-                  controller: tabsController,
-                  tabs: tabs,
-                ),
+            Expanded(
+              child: TabBar(
+                isScrollable: true,
+                controller: tabsController,
+                tabs: tabs,
               ),
             )
           ],
         ),
-        actions: [
-          PopupMenuButton(
-            itemBuilder: (context) {
-              return [
-                if (project.admins!.any((element) => element.id == user.id))
-                  PopupMenuItem(
-                    value: 0,
-                    onTap: () {
-                      manager.delete(project);
-                      Navigator.pop(context);
-                    },
-                    child: Text('Delete project'),
-                  )
-              ];
-            },
-          ),
-        ],
+        actions: const [ProjectPageActions()],
         // centerTitle: true,
       ),
       body: Padding(
         padding: AppConstants.bodyPadding,
-        child: Expanded(
-          child: TabBarView(
-            controller: tabsController,
-            children: [
-              Tasks(),
-              Messages(),
-              ProjectParticipants(),
-            ],
-          ),
+        child: TabBarView(
+          controller: tabsController,
+          children: const [
+            TasksPage(),
+            // Messages(),
+            // ProjectParticipants(),
+          ],
         ),
       ),
     );
+  }
+}
+
+class ProjectPageActions extends HookConsumerWidget {
+  const ProjectPageActions({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(context, ref) {
+    final user = ref.watch(UserProvider.userState).user!;
+    final projectsManager = ref.watch(ProjectsProvider.projectsManager);
+
+    final project = ref.watch(
+      ProjectsProvider.projectStateProvider.select((s) => s.currentProject),
+    );
+
+    if (project == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    return PopupMenuButton(
+      itemBuilder: (context) {
+        return [
+          if (project.admins!.any((element) => element.id == user.id))
+            PopupMenuItem(
+              value: 0,
+              onTap: () {
+                projectsManager.delete(project);
+                Navigator.pop(context);
+              },
+              child: const Text('Delete project'),
+            )
+        ];
+      },
+    );
+  }
+}
+
+class ProjectPageTitle extends HookConsumerWidget {
+  const ProjectPageTitle({Key? key}) : super(key: key);
+
+  @override
+  Widget build(context, ref) {
+    final project = ref.watch(
+      ProjectsProvider.projectStateProvider.select((s) => s.currentProject),
+    );
+
+    if (project == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    return Text(project.title);
+  }
+}
+
+class TasksTabButton extends HookConsumerWidget {
+  const TasksTabButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(context, ref) {
+    final project = ref.watch(
+      ProjectsProvider.projectStateProvider.select((s) => s.currentProject),
+    );
+    if (project == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    return Text('Tasks (${project.countDoneTasks}/${project.countTasks})');
   }
 }

@@ -18,7 +18,7 @@ class ProjectsPage extends HookConsumerWidget {
   Widget build(context, ref) {
     final projectsManager = ref.watch(ProjectsProvider.projectsManager);
     useEffect(
-      // ignore: unnecessary_lambdas
+      // ignore: unnecessary_lambdas, body_might_complete_normally_nullable
       () {
         projectsManager.projects();
       },
@@ -64,11 +64,10 @@ class ProjectsPage extends HookConsumerWidget {
                 return ListTile(
                   key: ValueKey(projects[index].id),
                   onTap: () {
-                    projectsManager.selectProject(projects[index].id);
                     Navigator.pushNamed(
                       context,
                       ProjectPage.route,
-                      arguments: projects[index],
+                      arguments: projects[index].id,
                     );
                   },
                   title: Text(projects[index].title),

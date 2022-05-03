@@ -44,122 +44,79 @@ class ProjectsManager extends StateNotifier<ProjectsState> {
     );
   }
 
-  Future<void> selectProject(int id) async {
-    if (userState.user == null) {
-      throw Exception('User not auth');
-    }
-    final updatedProject = await _projectsRepository.project(id);
+  // Future<void> selectProject(int id) async {
+  //   if (userState.user == null) {
+  //     throw Exception('User not auth');
+  //   }
+  //   final updatedProject = await _projectsRepository.project(id);
 
-    if (updatedProject == state.currentProject) {
-      return;
-    }
-    var isAllowedAdmin = false;
-    if (updatedProject.users != null) {
-      isAllowedAdmin = updatedProject.users!.any((element) {
-        return element.role == ProjectUserRoles.admin &&
-            element.id == userState.user!.id;
-      });
-    }
-    state = state.copyWith(
-      currentProject: updatedProject,
-      isAllowedAdmin: isAllowedAdmin,
-    );
-  }
-
-  Future<void> addTask(Task task) async {
-    final project = state.currentProject!;
-    final result = await _projectsRepository.addTask(project, task);
-    state = state.copyWith(
-      currentProject: state.currentProject!.copyWith(
-        tasks: [
-          result,
-          if (state.currentProject!.tasks != null)
-            ...state.currentProject!.tasks!,
-        ],
-      ),
-    );
-  }
-
-  Future<void> updateTask(Task task) async {
-    final project = state.currentProject!;
-    await _projectsRepository.updateTask(project, task);
-    state = state.copyWith(
-      currentProject: project.copyWith(
-        tasks: project.tasks!.map((e) {
-          if (e.id == task.id) {
-            return task;
-          }
-          return e;
-        }).toList(),
-      ),
-    );
-  }
-
-  Future<void> deleteTask(Task task) async {
-    await _projectsRepository.deleteTask(task);
-    final project = state.currentProject!;
-    state = state.copyWith(
-      currentProject: project.copyWith(
-        tasks: project.tasks!..removeWhere((element) => element.id == task.id),
-      ),
-    );
-  }
-
-  Future<void> addParticipant(ProjectUser participant) async {
-    if (state.currentProject == null) {
-      return;
-    }
-    if (state.currentProject!.users != null &&
-        state.currentProject!.users!.any((e) => e.id == participant.id)) {
-      return;
-    }
-    final users = state.currentProject!.users;
-    state = state.copyWith(
-      currentProject: state.currentProject!.copyWith(
-        users: {
-          if (users != null) ...users,
-          participant,
-        },
-      ),
-    );
-    await _projectsRepository.addParticipants(
-      state.currentProject!,
-      participant,
-    );
-  }
-
-  Future<void> removeParticipant(ProjectUser participant) async {
-    if (state.currentProject == null) {
-      return;
-    }
-    final users = state.currentProject!.users;
-    users?.removeWhere(
-      (element) => element.id == participant.id,
-    );
-    await _projectsRepository.removeParticipants(
-      state.currentProject!,
-      participant,
-    );
-    state = state.copyWith(
-      currentProject: state.currentProject!.copyWith(
-        users: {if (users != null) ...users},
-      ),
-    );
-  }
-
-  Future<void> sendMessage(Message message) async {
-    final project = state.currentProject!;
-    final result = await _projectsRepository.sendMessage(project, message);
-    state = state.copyWith(
-      currentProject: project.copyWith(
-        messages: project.messages!..add(result),
-      ),
-    );
-  }
-
-  // Future<void> loadTasks(Project project) async {
-  //   _projectsRepository.
+  //   if (updatedProject == state.currentProject) {
+  //     return;
+  //   }
+  //   var isAllowedAdmin = false;
+  //   if (updatedProject.users != null) {
+  //     isAllowedAdmin = updatedProject.users!.any((element) {
+  //       return element.role == ProjectUserRoles.admin &&
+  //           element.id == userState.user!.id;
+  //     });
+  //   }
+  //   state = state.copyWith(
+  //     currentProject: updatedProject,
+  //     isAllowedAdmin: isAllowedAdmin,
+  //   );
   // }
 
-  Project? get currentProject => state.currentProject;
+  // Future<void> addParticipant(ProjectUser participant) async {
+  //   if (state.currentProject == null) {
+  //     return;
+  //   }
+  //   if (state.currentProject!.users != null &&
+  //       state.currentProject!.users!.any((e) => e.id == participant.id)) {
+  //     return;
+  //   }
+  //   final users = state.currentProject!.users;
+  //   state = state.copyWith(
+  //     currentProject: state.currentProject!.copyWith(
+  //       users: {
+  //         if (users != null) ...users,
+  //         participant,
+  //       },
+  //     ),
+  //   );
+  //   await _projectsRepository.addParticipants(
+  //     state.currentProject!,
+  //     participant,
+  //   );
+  // }
+
+  // Future<void> removeParticipant(ProjectUser participant) async {
+  //   if (state.currentProject == null) {
+  //     return;
+  //   }
+  //   final users = state.currentProject!.users;
+  //   users?.removeWhere(
+  //     (element) => element.id == participant.id,
+  //   );
+  //   await _projectsRepository.removeParticipants(
+  //     state.currentProject!,
+  //     participant,
+  //   );
+  //   state = state.copyWith(
+  //     currentProject: state.currentProject!.copyWith(
+  //       users: {if (users != null) ...users},
+  //     ),
+  //   );
+  // }
+
+  // Future<void> sendMessage(Message message) async {
+  //   final project = state.currentProject!;
+  //   final result = await _projectsRepository.sendMessage(project, message);
+  //   state = state.copyWith(
+  //     currentProject: project.copyWith(
+  //       messages: project.messages!..add(result),
+  //     ),
+  //   );
+  // }
+
+  // Project? get currentProject => state.currentProject;
 }

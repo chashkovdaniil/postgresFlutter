@@ -10,16 +10,23 @@ import 'package:postgresUn/modules/tasks/domain/task.dart';
 class DialogTask extends HookConsumerWidget {
   const DialogTask({
     Key? key,
-    required this.project,
     this.task,
   }) : super(key: key);
 
-  final Project project;
   final Task? task;
 
   @override
   Widget build(context, ref) {
-    final projectManager = ref.watch(ProjectsProvider.projectsManager);
+    final tasksManager = ref.watch(ProjectsProvider.tasksManagerProvider);
+    final project = ref.watch(
+      ProjectsProvider.projectStateProvider.select((s) => s.currentProject),
+    );
+
+    if (project == null) {
+      Navigator.maybePop(context);
+      return const CircularProgressIndicator();
+    }
+
     final user = ref.watch(UserProvider.userState).user!;
     final titleController = useTextEditingController(
       text: task == null ? '' : task!.title,
@@ -34,6 +41,7 @@ class DialogTask extends HookConsumerWidget {
     final formKey = GlobalKey<FormState>();
     final users = project.users!.toList()
       ..removeWhere((element) => element.id == 0);
+
     return AlertDialog(
       title: const Text('Task'),
       content: SizedBox(
@@ -127,9 +135,9 @@ class DialogTask extends HookConsumerWidget {
                 isDone: task == null ? false : task!.isDone,
               );
               if (task == null) {
-                projectManager.addTask(_task);
+                tasksManager.addTask(_task);
               } else {
-                projectManager.updateTask(_task);
+                tasksManager.updateTask(_task);
               }
               Navigator.pop(context);
             }

@@ -8,8 +8,6 @@ part 'projects_state.freezed.dart';
 @freezed
 class ProjectsState with _$ProjectsState {
   const factory ProjectsState({
-    @Default(false) bool isAllowedAdmin,
-    Project? currentProject,
     List<Project>? projects,
   }) = _ProjectsState;
 }

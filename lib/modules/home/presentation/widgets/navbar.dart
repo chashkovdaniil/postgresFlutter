@@ -9,11 +9,9 @@ import 'package:postgresUn/modules/users/domain/entities/user.dart';
 class NavBar extends HookConsumerWidget {
   const NavBar({
     Key? key,
-    required this.pageController,
     required this.user,
   }) : super(key: key);
 
-  final StreamController pageController;
   final User user;
 
   @override

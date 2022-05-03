@@ -11,29 +11,16 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(context, ref) {
-    final pagesRoutes = [
-      ProjectsPage.route,
-    ];
-    final pages = [
-      const ProjectsPage(),
-    ];
     final user = ref.watch(UserProvider.userState).user!;
-    final pageController = useStreamController<String>();
-    final pageStream = useStream<String>(
-      pageController.stream,
-      initialData: pagesRoutes.first,
-    );
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            NavBar(pageController: pageController, user: user),
-            Expanded(
-              child: IndexedStack(
-                index: pagesRoutes.indexOf(pageStream.data!),
-                children: pages,
-              ),
+            NavBar(user: user),
+            const Expanded(
+              child: ProjectsPage(),
             ),
           ],
         ),

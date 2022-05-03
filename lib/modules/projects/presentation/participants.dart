@@ -6,20 +6,20 @@ import 'package:postgresUn/core/providers/user_provider.dart';
 import 'package:postgresUn/modules/projects/domain/entities/project.dart';
 import 'package:postgresUn/modules/projects/domain/entities/project_user.dart';
 import 'package:postgresUn/modules/users/domain/entities/user.dart';
+import 'package:postgresUn/modules/users/domain/user_manager.dart';
 
 class ProjectParticipants extends HookConsumerWidget {
-  const ProjectParticipants({
-    Key? key,
-    required this.project,
-    required this.user,
-  }) : super(key: key);
-
-  final Project project;
-  final User user;
+  const ProjectParticipants({Key? key}) : super(key: key);
 
   @override
   Widget build(context, ref) {
     final projectsManager = ref.watch(ProjectsProvider.projectsManager);
+    final project = ref.watch(ProjectsProvider.projectsState).currentProject;
+    final user = ref.watch(UserProvider.userState).user;
+
+    if (project == null || user == null) {
+      return CircularProgressIndicator();
+    }
     final isAllowedAdmin =
         ref.watch(ProjectsProvider.projectsState).isAllowedAdmin;
     final users = project.users!.toList()

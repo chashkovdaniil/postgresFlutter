@@ -46,7 +46,7 @@ class ProjectsLocalDatasource extends ProjectsDatasource {
   }
 
   @override
-  Future<Project> project(String id) async {
+  Future<Project> project(int id) async {
     const query = '''SELECT * FROM projects WHERE id = @project_id;''';
     final response = await _postgresService.mappedResultsQuery(
       query,

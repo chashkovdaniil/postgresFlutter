@@ -44,11 +44,12 @@ class ProjectsManager extends StateNotifier<ProjectsState> {
     );
   }
 
-  Future<void> project(String id) async {
+  Future<void> selectProject(int id) async {
     if (userState.user == null) {
       throw Exception('User not auth');
     }
     final updatedProject = await _projectsRepository.project(id);
+
     if (updatedProject == state.currentProject) {
       return;
     }
@@ -155,4 +156,10 @@ class ProjectsManager extends StateNotifier<ProjectsState> {
       ),
     );
   }
+
+  // Future<void> loadTasks(Project project) async {
+  //   _projectsRepository.
+  // }
+
+  Project? get currentProject => state.currentProject;
 }

@@ -27,7 +27,7 @@ class ProjectsRepository {
     return _localDatasource.projects(user);
   }
 
-  Future<Project> project(String id) {
+  Future<Project> project(int id) {
     return _localDatasource.project(id);
   }
 

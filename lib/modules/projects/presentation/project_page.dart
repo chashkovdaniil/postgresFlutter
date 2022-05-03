@@ -4,14 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:postgresUn/core/constants.dart';
 import 'package:postgresUn/core/providers/projects_provider.dart';
 import 'package:postgresUn/core/providers/user_provider.dart';
-import 'package:postgresUn/modules/messages/data/entities/message.dart';
 import 'package:postgresUn/modules/projects/domain/entities/project.dart';
-import 'package:postgresUn/modules/projects/domain/entities/project_user.dart';
-import 'package:postgresUn/modules/projects/presentation/dialog_task.dart';
+import 'package:postgresUn/modules/tasks/presentation/dialog_task.dart';
 import 'package:postgresUn/modules/projects/presentation/messages.dart';
 import 'package:postgresUn/modules/projects/presentation/participants.dart';
-import 'package:postgresUn/modules/projects/presentation/state/projects_manager.dart';
-import 'package:postgresUn/modules/projects/presentation/tasks_tab.dart';
+import 'package:postgresUn/modules/tasks/presentation/tasks_tab.dart';
 
 class ProjectPage extends HookConsumerWidget {
   static const route = 'project';
@@ -26,14 +23,15 @@ class ProjectPage extends HookConsumerWidget {
 
     final projectsManager = ref.watch(ProjectsProvider.projectsManager);
 
-    final streamData = useStream(
+    useStream(
       Stream.periodic(const Duration(milliseconds: 1000), (_) {
-        projectsManager.project(args.id.toString());
+        projectsManager.selectProject(args.id);
         return _;
       }),
       initialData: 0,
     );
     final project = ref.watch(ProjectsProvider.projectsState).currentProject;
+
     if (project == null) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -64,6 +62,7 @@ class ProjectPage extends HookConsumerWidget {
     ];
     final tabsController = useTabController(initialLength: tabs.length);
     final manager = ref.watch(ProjectsProvider.projectsManager);
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -106,12 +105,9 @@ class ProjectPage extends HookConsumerWidget {
           child: TabBarView(
             controller: tabsController,
             children: [
-              if (project.tasks != null) Tasks(project: project),
+              Tasks(),
               Messages(),
-              ProjectParticipants(
-                project: project,
-                user: user,
-              ),
+              ProjectParticipants(),
             ],
           ),
         ),

@@ -9,7 +9,7 @@ abstract class ProjectsDatasource {
   Future<void> update(Project project);
   Future<void> delete(Project project);
   Future<List<Project>> projects(User user);
-  Future<Project> project(String id);
+  Future<Project> project(int id);
   Future<Task> addTask(Project project, Task task);
   Future<void> updateTask(Project project, Task task);
   Future<void> deleteTask(Task task);

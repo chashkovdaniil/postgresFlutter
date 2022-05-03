@@ -64,6 +64,7 @@ class ProjectsPage extends HookConsumerWidget {
                 return ListTile(
                   key: ValueKey(projects[index].id),
                   onTap: () {
+                    projectsManager.selectProject(projects[index].id);
                     Navigator.pushNamed(
                       context,
                       ProjectPage.route,

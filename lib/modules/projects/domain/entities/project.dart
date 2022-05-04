@@ -14,7 +14,7 @@ class Project with _$Project {
     @JsonKey(name: 'count_tasks') required int countTasks,
     @JsonKey(name: 'count_done_tasks') required int countDoneTasks,
     @JsonKey(name: 'tasks') List<Task>? tasks,
-    @JsonKey(name: 'messages') List<Message>? messages,
+    // @JsonKey(name: 'messages') List<Message>? messages,
     @JsonKey(name: 'users') Set<ProjectUser>? users,
     @JsonKey(name: 'admins') Set<ProjectUser>? admins,
   }) = _Project;

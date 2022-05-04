@@ -14,9 +14,6 @@ _$_Project _$$_ProjectFromJson(Map<String, dynamic> json) => _$_Project(
       tasks: (json['tasks'] as List<dynamic>?)
           ?.map((e) => Task.fromJson(e as Map<String, dynamic>))
           .toList(),
-      messages: (json['messages'] as List<dynamic>?)
-          ?.map((e) => Message.fromJson(e as Map<String, dynamic>))
-          .toList(),
       users: (json['users'] as List<dynamic>?)
           ?.map((e) => ProjectUser.fromJson(e as Map<String, dynamic>))
           .toSet(),
@@ -32,7 +29,6 @@ Map<String, dynamic> _$$_ProjectToJson(_$_Project instance) =>
       'count_tasks': instance.countTasks,
       'count_done_tasks': instance.countDoneTasks,
       'tasks': instance.tasks,
-      'messages': instance.messages,
       'users': instance.users?.toList(),
       'admins': instance.admins?.toList(),
     };

@@ -5,6 +5,7 @@ import 'package:postgresUn/modules/users/presentation/state/user_state.dart';
 import 'package:riverpod/riverpod.dart';
 
 import '../../../../core/exceptions.dart';
+import '../../../messages/data/entities/message.dart';
 import '../../../tasks/domain/task.dart';
 import '../../domain/entities/project.dart';
 import '../../domain/entities/project_user.dart';
@@ -56,15 +57,23 @@ class ProjectManager {
     }
     await projectsRepository.addTask(project, task);
   }
+
+  void setMessages(List<Message> messages) => stateHolder.setMessages(messages);
 }
 
 class ProjectStateHolder extends StateNotifier<ProjectState> {
   ProjectStateHolder() : super(const ProjectState());
 
-  setProject(Project project, [bool isAllowedAdmin = false]) {
+  void setProject(Project project, [bool isAllowedAdmin = false]) {
     state = state.copyWith(
       isAllowedAdmin: isAllowedAdmin,
       currentProject: project,
+    );
+  }
+
+  void setMessages(List<Message>? messages) {
+    state = state.copyWith(
+      messages: messages,
     );
   }
 

@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$MessagesStateTearOff {
   const _$MessagesStateTearOff();
 
-  _MessagesState call({required List<Message> messages}) {
+  _MessagesState call({List<Message>? messages}) {
     return _MessagesState(
       messages: messages,
     );
@@ -30,7 +30,7 @@ const $MessagesState = _$MessagesStateTearOff();
 
 /// @nodoc
 mixin _$MessagesState {
-  List<Message> get messages => throw _privateConstructorUsedError;
+  List<Message>? get messages => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MessagesStateCopyWith<MessagesState> get copyWith =>
@@ -42,7 +42,7 @@ abstract class $MessagesStateCopyWith<$Res> {
   factory $MessagesStateCopyWith(
           MessagesState value, $Res Function(MessagesState) then) =
       _$MessagesStateCopyWithImpl<$Res>;
-  $Res call({List<Message> messages});
+  $Res call({List<Message>? messages});
 }
 
 /// @nodoc
@@ -62,7 +62,7 @@ class _$MessagesStateCopyWithImpl<$Res>
       messages: messages == freezed
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
-              as List<Message>,
+              as List<Message>?,
     ));
   }
 }
@@ -74,7 +74,7 @@ abstract class _$MessagesStateCopyWith<$Res>
           _MessagesState value, $Res Function(_MessagesState) then) =
       __$MessagesStateCopyWithImpl<$Res>;
   @override
-  $Res call({List<Message> messages});
+  $Res call({List<Message>? messages});
 }
 
 /// @nodoc
@@ -96,7 +96,7 @@ class __$MessagesStateCopyWithImpl<$Res>
       messages: messages == freezed
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
-              as List<Message>,
+              as List<Message>?,
     ));
   }
 }
@@ -104,10 +104,10 @@ class __$MessagesStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_MessagesState implements _MessagesState {
-  const _$_MessagesState({required this.messages});
+  const _$_MessagesState({this.messages});
 
   @override
-  final List<Message> messages;
+  final List<Message>? messages;
 
   @override
   String toString() {
@@ -133,11 +133,10 @@ class _$_MessagesState implements _MessagesState {
 }
 
 abstract class _MessagesState implements MessagesState {
-  const factory _MessagesState({required List<Message> messages}) =
-      _$_MessagesState;
+  const factory _MessagesState({List<Message>? messages}) = _$_MessagesState;
 
   @override
-  List<Message> get messages;
+  List<Message>? get messages;
   @override
   @JsonKey(ignore: true)
   _$MessagesStateCopyWith<_MessagesState> get copyWith =>

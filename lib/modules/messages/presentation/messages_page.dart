@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,32 +27,45 @@ class MessagesPage extends HookConsumerWidget {
   }
 }
 
-class MessagesPageList extends ConsumerWidget {
+class MessagesPageList extends HookConsumerWidget {
   const MessagesPageList({Key? key}) : super(key: key);
 
   @override
   Widget build(context, ref) {
-    final messages = ref
-        .watch(MessagesProviders.messageStateProvider.select((s) => s.messages))
-        .reversed
-        .toList();
-
     final user = ref.watch(UserProvider.userState).user;
 
     if (user == null) {
       return const CircularProgressIndicator();
     }
+    final messagesManager =
+        ref.watch(MessagesProviders.messagesManagerProvider);
 
-    if (messages.isEmpty) {
-      return const Expanded(
-        child: Center(
-          child: Text('Empty'),
-        ),
+    useEffect(
+      () {
+        messagesManager.onInit();
+        return null;
+      },
+      const [],
+    );
+
+    final messages = ref.watch(
+      ProjectsProvider.projectStateProvider.select((s) => s.messages),
+    );
+
+    if (messages == null) {
+      return const Center(
+        child: CircularProgressIndicator(),
       );
     }
+    if (messages.isEmpty) {
+      return const Center(
+        child: Text('Chat empty'),
+      );
+    }
+
     return ListView.builder(
-      reverse: true,
       itemCount: messages.length,
+      dragStartBehavior: DragStartBehavior.down,
       itemBuilder: (context, index) {
         return Align(
           alignment: messages[index].user.id == 0
@@ -69,6 +83,34 @@ class MessagesPageList extends ConsumerWidget {
         );
       },
     );
+
+    // if (messages.isEmpty) {
+    //   return const Expanded(
+    //     child: Center(
+    //       child: Text('Empty'),
+    //     ),
+    //   );
+    // }
+    // return ListView.builder(
+    //   reverse: true,
+    //   itemCount: messages.length,
+    //   itemBuilder: (context, index) {
+    //     return Align(
+    //       alignment: messages[index].user.id == 0
+    //           ? Alignment.center
+    //           : messages[index].user.id == user.id
+    //               ? Alignment.centerRight
+    //               : Alignment.centerLeft,
+    //       child: MessageWidget(
+    //         user: user,
+    //         nextMessage: index == 0 ? null : messages[index - 1],
+    //         message: messages[index],
+    //         prevMessage:
+    //             index == messages.length - 1 ? null : messages[index + 1],
+    //       ),
+    //     );
+    //   },
+    // );
   }
 }
 

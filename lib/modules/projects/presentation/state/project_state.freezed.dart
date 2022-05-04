@@ -18,10 +18,14 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$ProjectStateTearOff {
   const _$ProjectStateTearOff();
 
-  _ProjectState call({bool isAllowedAdmin = false, Project? currentProject}) {
+  _ProjectState call(
+      {bool isAllowedAdmin = false,
+      Project? currentProject,
+      List<Message>? messages}) {
     return _ProjectState(
       isAllowedAdmin: isAllowedAdmin,
       currentProject: currentProject,
+      messages: messages,
     );
   }
 }
@@ -33,6 +37,7 @@ const $ProjectState = _$ProjectStateTearOff();
 mixin _$ProjectState {
   bool get isAllowedAdmin => throw _privateConstructorUsedError;
   Project? get currentProject => throw _privateConstructorUsedError;
+  List<Message>? get messages => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProjectStateCopyWith<ProjectState> get copyWith =>
@@ -44,7 +49,8 @@ abstract class $ProjectStateCopyWith<$Res> {
   factory $ProjectStateCopyWith(
           ProjectState value, $Res Function(ProjectState) then) =
       _$ProjectStateCopyWithImpl<$Res>;
-  $Res call({bool isAllowedAdmin, Project? currentProject});
+  $Res call(
+      {bool isAllowedAdmin, Project? currentProject, List<Message>? messages});
 
   $ProjectCopyWith<$Res>? get currentProject;
 }
@@ -61,6 +67,7 @@ class _$ProjectStateCopyWithImpl<$Res> implements $ProjectStateCopyWith<$Res> {
   $Res call({
     Object? isAllowedAdmin = freezed,
     Object? currentProject = freezed,
+    Object? messages = freezed,
   }) {
     return _then(_value.copyWith(
       isAllowedAdmin: isAllowedAdmin == freezed
@@ -71,6 +78,10 @@ class _$ProjectStateCopyWithImpl<$Res> implements $ProjectStateCopyWith<$Res> {
           ? _value.currentProject
           : currentProject // ignore: cast_nullable_to_non_nullable
               as Project?,
+      messages: messages == freezed
+          ? _value.messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<Message>?,
     ));
   }
 
@@ -93,7 +104,8 @@ abstract class _$ProjectStateCopyWith<$Res>
           _ProjectState value, $Res Function(_ProjectState) then) =
       __$ProjectStateCopyWithImpl<$Res>;
   @override
-  $Res call({bool isAllowedAdmin, Project? currentProject});
+  $Res call(
+      {bool isAllowedAdmin, Project? currentProject, List<Message>? messages});
 
   @override
   $ProjectCopyWith<$Res>? get currentProject;
@@ -113,6 +125,7 @@ class __$ProjectStateCopyWithImpl<$Res> extends _$ProjectStateCopyWithImpl<$Res>
   $Res call({
     Object? isAllowedAdmin = freezed,
     Object? currentProject = freezed,
+    Object? messages = freezed,
   }) {
     return _then(_ProjectState(
       isAllowedAdmin: isAllowedAdmin == freezed
@@ -123,6 +136,10 @@ class __$ProjectStateCopyWithImpl<$Res> extends _$ProjectStateCopyWithImpl<$Res>
           ? _value.currentProject
           : currentProject // ignore: cast_nullable_to_non_nullable
               as Project?,
+      messages: messages == freezed
+          ? _value.messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<Message>?,
     ));
   }
 }
@@ -130,17 +147,20 @@ class __$ProjectStateCopyWithImpl<$Res> extends _$ProjectStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ProjectState implements _ProjectState {
-  const _$_ProjectState({this.isAllowedAdmin = false, this.currentProject});
+  const _$_ProjectState(
+      {this.isAllowedAdmin = false, this.currentProject, this.messages});
 
   @JsonKey()
   @override
   final bool isAllowedAdmin;
   @override
   final Project? currentProject;
+  @override
+  final List<Message>? messages;
 
   @override
   String toString() {
-    return 'ProjectState(isAllowedAdmin: $isAllowedAdmin, currentProject: $currentProject)';
+    return 'ProjectState(isAllowedAdmin: $isAllowedAdmin, currentProject: $currentProject, messages: $messages)';
   }
 
   @override
@@ -151,14 +171,16 @@ class _$_ProjectState implements _ProjectState {
             const DeepCollectionEquality()
                 .equals(other.isAllowedAdmin, isAllowedAdmin) &&
             const DeepCollectionEquality()
-                .equals(other.currentProject, currentProject));
+                .equals(other.currentProject, currentProject) &&
+            const DeepCollectionEquality().equals(other.messages, messages));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(isAllowedAdmin),
-      const DeepCollectionEquality().hash(currentProject));
+      const DeepCollectionEquality().hash(currentProject),
+      const DeepCollectionEquality().hash(messages));
 
   @JsonKey(ignore: true)
   @override
@@ -167,13 +189,17 @@ class _$_ProjectState implements _ProjectState {
 }
 
 abstract class _ProjectState implements ProjectState {
-  const factory _ProjectState({bool isAllowedAdmin, Project? currentProject}) =
-      _$_ProjectState;
+  const factory _ProjectState(
+      {bool isAllowedAdmin,
+      Project? currentProject,
+      List<Message>? messages}) = _$_ProjectState;
 
   @override
   bool get isAllowedAdmin;
   @override
   Project? get currentProject;
+  @override
+  List<Message>? get messages;
   @override
   @JsonKey(ignore: true)
   _$ProjectStateCopyWith<_ProjectState> get copyWith =>

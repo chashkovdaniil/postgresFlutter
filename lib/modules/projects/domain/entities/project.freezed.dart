@@ -28,7 +28,6 @@ class _$ProjectTearOff {
       @JsonKey(name: 'count_tasks') required int countTasks,
       @JsonKey(name: 'count_done_tasks') required int countDoneTasks,
       @JsonKey(name: 'tasks') List<Task>? tasks,
-      @JsonKey(name: 'messages') List<Message>? messages,
       @JsonKey(name: 'users') Set<ProjectUser>? users,
       @JsonKey(name: 'admins') Set<ProjectUser>? admins}) {
     return _Project(
@@ -37,7 +36,6 @@ class _$ProjectTearOff {
       countTasks: countTasks,
       countDoneTasks: countDoneTasks,
       tasks: tasks,
-      messages: messages,
       users: users,
       admins: admins,
     );
@@ -62,9 +60,8 @@ mixin _$Project {
   @JsonKey(name: 'count_done_tasks')
   int get countDoneTasks => throw _privateConstructorUsedError;
   @JsonKey(name: 'tasks')
-  List<Task>? get tasks => throw _privateConstructorUsedError;
-  @JsonKey(name: 'messages')
-  List<Message>? get messages => throw _privateConstructorUsedError;
+  List<Task>? get tasks =>
+      throw _privateConstructorUsedError; // @JsonKey(name: 'messages') List<Message>? messages,
   @JsonKey(name: 'users')
   Set<ProjectUser>? get users => throw _privateConstructorUsedError;
   @JsonKey(name: 'admins')
@@ -85,7 +82,6 @@ abstract class $ProjectCopyWith<$Res> {
       @JsonKey(name: 'count_tasks') int countTasks,
       @JsonKey(name: 'count_done_tasks') int countDoneTasks,
       @JsonKey(name: 'tasks') List<Task>? tasks,
-      @JsonKey(name: 'messages') List<Message>? messages,
       @JsonKey(name: 'users') Set<ProjectUser>? users,
       @JsonKey(name: 'admins') Set<ProjectUser>? admins});
 }
@@ -105,7 +101,6 @@ class _$ProjectCopyWithImpl<$Res> implements $ProjectCopyWith<$Res> {
     Object? countTasks = freezed,
     Object? countDoneTasks = freezed,
     Object? tasks = freezed,
-    Object? messages = freezed,
     Object? users = freezed,
     Object? admins = freezed,
   }) {
@@ -130,10 +125,6 @@ class _$ProjectCopyWithImpl<$Res> implements $ProjectCopyWith<$Res> {
           ? _value.tasks
           : tasks // ignore: cast_nullable_to_non_nullable
               as List<Task>?,
-      messages: messages == freezed
-          ? _value.messages
-          : messages // ignore: cast_nullable_to_non_nullable
-              as List<Message>?,
       users: users == freezed
           ? _value.users
           : users // ignore: cast_nullable_to_non_nullable
@@ -157,7 +148,6 @@ abstract class _$ProjectCopyWith<$Res> implements $ProjectCopyWith<$Res> {
       @JsonKey(name: 'count_tasks') int countTasks,
       @JsonKey(name: 'count_done_tasks') int countDoneTasks,
       @JsonKey(name: 'tasks') List<Task>? tasks,
-      @JsonKey(name: 'messages') List<Message>? messages,
       @JsonKey(name: 'users') Set<ProjectUser>? users,
       @JsonKey(name: 'admins') Set<ProjectUser>? admins});
 }
@@ -178,7 +168,6 @@ class __$ProjectCopyWithImpl<$Res> extends _$ProjectCopyWithImpl<$Res>
     Object? countTasks = freezed,
     Object? countDoneTasks = freezed,
     Object? tasks = freezed,
-    Object? messages = freezed,
     Object? users = freezed,
     Object? admins = freezed,
   }) {
@@ -203,10 +192,6 @@ class __$ProjectCopyWithImpl<$Res> extends _$ProjectCopyWithImpl<$Res>
           ? _value.tasks
           : tasks // ignore: cast_nullable_to_non_nullable
               as List<Task>?,
-      messages: messages == freezed
-          ? _value.messages
-          : messages // ignore: cast_nullable_to_non_nullable
-              as List<Message>?,
       users: users == freezed
           ? _value.users
           : users // ignore: cast_nullable_to_non_nullable
@@ -228,7 +213,6 @@ class _$_Project implements _Project {
       @JsonKey(name: 'count_tasks') required this.countTasks,
       @JsonKey(name: 'count_done_tasks') required this.countDoneTasks,
       @JsonKey(name: 'tasks') this.tasks,
-      @JsonKey(name: 'messages') this.messages,
       @JsonKey(name: 'users') this.users,
       @JsonKey(name: 'admins') this.admins});
 
@@ -250,10 +234,7 @@ class _$_Project implements _Project {
   @override
   @JsonKey(name: 'tasks')
   final List<Task>? tasks;
-  @override
-  @JsonKey(name: 'messages')
-  final List<Message>? messages;
-  @override
+  @override // @JsonKey(name: 'messages') List<Message>? messages,
   @JsonKey(name: 'users')
   final Set<ProjectUser>? users;
   @override
@@ -262,7 +243,7 @@ class _$_Project implements _Project {
 
   @override
   String toString() {
-    return 'Project(id: $id, title: $title, countTasks: $countTasks, countDoneTasks: $countDoneTasks, tasks: $tasks, messages: $messages, users: $users, admins: $admins)';
+    return 'Project(id: $id, title: $title, countTasks: $countTasks, countDoneTasks: $countDoneTasks, tasks: $tasks, users: $users, admins: $admins)';
   }
 
   @override
@@ -277,7 +258,6 @@ class _$_Project implements _Project {
             const DeepCollectionEquality()
                 .equals(other.countDoneTasks, countDoneTasks) &&
             const DeepCollectionEquality().equals(other.tasks, tasks) &&
-            const DeepCollectionEquality().equals(other.messages, messages) &&
             const DeepCollectionEquality().equals(other.users, users) &&
             const DeepCollectionEquality().equals(other.admins, admins));
   }
@@ -290,7 +270,6 @@ class _$_Project implements _Project {
       const DeepCollectionEquality().hash(countTasks),
       const DeepCollectionEquality().hash(countDoneTasks),
       const DeepCollectionEquality().hash(tasks),
-      const DeepCollectionEquality().hash(messages),
       const DeepCollectionEquality().hash(users),
       const DeepCollectionEquality().hash(admins));
 
@@ -312,7 +291,6 @@ abstract class _Project implements Project {
       @JsonKey(name: 'count_tasks') required int countTasks,
       @JsonKey(name: 'count_done_tasks') required int countDoneTasks,
       @JsonKey(name: 'tasks') List<Task>? tasks,
-      @JsonKey(name: 'messages') List<Message>? messages,
       @JsonKey(name: 'users') Set<ProjectUser>? users,
       @JsonKey(name: 'admins') Set<ProjectUser>? admins}) = _$_Project;
 
@@ -333,10 +311,7 @@ abstract class _Project implements Project {
   @override
   @JsonKey(name: 'tasks')
   List<Task>? get tasks;
-  @override
-  @JsonKey(name: 'messages')
-  List<Message>? get messages;
-  @override
+  @override // @JsonKey(name: 'messages') List<Message>? messages,
   @JsonKey(name: 'users')
   Set<ProjectUser>? get users;
   @override

@@ -64,11 +64,11 @@ class ProjectsLocalDatasource extends ProjectsDatasource {
     );
 
     final _tasks = await tasks(_project);
-    final _messages = await messages(_project);
+    // final _messages = await messages(_project);
 
     return _project.copyWith(
       tasks: _tasks,
-      messages: _messages,
+      // messages: _messages,
     );
   }
 

@@ -53,10 +53,5 @@ void main() {
   test('projects', () async {
     final user = await userRepository.user(20);
     final result = await projectsRepository.projects(user);
-    print(result);
   });
-  // test('project', () async {
-  //   final result = await projectsRepository.project();
-  //   print(result);
-  // });
 }

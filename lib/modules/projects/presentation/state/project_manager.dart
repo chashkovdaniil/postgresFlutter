@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:postgresUn/modules/projects/data/projects_repository.dart';
+import 'package:postgresUn/modules/tasks/presentation/state/tasks_manager.dart';
 import 'package:postgresUn/modules/users/presentation/state/user_state.dart';
 import 'package:riverpod/riverpod.dart';
 
@@ -25,40 +26,31 @@ class ProjectManager {
   }) : projectStream =
             Stream.periodic(const Duration(milliseconds: 1000), (_) {});
 
-  void onDispose() {
-    print('onDispose');
-    projectSubscription?.cancel();
-  }
+  void onDispose() => projectSubscription?.cancel();
 
   Future<void> onInit(int projectId) async {
     if (userState.user == null) throw UserNotAuthExceptions();
 
-    if (projectSubscription != null) return;
-    projectSubscription = projectStream.listen((_) async {
-      final project = await projectsRepository.project(projectId);
-      final users = project.users;
-      var isAllowedAdmin = false;
+    final project = await projectsRepository.project(projectId);
+    final users = project.users;
+    var isAllowedAdmin = false;
 
-      if (users != null) {
-        isAllowedAdmin = users.any(
-          (user) =>
-              user.role == ProjectUserRoles.admin &&
-              user.id == userState.user!.id,
-        );
-      }
-      stateHolder.setProject(project, isAllowedAdmin);
-    });
-  }
-
-  Future<void> addTaskToProject(Task task) async {
-    final project = stateHolder.currentProject;
-    if (project == null) {
-      throw ProjectNullException();
+    if (users != null) {
+      isAllowedAdmin = users.any(
+        (user) =>
+            user.role == ProjectUserRoles.admin &&
+            user.id == userState.user!.id,
+      );
     }
-    await projectsRepository.addTask(project, task);
+    stateHolder.setProject(project, isAllowedAdmin);
   }
 
+  void selectTasksSort(TasksSort tasksSort) =>
+      stateHolder.setTasksSort(tasksSort);
+  void setTasks(List<Task> tasks) => stateHolder.setTasks(tasks);
   void setMessages(List<Message> messages) => stateHolder.setMessages(messages);
+  void setParticipants(List<ProjectUser> participants) =>
+      stateHolder.setParticipants(participants);
 }
 
 class ProjectStateHolder extends StateNotifier<ProjectState> {
@@ -71,9 +63,27 @@ class ProjectStateHolder extends StateNotifier<ProjectState> {
     );
   }
 
+  void setTasks(List<Task>? tasks) {
+    state = state.copyWith(
+      tasks: tasks,
+    );
+  }
+
   void setMessages(List<Message>? messages) {
     state = state.copyWith(
       messages: messages,
+    );
+  }
+
+  void setParticipants(List<ProjectUser> participants) {
+    state = state.copyWith(
+      participants: participants,
+    );
+  }
+
+  void setTasksSort(TasksSort tasksSort) {
+    state = state.copyWith(
+      tasksSort: tasksSort,
     );
   }
 

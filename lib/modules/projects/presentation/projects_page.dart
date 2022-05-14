@@ -130,9 +130,9 @@ class CreateProjectDialog extends HookConsumerWidget {
           TextButton(
             onPressed: () {
               if (formKey.currentState?.validate() == true) {
-                final users = {
-                  ProjectUser.fromUser(user!, ProjectUserRoles.admin)
-                };
+                final users = [
+                  ProjectUser.fromUser(user!, ProjectUserRoles.admin),
+                ];
                 final startProject = StartProject(
                   title: titleFieldController.text,
                   users: users,

@@ -28,8 +28,8 @@ class _$ProjectTearOff {
       @JsonKey(name: 'count_tasks') required int countTasks,
       @JsonKey(name: 'count_done_tasks') required int countDoneTasks,
       @JsonKey(name: 'tasks') List<Task>? tasks,
-      @JsonKey(name: 'users') Set<ProjectUser>? users,
-      @JsonKey(name: 'admins') Set<ProjectUser>? admins}) {
+      @JsonKey(name: 'users') List<ProjectUser>? users,
+      @JsonKey(name: 'admins') List<ProjectUser>? admins}) {
     return _Project(
       id: id,
       title: title,
@@ -60,12 +60,11 @@ mixin _$Project {
   @JsonKey(name: 'count_done_tasks')
   int get countDoneTasks => throw _privateConstructorUsedError;
   @JsonKey(name: 'tasks')
-  List<Task>? get tasks =>
-      throw _privateConstructorUsedError; // @JsonKey(name: 'messages') List<Message>? messages,
+  List<Task>? get tasks => throw _privateConstructorUsedError;
   @JsonKey(name: 'users')
-  Set<ProjectUser>? get users => throw _privateConstructorUsedError;
+  List<ProjectUser>? get users => throw _privateConstructorUsedError;
   @JsonKey(name: 'admins')
-  Set<ProjectUser>? get admins => throw _privateConstructorUsedError;
+  List<ProjectUser>? get admins => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -82,8 +81,8 @@ abstract class $ProjectCopyWith<$Res> {
       @JsonKey(name: 'count_tasks') int countTasks,
       @JsonKey(name: 'count_done_tasks') int countDoneTasks,
       @JsonKey(name: 'tasks') List<Task>? tasks,
-      @JsonKey(name: 'users') Set<ProjectUser>? users,
-      @JsonKey(name: 'admins') Set<ProjectUser>? admins});
+      @JsonKey(name: 'users') List<ProjectUser>? users,
+      @JsonKey(name: 'admins') List<ProjectUser>? admins});
 }
 
 /// @nodoc
@@ -128,11 +127,11 @@ class _$ProjectCopyWithImpl<$Res> implements $ProjectCopyWith<$Res> {
       users: users == freezed
           ? _value.users
           : users // ignore: cast_nullable_to_non_nullable
-              as Set<ProjectUser>?,
+              as List<ProjectUser>?,
       admins: admins == freezed
           ? _value.admins
           : admins // ignore: cast_nullable_to_non_nullable
-              as Set<ProjectUser>?,
+              as List<ProjectUser>?,
     ));
   }
 }
@@ -148,8 +147,8 @@ abstract class _$ProjectCopyWith<$Res> implements $ProjectCopyWith<$Res> {
       @JsonKey(name: 'count_tasks') int countTasks,
       @JsonKey(name: 'count_done_tasks') int countDoneTasks,
       @JsonKey(name: 'tasks') List<Task>? tasks,
-      @JsonKey(name: 'users') Set<ProjectUser>? users,
-      @JsonKey(name: 'admins') Set<ProjectUser>? admins});
+      @JsonKey(name: 'users') List<ProjectUser>? users,
+      @JsonKey(name: 'admins') List<ProjectUser>? admins});
 }
 
 /// @nodoc
@@ -195,11 +194,11 @@ class __$ProjectCopyWithImpl<$Res> extends _$ProjectCopyWithImpl<$Res>
       users: users == freezed
           ? _value.users
           : users // ignore: cast_nullable_to_non_nullable
-              as Set<ProjectUser>?,
+              as List<ProjectUser>?,
       admins: admins == freezed
           ? _value.admins
           : admins // ignore: cast_nullable_to_non_nullable
-              as Set<ProjectUser>?,
+              as List<ProjectUser>?,
     ));
   }
 }
@@ -234,12 +233,12 @@ class _$_Project implements _Project {
   @override
   @JsonKey(name: 'tasks')
   final List<Task>? tasks;
-  @override // @JsonKey(name: 'messages') List<Message>? messages,
+  @override
   @JsonKey(name: 'users')
-  final Set<ProjectUser>? users;
+  final List<ProjectUser>? users;
   @override
   @JsonKey(name: 'admins')
-  final Set<ProjectUser>? admins;
+  final List<ProjectUser>? admins;
 
   @override
   String toString() {
@@ -291,8 +290,8 @@ abstract class _Project implements Project {
       @JsonKey(name: 'count_tasks') required int countTasks,
       @JsonKey(name: 'count_done_tasks') required int countDoneTasks,
       @JsonKey(name: 'tasks') List<Task>? tasks,
-      @JsonKey(name: 'users') Set<ProjectUser>? users,
-      @JsonKey(name: 'admins') Set<ProjectUser>? admins}) = _$_Project;
+      @JsonKey(name: 'users') List<ProjectUser>? users,
+      @JsonKey(name: 'admins') List<ProjectUser>? admins}) = _$_Project;
 
   factory _Project.fromJson(Map<String, dynamic> json) = _$_Project.fromJson;
 
@@ -311,12 +310,12 @@ abstract class _Project implements Project {
   @override
   @JsonKey(name: 'tasks')
   List<Task>? get tasks;
-  @override // @JsonKey(name: 'messages') List<Message>? messages,
+  @override
   @JsonKey(name: 'users')
-  Set<ProjectUser>? get users;
+  List<ProjectUser>? get users;
   @override
   @JsonKey(name: 'admins')
-  Set<ProjectUser>? get admins;
+  List<ProjectUser>? get admins;
   @override
   @JsonKey(ignore: true)
   _$ProjectCopyWith<_Project> get copyWith =>
@@ -335,8 +334,8 @@ class _$StartProjectTearOff {
       {required String title,
       int? countTasks,
       int? countDoneTasks,
-      required Set<ProjectUser> users,
-      required Set<ProjectUser> admins}) {
+      required List<ProjectUser> users,
+      required List<ProjectUser> admins}) {
     return _StartProject(
       title: title,
       countTasks: countTasks,
@@ -359,8 +358,8 @@ mixin _$StartProject {
   String get title => throw _privateConstructorUsedError;
   int? get countTasks => throw _privateConstructorUsedError;
   int? get countDoneTasks => throw _privateConstructorUsedError;
-  Set<ProjectUser> get users => throw _privateConstructorUsedError;
-  Set<ProjectUser> get admins => throw _privateConstructorUsedError;
+  List<ProjectUser> get users => throw _privateConstructorUsedError;
+  List<ProjectUser> get admins => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -377,8 +376,8 @@ abstract class $StartProjectCopyWith<$Res> {
       {String title,
       int? countTasks,
       int? countDoneTasks,
-      Set<ProjectUser> users,
-      Set<ProjectUser> admins});
+      List<ProjectUser> users,
+      List<ProjectUser> admins});
 }
 
 /// @nodoc
@@ -413,11 +412,11 @@ class _$StartProjectCopyWithImpl<$Res> implements $StartProjectCopyWith<$Res> {
       users: users == freezed
           ? _value.users
           : users // ignore: cast_nullable_to_non_nullable
-              as Set<ProjectUser>,
+              as List<ProjectUser>,
       admins: admins == freezed
           ? _value.admins
           : admins // ignore: cast_nullable_to_non_nullable
-              as Set<ProjectUser>,
+              as List<ProjectUser>,
     ));
   }
 }
@@ -433,8 +432,8 @@ abstract class _$StartProjectCopyWith<$Res>
       {String title,
       int? countTasks,
       int? countDoneTasks,
-      Set<ProjectUser> users,
-      Set<ProjectUser> admins});
+      List<ProjectUser> users,
+      List<ProjectUser> admins});
 }
 
 /// @nodoc
@@ -471,11 +470,11 @@ class __$StartProjectCopyWithImpl<$Res> extends _$StartProjectCopyWithImpl<$Res>
       users: users == freezed
           ? _value.users
           : users // ignore: cast_nullable_to_non_nullable
-              as Set<ProjectUser>,
+              as List<ProjectUser>,
       admins: admins == freezed
           ? _value.admins
           : admins // ignore: cast_nullable_to_non_nullable
-              as Set<ProjectUser>,
+              as List<ProjectUser>,
     ));
   }
 }
@@ -500,9 +499,9 @@ class _$_StartProject implements _StartProject {
   @override
   final int? countDoneTasks;
   @override
-  final Set<ProjectUser> users;
+  final List<ProjectUser> users;
   @override
-  final Set<ProjectUser> admins;
+  final List<ProjectUser> admins;
 
   @override
   String toString() {
@@ -548,8 +547,8 @@ abstract class _StartProject implements StartProject {
       {required String title,
       int? countTasks,
       int? countDoneTasks,
-      required Set<ProjectUser> users,
-      required Set<ProjectUser> admins}) = _$_StartProject;
+      required List<ProjectUser> users,
+      required List<ProjectUser> admins}) = _$_StartProject;
 
   factory _StartProject.fromJson(Map<String, dynamic> json) =
       _$_StartProject.fromJson;
@@ -561,9 +560,9 @@ abstract class _StartProject implements StartProject {
   @override
   int? get countDoneTasks;
   @override
-  Set<ProjectUser> get users;
+  List<ProjectUser> get users;
   @override
-  Set<ProjectUser> get admins;
+  List<ProjectUser> get admins;
   @override
   @JsonKey(ignore: true)
   _$StartProjectCopyWith<_StartProject> get copyWith =>

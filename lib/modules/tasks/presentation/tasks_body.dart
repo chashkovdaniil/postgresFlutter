@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:postgresUn/modules/tasks/tasks_provider.dart';
 
 import '../../../core/providers/projects_provider.dart';
 import 'dialog_task.dart';
@@ -9,10 +10,16 @@ class TasksPageBody extends HookConsumerWidget {
 
   @override
   Widget build(context, ref) {
-    final tasksManager = ref.read(ProjectsProvider.tasksManagerProvider);
+    final tasksManager = ref.read(TasksProvider.tasksManagerProvider);
     final tasks = ref.watch(
-      ProjectsProvider.tasksStateProvider.select((s) => s.tasks),
+      ProjectsProvider.projectStateProvider.select((s) => s.tasks),
     );
+
+    if (tasks == null) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
 
     return Expanded(
       child: ListView.builder(

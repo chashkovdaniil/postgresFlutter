@@ -6,6 +6,8 @@ import 'package:postgresUn/modules/users/domain/entities/auth_user.dart';
 import 'package:postgresUn/modules/users/domain/user_manager.dart';
 import 'package:postgresUn/modules/users/presentation/register_page.dart';
 
+import '../../../main.dart';
+
 class LoginPage extends HookConsumerWidget {
   const LoginPage({Key? key}) : super(key: key);
   static const route = 'login';
@@ -57,21 +59,24 @@ class LoginPage extends HookConsumerWidget {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    if (loginFormKey.currentState?.validate() == true) {
-                      try {
-                        await userManager.login(
-                          AuthUser(
-                            email: emailEditingController.text,
-                            password: passwordEditingController.text,
-                          ),
+                    try {
+                      if (loginFormKey.currentState?.validate() == true) {
+                        final user = AuthUser(
+                          email: emailEditingController.text,
+                          password: passwordEditingController.text,
                         );
-                      } catch (err) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(err.toString()),
-                          ),
-                        );
+                        await userManager.login(user);
                       }
+                      Navigator.pushReplacementNamed(
+                        context,
+                        MainPage.route,
+                      );
+                    } catch (err) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(err.toString()),
+                        ),
+                      );
                     }
                   },
                   child: const Text('Login'),

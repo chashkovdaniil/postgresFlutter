@@ -14,6 +14,8 @@ import 'package:postgresUn/modules/users/domain/entities/register_user.dart';
 import 'package:postgresUn/modules/users/domain/user_manager.dart';
 import 'package:postgresUn/modules/users/presentation/login_page.dart';
 
+import '../../../core/utils.dart';
+
 class RegisterPage extends HookConsumerWidget {
   const RegisterPage({Key? key}) : super(key: key);
   static const route = 'register';
@@ -162,8 +164,8 @@ class RegisterPage extends HookConsumerWidget {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      if (registerFormKey.currentState?.validate() == true) {
-                        try {
+                      try {
+                        if (registerFormKey.currentState?.validate() == true) {
                           final photo =
                               await PhotoService().savePhoto(avatarFile.value!);
                           await userManager.register(
@@ -179,18 +181,54 @@ class RegisterPage extends HookConsumerWidget {
                           );
 
                           Navigator.pushReplacementNamed(
-                              context, MainPage.route);
-                        } catch (err) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(err.toString()),
-                            ),
+                            context,
+                            MainPage.route,
                           );
                         }
+                      } catch (err) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(err.toString()),
+                          ),
+                        );
                       }
                     },
                     child: const Text('Register'),
                   ),
+                  // ElevatedButton(
+                  //   child: Text('Generate user'),
+                  //   onPressed: () async {
+                  //     for (int i = 0; i < 10; i++) {
+                  //       var email = generateEmail();
+                  //       var lastName = generateWord(10);
+                  //       var name = generateWord(10);
+                  //       var patronymic = generateWord(10);
+                  //       var phone = 99;
+                  //       var password = generateWord(12);
+                  //       var photo = File.fromUri(
+                  //         Uri(
+                  //           path:
+                  //               '/home/daniil/.local/share/postgres/photos/325159056-2022-01-26 10:43:08.673600.png',
+                  //         ),
+                  //       );
+                  //       var user = RegisterUser(
+                  //         email: email,
+                  //         password: password,
+                  //         lastName: lastName,
+                  //         name: name,
+                  //         patronymic: patronymic,
+                  //         phone: phone,
+                  //         photo: photo,
+                  //       );
+                  //       await userManager.register(user);
+                  //     }
+                  //     ScaffoldMessenger.of(context).showSnackBar(
+                  //       SnackBar(
+                  //         content: Text('Done'),
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
                   TextButton(
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, LoginPage.route);

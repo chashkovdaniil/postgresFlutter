@@ -14,9 +14,8 @@ class Project with _$Project {
     @JsonKey(name: 'count_tasks') required int countTasks,
     @JsonKey(name: 'count_done_tasks') required int countDoneTasks,
     @JsonKey(name: 'tasks') List<Task>? tasks,
-    // @JsonKey(name: 'messages') List<Message>? messages,
-    @JsonKey(name: 'users') Set<ProjectUser>? users,
-    @JsonKey(name: 'admins') Set<ProjectUser>? admins,
+    @JsonKey(name: 'users') List<ProjectUser>? users,
+    @JsonKey(name: 'admins') List<ProjectUser>? admins,
   }) = _Project;
 
   factory Project.fromJson(Map<String, dynamic> json) =>
@@ -29,8 +28,8 @@ class StartProject with _$StartProject {
     required String title,
     int? countTasks,
     int? countDoneTasks,
-    required Set<ProjectUser> users,
-    required Set<ProjectUser> admins,
+    required List<ProjectUser> users,
+    required List<ProjectUser> admins,
   }) = _StartProject;
 
   factory StartProject.fromJson(Map<String, dynamic> json) =>

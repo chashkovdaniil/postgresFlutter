@@ -7,6 +7,7 @@ import 'package:postgresUn/core/providers/user_provider.dart';
 import 'package:postgresUn/modules/projects/domain/entities/project.dart';
 import 'package:postgresUn/modules/projects/domain/entities/project_user.dart';
 import 'package:postgresUn/modules/tasks/domain/task.dart';
+import 'package:postgresUn/modules/tasks/tasks_provider.dart';
 
 class DialogTask extends HookConsumerWidget {
   const DialogTask({
@@ -18,8 +19,7 @@ class DialogTask extends HookConsumerWidget {
 
   @override
   Widget build(context, ref) {
-    print('build DialogTask');
-    final tasksManager = ref.read(ProjectsProvider.tasksManagerProvider);
+    final tasksManager = ref.read(TasksProvider.tasksManagerProvider);
     final titleController = useTextEditingController(
       text: task == null ? '' : task!.title,
     );

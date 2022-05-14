@@ -5,7 +5,6 @@ import 'package:postgresUn/modules/projects/domain/entities/project.dart';
 import 'package:postgresUn/modules/projects/domain/entities/project_user.dart';
 import 'package:postgresUn/modules/tasks/domain/task.dart';
 import 'package:postgresUn/modules/users/domain/entities/user.dart';
-import 'package:riverpod/riverpod.dart';
 
 class ProjectsLocalDatasource extends ProjectsDatasource {
   final PostgresService _postgresService;
@@ -60,16 +59,12 @@ class ProjectsLocalDatasource extends ProjectsDatasource {
       users: _users,
       admins: _users
           .where((element) => element.role == ProjectUserRoles.admin)
-          .toSet(),
+          .toList(),
     );
 
-    final _tasks = await tasks(_project);
-    // final _messages = await messages(_project);
+    // final _tasks = await tasks(_project);
 
-    return _project.copyWith(
-      tasks: _tasks,
-      // messages: _messages,
-    );
+    return _project;
   }
 
   @override
@@ -128,91 +123,91 @@ class ProjectsLocalDatasource extends ProjectsDatasource {
     );
   }
 
-  @override
-  Future<Task> addTask(Project project, Task task) async {
-    const query =
-        '''WITH creator AS (SELECT id FROM project_user WHERE project_id = @project_id AND user_id = @creator_id),
-         	  performer AS (SELECT id FROM project_user WHERE project_id = @project_id AND user_id = @performer_id)
-            INSERT INTO tasks (title, description, creator_id, performer_id) VALUES (@title, @description, (SELECT id FROM creator), (SELECT id FROM performer)) RETURNING id;
-        ''';
-    final response = await _postgresService.mappedResultsQuery(
-      query,
-      values: {
-        'title': task.title,
-        'description': task.description,
-        'project_id': project.id,
-        'creator_id': task.creator.id,
-        'performer_id': task.performer.id,
-      },
-    );
-    return task.copyWith(id: response[0]['tasks']!['id'] as int);
-  }
+  // @override
+  // Future<Task> addTask(Project project, Task task) async {
+  //   const query =
+  //       '''WITH creator AS (SELECT id FROM project_user WHERE project_id = @project_id AND user_id = @creator_id),
+  //        	  performer AS (SELECT id FROM project_user WHERE project_id = @project_id AND user_id = @performer_id)
+  //           INSERT INTO tasks (title, description, creator_id, performer_id) VALUES (@title, @description, (SELECT id FROM creator), (SELECT id FROM performer)) RETURNING id;
+  //       ''';
+  //   final response = await _postgresService.mappedResultsQuery(
+  //     query,
+  //     values: {
+  //       'title': task.title,
+  //       'description': task.description,
+  //       'project_id': project.id,
+  //       'creator_id': task.creator.id,
+  //       'performer_id': task.performer.id,
+  //     },
+  //   );
+  //   return task.copyWith(id: response[0]['tasks']!['id'] as int);
+  // }
 
-  @override
-  Future<List<Task>> tasks(Project project) async {
-    const query = '''
-      WITH creators AS (
-        SELECT id, user_id AS creator_id FROM project_user WHERE project_id = @project_id
-      ), performers AS (
-        SELECT id, user_id AS performer_id FROM project_user WHERE project_id = @project_id
-      )
-      SELECT * FROM tasks JOIN creators ON tasks.creator_id = creators.id JOIN performers ON tasks.performer_id = performers.id
-      ''';
-    final raw = await _postgresService.mappedResultsQuery(
-      query,
-      values: {'project_id': project.id},
-    );
-    final _tasks = raw.map(
-      (e) {
-        final creator = project.users!
-            .firstWhere(
-              (element) => element.id == e['project_user']!['creator_id'],
-            )
-            .toJson();
-        final performer = project.users!
-            .firstWhere(
-              (element) => element.id == e['project_user']!['performer_id'],
-            )
-            .toJson();
-        return Task.fromJson(
-          e['tasks']!
-            ..putIfAbsent('creator', () => creator)
-            ..putIfAbsent('performer', () => performer),
-        );
-      },
-    ).toList();
+  // @override
+  // Future<List<Task>> tasks(Project project) async {
+  //   const query = '''
+  //     WITH creators AS (
+  //       SELECT id, user_id AS creator_id FROM project_user WHERE project_id = @project_id
+  //     ), performers AS (
+  //       SELECT id, user_id AS performer_id FROM project_user WHERE project_id = @project_id
+  //     )
+  //     SELECT * FROM tasks JOIN creators ON tasks.creator_id = creators.id JOIN performers ON tasks.performer_id = performers.id
+  //     ''';
+  //   final raw = await _postgresService.mappedResultsQuery(
+  //     query,
+  //     values: {'project_id': project.id},
+  //   );
+  //   final _tasks = raw.map(
+  //     (e) {
+  //       final creator = project.users!
+  //           .firstWhere(
+  //             (element) => element.id == e['project_user']!['creator_id'],
+  //           )
+  //           .toJson();
+  //       final performer = project.users!
+  //           .firstWhere(
+  //             (element) => element.id == e['project_user']!['performer_id'],
+  //           )
+  //           .toJson();
+  //       return Task.fromJson(
+  //         e['tasks']!
+  //           ..putIfAbsent('creator', () => creator)
+  //           ..putIfAbsent('performer', () => performer),
+  //       );
+  //     },
+  //   ).toList();
 
-    return _tasks;
-  }
+  //   return _tasks;
+  // }
 
-  @override
-  Future<void> updateTask(Project project, Task task) async {
-    const query = '''
-        UPDATE tasks SET title = @title, description = @description,
-        performer_id = (SELECT id FROM project_user WHERE project_id = @project_id AND
-        user_id = @user_id), is_done = @is_done WHERE id = @id;
-    ''';
-    await _postgresService.execute(
-      query,
-      values: {
-        'title': task.title,
-        'description': task.description,
-        'project_id': project.id,
-        'user_id': task.performer.id,
-        'is_done': task.isDone,
-        'id': task.id,
-      },
-    );
-  }
+  // @override
+  // Future<void> updateTask(Project project, Task task) async {
+  //   const query = '''
+  //       UPDATE tasks SET title = @title, description = @description,
+  //       performer_id = (SELECT id FROM project_user WHERE project_id = @project_id AND
+  //       user_id = @user_id), is_done = @is_done WHERE id = @id;
+  //   ''';
+  //   await _postgresService.execute(
+  //     query,
+  //     values: {
+  //       'title': task.title,
+  //       'description': task.description,
+  //       'project_id': project.id,
+  //       'user_id': task.performer.id,
+  //       'is_done': task.isDone,
+  //       'id': task.id,
+  //     },
+  //   );
+  // }
 
-  @override
-  Future<void> deleteTask(Task task) async {
-    const query = '''DELETE FROM tasks WHERE id = @id''';
-    await _postgresService.execute(
-      query,
-      values: {'id': task.id},
-    );
-  }
+  // @override
+  // Future<void> deleteTask(Task task) async {
+  //   const query = '''DELETE FROM tasks WHERE id = @id''';
+  //   await _postgresService.execute(
+  //     query,
+  //     values: {'id': task.id},
+  //   );
+  // }
 
   @override
   Future<List<Message>> messages(Project project) async {
@@ -258,7 +253,7 @@ class ProjectsLocalDatasource extends ProjectsDatasource {
   }
 
   @override
-  Future<Set<ProjectUser>> participants(Project project) async {
+  Future<List<ProjectUser>> participants(Project project) async {
     const query = '''
       SELECT users.*, roles.name AS  role_name
       FROM project_user INNER JOIN users ON project_user.user_id = users.id 
@@ -268,16 +263,16 @@ class ProjectsLocalDatasource extends ProjectsDatasource {
       query,
       values: {'project_id': project.id},
     );
-    return response
-        .map(
-          (e) => ProjectUser.fromJson(
-            e['users']!
-              ..putIfAbsent(
-                'role',
-                () => e['roles']!['role_name'],
-              ),
-          ),
-        )
-        .toSet();
+
+    return [
+      for (var tables in response)
+        ProjectUser.fromJson(
+          tables['users']!
+            ..putIfAbsent(
+              'role',
+              () => tables['roles']!['role_name'],
+            ),
+        ),
+    ];
   }
 }

@@ -1,28 +1,63 @@
+import 'dart:async';
+
 import 'package:postgresUn/core/exceptions.dart';
 import 'package:postgresUn/modules/projects/data/projects_repository.dart';
 import 'package:postgresUn/modules/projects/domain/entities/project_user.dart';
 import 'package:postgresUn/modules/projects/presentation/state/project_manager.dart';
-import 'package:postgresUn/modules/tasks/presentation/state/tasks_state_holder.dart';
+import 'package:postgresUn/modules/tasks/data/tasks_api.dart';
 import 'package:postgresUn/modules/users/presentation/state/user_state.dart';
 
 import '../../domain/task.dart';
 
+enum TasksSort { date, title, isDone }
+
+extension TasksSortX on TasksSort {
+  String get stringTitle {
+    if (this == TasksSort.date) {
+      return 'По дате';
+    } else if (this == TasksSort.isDone) {
+      return 'По завершённости';
+    } else if (this == TasksSort.title) {
+      return 'По названию';
+    } else {
+      return '';
+    }
+  }
+}
+
 class TasksManager {
-  final TasksStateHolder tasksStateHolder;
+  final ProjectManager projectManager;
   final ProjectStateHolder projectStateHolder;
-  final ProjectsRepository projectsRepository;
   final UserState userState;
+  final TasksApi tasksApi;
+  StreamSubscription? _tasksStream;
 
   TasksManager({
-    required this.tasksStateHolder,
+    required this.projectManager,
     required this.projectStateHolder,
-    required this.projectsRepository,
     required this.userState,
+    required this.tasksApi,
   });
 
-  void setTasks(List<Task> tasks) {
-    tasksStateHolder.setTasks(tasks);
+  Future<void> onInit() async {
+    final stream = Stream.periodic(const Duration(milliseconds: 1000));
+    _tasksStream = stream.listen((event) async {
+      await loadTasks();
+    });
   }
+
+  onDispose() => _tasksStream?.cancel();
+
+  Future<void> loadTasks([TasksSort sort = TasksSort.date]) async {
+    final project = projectStateHolder.currentProject;
+    if (project != null) {
+      final typeSort = projectStateHolder.state.tasksSort;
+      final tasks = await tasksApi.tasks(project, typeSort);
+      setTasks(tasks);
+    }
+  }
+
+  void setTasks(List<Task> tasks) => projectManager.setTasks(tasks);
 
   Future<void> saveTask({
     int? id,
@@ -61,19 +96,21 @@ class TasksManager {
     final project = projectStateHolder.currentProject;
     if (project == null) throw ProjectNullException();
 
-    projectsRepository.addTask(project, task);
+    tasksApi.addTask(project, task);
+    projectManager.onInit(project.id);
   }
 
   Future<void> updateTask(Task task) async {
     final project = projectStateHolder.currentProject;
     if (project == null) throw ProjectNullException();
 
-    await projectsRepository.updateTask(project, task);
+    await tasksApi.updateTask(project, task);
   }
 
   Future<void> deleteTask(Task task) async {
     final project = projectStateHolder.currentProject;
     if (project == null) throw ProjectNullException();
-    await projectsRepository.deleteTask(task);
+    await tasksApi.deleteTask(task);
+    projectManager.onInit(project.id);
   }
 }

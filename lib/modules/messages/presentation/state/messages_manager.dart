@@ -27,18 +27,13 @@ class MessagesManager {
   Future<void> onInit() async {
     final stream = Stream.periodic(const Duration(milliseconds: 1000));
     _messagesStream = stream.listen((event) async {
-      print('bb');
       await loadMessage();
     });
   }
 
-  onDispose() {
-    print('messages dispose');
-    _messagesStream?.cancel();
-  }
+  onDispose() => _messagesStream?.cancel();
 
   Future<void> loadMessage() async {
-    print('loading message...');
     final project = projectStateHolder.currentProject;
     if (project != null) {
       setMessages(await projectsRepository.messages(project));

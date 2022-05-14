@@ -17,7 +17,6 @@ class UserManager extends StateNotifier<UserState> {
 
   Future<void> login(AuthUser authUser) async {
     final user = await _userRepository.userByEmail(authUser.email);
-    // ToDo: compare password
     state = state.copyWith(user: user);
   }
 

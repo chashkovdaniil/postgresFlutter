@@ -9,6 +9,7 @@ import 'package:postgresUn/modules/tasks/presentation/tasks_page.dart';
 
 import '../../../core/widgets/loading_widget.dart';
 import '../../messages/presentation/messages_page.dart';
+import '../../participants/presentation/participants_page.dart';
 
 class ProjectPage extends StatefulHookConsumerWidget {
   static const route = 'project';
@@ -52,9 +53,9 @@ class ProjectPageState extends ConsumerState<ProjectPage> {
       const Tab(
         child: Text('Chat'),
       ),
-      // const Tab(
-      //   child: Text('Participants'),
-      // ),
+      const Tab(
+        child: Text('Participants'),
+      ),
     ];
     final tabsController = useTabController(initialLength: tabs.length);
 
@@ -84,7 +85,7 @@ class ProjectPageState extends ConsumerState<ProjectPage> {
           children: const [
             TasksPage(),
             MessagesPage(),
-            // ProjectParticipants(),
+            ParticipantsPage(),
           ],
         ),
       ),
@@ -156,9 +157,10 @@ class TasksTabButton extends HookConsumerWidget {
     );
     if (project == null) {
       return const Center(
-          child: LoadingWidget(
-        height: 15,
-      ));
+        child: LoadingWidget(
+          height: 15,
+        ),
+      );
     }
     return Text('Tasks (${project.countDoneTasks}/${project.countTasks})');
   }

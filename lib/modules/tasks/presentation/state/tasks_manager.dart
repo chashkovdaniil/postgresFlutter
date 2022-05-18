@@ -10,6 +10,7 @@ import 'package:postgresUn/modules/users/presentation/state/user_state.dart';
 import '../../domain/task.dart';
 
 enum TasksSort { date, title, isDone }
+enum TasksSortByAplha { asc, desc }
 
 extension TasksSortX on TasksSort {
   String get stringTitle {
@@ -19,6 +20,18 @@ extension TasksSortX on TasksSort {
       return 'По завершённости';
     } else if (this == TasksSort.title) {
       return 'По названию';
+    } else {
+      return '';
+    }
+  }
+}
+
+extension TasksSortByAplhaX on TasksSortByAplha {
+  String get stringTitle {
+    if (this == TasksSortByAplha.asc) {
+      return 'По возрастанию';
+    } else if (this == TasksSortByAplha.desc) {
+      return 'По убыванию';
     } else {
       return '';
     }
@@ -52,7 +65,8 @@ class TasksManager {
     final project = projectStateHolder.currentProject;
     if (project != null) {
       final typeSort = projectStateHolder.state.tasksSort;
-      final tasks = await tasksApi.tasks(project, typeSort);
+      final typeSortByAlpha = projectStateHolder.state.tasksSortByAlpha;
+      final tasks = await tasksApi.tasks(project, typeSort, typeSortByAlpha);
       setTasks(tasks);
     }
   }

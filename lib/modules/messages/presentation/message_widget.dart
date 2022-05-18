@@ -90,7 +90,7 @@ class MessageWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  '${message.timestamp.year}.${message.timestamp.month}'
+                  '${message.timestamp.year}.${message.timestamp.month}.'
                   '${message.timestamp.day} ${message.timestamp.hour}:'
                   '${message.timestamp.minute}',
                   style: Theme.of(context).textTheme.bodySmall,

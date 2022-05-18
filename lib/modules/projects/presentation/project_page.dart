@@ -23,7 +23,7 @@ class ProjectPageState extends ConsumerState<ProjectPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final projectId = ModalRoute.of(context)?.settings.arguments as int;
       ref.watch(ProjectsProvider.projectManagerProvider).onInit(projectId);
     });

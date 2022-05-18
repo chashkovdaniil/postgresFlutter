@@ -48,9 +48,12 @@ class MessagesPageList extends HookConsumerWidget {
       const [],
     );
 
-    final messages = ref.watch(
-      ProjectsProvider.projectStateProvider.select((s) => s.messages),
-    );
+    final messages = ref
+        .watch(
+          ProjectsProvider.projectStateProvider.select((s) => s.messages),
+        )
+        ?.reversed
+        .toList();
 
     if (messages == null) {
       return const Center(
@@ -64,6 +67,7 @@ class MessagesPageList extends HookConsumerWidget {
     }
 
     return ListView.builder(
+      reverse: true,
       itemCount: messages.length,
       dragStartBehavior: DragStartBehavior.down,
       itemBuilder: (context, index) {
@@ -83,34 +87,6 @@ class MessagesPageList extends HookConsumerWidget {
         );
       },
     );
-
-    // if (messages.isEmpty) {
-    //   return const Expanded(
-    //     child: Center(
-    //       child: Text('Empty'),
-    //     ),
-    //   );
-    // }
-    // return ListView.builder(
-    //   reverse: true,
-    //   itemCount: messages.length,
-    //   itemBuilder: (context, index) {
-    //     return Align(
-    //       alignment: messages[index].user.id == 0
-    //           ? Alignment.center
-    //           : messages[index].user.id == user.id
-    //               ? Alignment.centerRight
-    //               : Alignment.centerLeft,
-    //       child: MessageWidget(
-    //         user: user,
-    //         nextMessage: index == 0 ? null : messages[index - 1],
-    //         message: messages[index],
-    //         prevMessage:
-    //             index == messages.length - 1 ? null : messages[index + 1],
-    //       ),
-    //     );
-    //   },
-    // );
   }
 }
 

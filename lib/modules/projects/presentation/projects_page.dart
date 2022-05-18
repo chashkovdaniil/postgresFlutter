@@ -10,6 +10,8 @@ import 'package:postgresUn/modules/projects/domain/entities/project_user.dart';
 import 'package:postgresUn/modules/projects/presentation/project_page.dart';
 import 'package:postgresUn/modules/projects/presentation/state/projects_manager.dart';
 
+import '../../home/presentation/widgets/navbar.dart';
+
 class ProjectsPage extends HookConsumerWidget {
   static const route = 'projects';
   const ProjectsPage({Key? key}) : super(key: key);
@@ -25,57 +27,63 @@ class ProjectsPage extends HookConsumerWidget {
       const [],
     );
     final projectsState = ref.watch(ProjectsProvider.projectsState);
-    if (projectsState.projects == null) {
-      return const Center(
-        child: Text('Projects not found'),
+
+    final projects = projectsState.projects;
+    if (projects == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
       );
     }
-    final projects = projectsState.projects!.reversed.toList();
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        HeaderPage(
-          title: 'Projects',
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return const CreateProjectDialog();
-                  },
-                );
-              },
-              child: const Text('Create'),
-            ),
-          ],
-        ),
-        if (projects.isNotEmpty)
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,
-                mainAxisSpacing: 20,
-                mainAxisExtent: 50,
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          NavBar(
+            title: ProjectsPage.route.toUpperCase(),
+            actions: [
+              ElevatedButton.icon(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const CreateProjectDialog();
+                    },
+                  );
+                },
+                label: const Text('New project'),
+                icon: const Icon(Icons.add),
               ),
-              itemCount: projects.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  key: ValueKey(projects[index].id),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      ProjectPage.route,
-                      arguments: projects[index].id,
-                    );
-                  },
-                  title: Text(projects[index].title),
-                );
-              },
-            ),
+            ],
           ),
-      ],
+          if (projects.isNotEmpty)
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  mainAxisSpacing: 20,
+                  mainAxisExtent: 50,
+                ),
+                itemCount: projects.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    key: ValueKey(projects[index].id),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        ProjectPage.route,
+                        arguments: projects[index].id,
+                      );
+                    },
+                    title: Text(projects[index].title),
+                  );
+                },
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

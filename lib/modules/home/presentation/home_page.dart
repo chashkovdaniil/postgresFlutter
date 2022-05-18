@@ -11,20 +11,6 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(context, ref) {
-    final user = ref.watch(UserProvider.userState).user!;
-
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            NavBar(user: user),
-            const Expanded(
-              child: ProjectsPage(),
-            ),
-          ],
-        ),
-      ),
-    );
+    return ProjectsPage();
   }
 }

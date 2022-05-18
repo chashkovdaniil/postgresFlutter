@@ -23,6 +23,7 @@ class _$ProjectStateTearOff {
       Project? currentProject,
       List<Task>? tasks,
       TasksSort tasksSort = TasksSort.date,
+      TasksSortByAplha tasksSortByAlpha = TasksSortByAplha.asc,
       List<Message>? messages,
       List<ProjectUser>? participants}) {
     return _ProjectState(
@@ -30,6 +31,7 @@ class _$ProjectStateTearOff {
       currentProject: currentProject,
       tasks: tasks,
       tasksSort: tasksSort,
+      tasksSortByAlpha: tasksSortByAlpha,
       messages: messages,
       participants: participants,
     );
@@ -45,6 +47,7 @@ mixin _$ProjectState {
   Project? get currentProject => throw _privateConstructorUsedError;
   List<Task>? get tasks => throw _privateConstructorUsedError;
   TasksSort get tasksSort => throw _privateConstructorUsedError;
+  TasksSortByAplha get tasksSortByAlpha => throw _privateConstructorUsedError;
   List<Message>? get messages => throw _privateConstructorUsedError;
   List<ProjectUser>? get participants => throw _privateConstructorUsedError;
 
@@ -63,6 +66,7 @@ abstract class $ProjectStateCopyWith<$Res> {
       Project? currentProject,
       List<Task>? tasks,
       TasksSort tasksSort,
+      TasksSortByAplha tasksSortByAlpha,
       List<Message>? messages,
       List<ProjectUser>? participants});
 
@@ -83,6 +87,7 @@ class _$ProjectStateCopyWithImpl<$Res> implements $ProjectStateCopyWith<$Res> {
     Object? currentProject = freezed,
     Object? tasks = freezed,
     Object? tasksSort = freezed,
+    Object? tasksSortByAlpha = freezed,
     Object? messages = freezed,
     Object? participants = freezed,
   }) {
@@ -103,6 +108,10 @@ class _$ProjectStateCopyWithImpl<$Res> implements $ProjectStateCopyWith<$Res> {
           ? _value.tasksSort
           : tasksSort // ignore: cast_nullable_to_non_nullable
               as TasksSort,
+      tasksSortByAlpha: tasksSortByAlpha == freezed
+          ? _value.tasksSortByAlpha
+          : tasksSortByAlpha // ignore: cast_nullable_to_non_nullable
+              as TasksSortByAplha,
       messages: messages == freezed
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
@@ -138,6 +147,7 @@ abstract class _$ProjectStateCopyWith<$Res>
       Project? currentProject,
       List<Task>? tasks,
       TasksSort tasksSort,
+      TasksSortByAplha tasksSortByAlpha,
       List<Message>? messages,
       List<ProjectUser>? participants});
 
@@ -161,6 +171,7 @@ class __$ProjectStateCopyWithImpl<$Res> extends _$ProjectStateCopyWithImpl<$Res>
     Object? currentProject = freezed,
     Object? tasks = freezed,
     Object? tasksSort = freezed,
+    Object? tasksSortByAlpha = freezed,
     Object? messages = freezed,
     Object? participants = freezed,
   }) {
@@ -181,6 +192,10 @@ class __$ProjectStateCopyWithImpl<$Res> extends _$ProjectStateCopyWithImpl<$Res>
           ? _value.tasksSort
           : tasksSort // ignore: cast_nullable_to_non_nullable
               as TasksSort,
+      tasksSortByAlpha: tasksSortByAlpha == freezed
+          ? _value.tasksSortByAlpha
+          : tasksSortByAlpha // ignore: cast_nullable_to_non_nullable
+              as TasksSortByAplha,
       messages: messages == freezed
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
@@ -201,6 +216,7 @@ class _$_ProjectState implements _ProjectState {
       this.currentProject,
       this.tasks,
       this.tasksSort = TasksSort.date,
+      this.tasksSortByAlpha = TasksSortByAplha.asc,
       this.messages,
       this.participants});
 
@@ -214,6 +230,9 @@ class _$_ProjectState implements _ProjectState {
   @JsonKey()
   @override
   final TasksSort tasksSort;
+  @JsonKey()
+  @override
+  final TasksSortByAplha tasksSortByAlpha;
   @override
   final List<Message>? messages;
   @override
@@ -221,7 +240,7 @@ class _$_ProjectState implements _ProjectState {
 
   @override
   String toString() {
-    return 'ProjectState(isAllowedAdmin: $isAllowedAdmin, currentProject: $currentProject, tasks: $tasks, tasksSort: $tasksSort, messages: $messages, participants: $participants)';
+    return 'ProjectState(isAllowedAdmin: $isAllowedAdmin, currentProject: $currentProject, tasks: $tasks, tasksSort: $tasksSort, tasksSortByAlpha: $tasksSortByAlpha, messages: $messages, participants: $participants)';
   }
 
   @override
@@ -235,6 +254,8 @@ class _$_ProjectState implements _ProjectState {
                 .equals(other.currentProject, currentProject) &&
             const DeepCollectionEquality().equals(other.tasks, tasks) &&
             const DeepCollectionEquality().equals(other.tasksSort, tasksSort) &&
+            const DeepCollectionEquality()
+                .equals(other.tasksSortByAlpha, tasksSortByAlpha) &&
             const DeepCollectionEquality().equals(other.messages, messages) &&
             const DeepCollectionEquality()
                 .equals(other.participants, participants));
@@ -247,6 +268,7 @@ class _$_ProjectState implements _ProjectState {
       const DeepCollectionEquality().hash(currentProject),
       const DeepCollectionEquality().hash(tasks),
       const DeepCollectionEquality().hash(tasksSort),
+      const DeepCollectionEquality().hash(tasksSortByAlpha),
       const DeepCollectionEquality().hash(messages),
       const DeepCollectionEquality().hash(participants));
 
@@ -262,6 +284,7 @@ abstract class _ProjectState implements ProjectState {
       Project? currentProject,
       List<Task>? tasks,
       TasksSort tasksSort,
+      TasksSortByAplha tasksSortByAlpha,
       List<Message>? messages,
       List<ProjectUser>? participants}) = _$_ProjectState;
 
@@ -273,6 +296,8 @@ abstract class _ProjectState implements ProjectState {
   List<Task>? get tasks;
   @override
   TasksSort get tasksSort;
+  @override
+  TasksSortByAplha get tasksSortByAlpha;
   @override
   List<Message>? get messages;
   @override

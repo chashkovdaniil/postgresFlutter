@@ -15,6 +15,7 @@ class ProjectState with _$ProjectState {
     Project? currentProject,
     List<Task>? tasks,
     @Default(TasksSort.date) TasksSort tasksSort,
+    @Default(TasksSortByAplha.asc) TasksSortByAplha tasksSortByAlpha,
     List<Message>? messages,
     List<ProjectUser>? participants,
   }) = _ProjectState;

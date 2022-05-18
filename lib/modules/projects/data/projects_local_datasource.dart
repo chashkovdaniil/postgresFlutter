@@ -73,7 +73,7 @@ class ProjectsLocalDatasource extends ProjectsDatasource {
         SELECT projects.* FROM project_user 
                 INNER JOIN users ON project_user.user_id = users.id 
               INNER JOIN projects ON project_user.project_id = projects.id 
-          WHERE user_id = @user_id
+          WHERE user_id = @user_id ORDER BY id DESC
         ''';
 
     final response = await _postgresService.mappedResultsQuery(

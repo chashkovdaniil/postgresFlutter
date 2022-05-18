@@ -11,8 +11,10 @@ class TasksApi {
     required PostgresService postgresService,
   }) : _postgresService = postgresService;
 
-  Future<List<Task>> tasks(Project project, TasksSort tasksSort) async {
-    late final String typeOrderBy;
+  Future<List<Task>> tasks(Project project, TasksSort tasksSort,
+      TasksSortByAplha tasksSortByAplha) async {
+    var typeOrderBy = '';
+    var typeOrderByAlpha = '';
     switch (tasksSort) {
       case TasksSort.date:
         typeOrderBy = 'tasks.id';
@@ -27,6 +29,14 @@ class TasksApi {
         typeOrderBy = '';
         break;
     }
+    switch (tasksSortByAplha) {
+      case TasksSortByAplha.asc:
+        typeOrderByAlpha = 'ASC';
+        break;
+      case TasksSortByAplha.desc:
+        typeOrderByAlpha = 'DESC';
+        break;
+    }
     final query = '''
       WITH creators AS (
         SELECT id, user_id AS creator_id FROM project_user WHERE project_id = @project_id
@@ -35,7 +45,7 @@ class TasksApi {
         SELECT id, user_id AS performer_id FROM project_user WHERE project_id = @project_id
       )
       SELECT * FROM tasks JOIN creators ON tasks.creator_id = creators.id JOIN performers ON tasks.performer_id = performers.id
-      ORDER BY $typeOrderBy
+      ORDER BY $typeOrderBy $typeOrderByAlpha
       ''';
 
     final raw = await _postgresService.mappedResultsQuery(

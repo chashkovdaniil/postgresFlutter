@@ -47,6 +47,8 @@ class ProjectManager {
 
   void selectTasksSort(TasksSort tasksSort) =>
       stateHolder.setTasksSort(tasksSort);
+  void selectTasksSortByAlpha(TasksSortByAplha tasksSortByAplha) =>
+      stateHolder.setTasksSortByAlpha(tasksSortByAplha);
   void setTasks(List<Task> tasks) => stateHolder.setTasks(tasks);
   void setMessages(List<Message> messages) => stateHolder.setMessages(messages);
   void setParticipants(List<ProjectUser> participants) =>
@@ -84,6 +86,12 @@ class ProjectStateHolder extends StateNotifier<ProjectState> {
   void setTasksSort(TasksSort tasksSort) {
     state = state.copyWith(
       tasksSort: tasksSort,
+    );
+  }
+
+  void setTasksSortByAlpha(TasksSortByAplha tasksSortByAlpha) {
+    state = state.copyWith(
+      tasksSortByAlpha: tasksSortByAlpha,
     );
   }
 

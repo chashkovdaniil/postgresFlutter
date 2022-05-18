@@ -24,6 +24,9 @@ class TasksPage extends HookConsumerWidget {
     final tasksSort = ref.watch(
       ProjectsProvider.projectStateProvider.select((s) => s.tasksSort),
     );
+    final tasksSortByAlpha = ref.watch(
+      ProjectsProvider.projectStateProvider.select((s) => s.tasksSortByAlpha),
+    );
 
     return Column(
       children: [
@@ -54,6 +57,22 @@ class TasksPage extends HookConsumerWidget {
                       projectManager.selectTasksSort(typeSort);
                     },
                     value: typeSort.name,
+                  ),
+              ],
+              onChanged: (_) {},
+            ),
+            const SizedBox(width: 50),
+            DropdownButton<String>(
+              icon: const Icon(Icons.sort_by_alpha),
+              value: tasksSortByAlpha.name,
+              items: [
+                for (var typeSortByAlpha in TasksSortByAplha.values)
+                  DropdownMenuItem(
+                    child: Text(typeSortByAlpha.stringTitle),
+                    onTap: () {
+                      projectManager.selectTasksSortByAlpha(typeSortByAlpha);
+                    },
+                    value: typeSortByAlpha.name,
                   ),
               ],
               onChanged: (_) {},

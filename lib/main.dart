@@ -23,7 +23,29 @@ class MyApp extends HookConsumerWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            padding: MaterialStateProperty.all(
+              const EdgeInsets.symmetric(
+                vertical: 15,
+                horizontal: 20,
+              ),
+            ),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(7),
+              ),
+            ),
+            backgroundColor: MaterialStateProperty.resolveWith((states) {
+              if (states.contains(MaterialState.pressed)) {
+                return Colors.red.shade800;
+              }
+
+              return Colors.red;
+            }),
+          ),
+        ),
+        primarySwatch: Colors.red,
         tabBarTheme: const TabBarTheme(
           labelColor: Colors.black,
         ),

@@ -114,7 +114,7 @@ class MessageTypeMessage extends HookConsumerWidget {
               controller: messageController,
               maxLines: null,
               decoration: const InputDecoration(
-                hintText: 'Type message...',
+                hintText: 'Введите сообщение...',
               ),
             ),
           ),

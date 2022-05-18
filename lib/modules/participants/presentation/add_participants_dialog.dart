@@ -35,7 +35,7 @@ class AddParticipantsDialog extends HookConsumerWidget {
       child: Form(
         key: formKey,
         child: AlertDialog(
-          title: const Text('Add users'),
+          title: const Text('Участники'),
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -46,10 +46,10 @@ class AddParticipantsDialog extends HookConsumerWidget {
                 autofocus: true,
                 validator: (val) {
                   if (val == null || val.isEmpty) {
-                    return 'Fill field';
+                    return 'Заполните поле';
                   }
                   if (val.isNotEmpty && projectUser.value == null) {
-                    return 'User not found';
+                    return 'Пользователь не найден';
                   }
                   return null;
                 },

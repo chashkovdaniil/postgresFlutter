@@ -33,7 +33,7 @@ class DialogTask extends HookConsumerWidget {
     final formKey = GlobalKey<FormState>();
 
     return AlertDialog(
-      title: const Text('Task'),
+      title: const Text('Задание'),
       content: SizedBox(
         width: displaySize.width * 0.9,
         child: Form(
@@ -45,13 +45,13 @@ class DialogTask extends HookConsumerWidget {
                 controller: titleController,
                 validator: (val) {
                   if (val == null || val.isEmpty) {
-                    return 'Fill field';
+                    return 'Заполните поле!';
                   }
                   return null;
                 },
                 maxLength: 50,
                 decoration: const InputDecoration(
-                  label: Text('Title'),
+                  label: Text('Заголовок'),
                 ),
               ),
               Expanded(
@@ -62,13 +62,13 @@ class DialogTask extends HookConsumerWidget {
                   maxLines: null,
                   validator: (val) {
                     if (val == null || val.isEmpty) {
-                      return 'Fill field';
+                      return 'Заполните поле!';
                     }
                     return null;
                   },
                   maxLength: 1000,
                   decoration: const InputDecoration(
-                    label: Text('Description'),
+                    label: Text('Описание'),
                   ),
                 ),
               ),
@@ -87,7 +87,7 @@ class DialogTask extends HookConsumerWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text('Close'),
+          child: const Text('Закрыть'),
         ),
         TextButton(
           onPressed: () {
@@ -104,7 +104,7 @@ class DialogTask extends HookConsumerWidget {
               Navigator.pop(context);
             }
           },
-          child: const Text('Save'),
+          child: const Text('Сохранить'),
         ),
       ],
     );
@@ -134,14 +134,14 @@ class SelectUserField extends ConsumerWidget {
       initialValue: performer,
       validator: (val) {
         if (val == null) {
-          return 'Fill field';
+          return 'Заполните поле!';
         }
         return null;
       },
       onSaved: onChange,
       builder: (state) => DropdownButton<ProjectUser>(
         isExpanded: true,
-        hint: const Text('Performer'),
+        hint: const Text('Исполнитель'),
         value: state.value,
         items: users
             .map(

@@ -35,7 +35,7 @@ class LoginPage extends HookConsumerWidget {
                 TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Fill field';
+                      return 'Заполните поле!';
                     }
                   },
                   controller: emailEditingController,
@@ -47,14 +47,14 @@ class LoginPage extends HookConsumerWidget {
                 TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Fill field';
+                      return 'Заполните поле!';
                     }
                   },
                   controller: passwordEditingController,
                   obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: const InputDecoration(
-                    labelText: 'Password',
+                    labelText: 'Пароль',
                   ),
                 ),
                 ElevatedButton(
@@ -79,13 +79,13 @@ class LoginPage extends HookConsumerWidget {
                       );
                     }
                   },
-                  child: const Text('Login'),
+                  child: const Text('Войти'),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, RegisterPage.route);
                   },
-                  child: const Text('Create profile'),
+                  child: const Text('Создать аккаунт'),
                 ),
               ],
             ),

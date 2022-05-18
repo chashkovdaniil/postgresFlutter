@@ -36,9 +36,9 @@ class TasksPageBody extends HookConsumerWidget {
                   ),
             ),
             subtitle: Text(
-              'Creator: ' +
+              'Создатель: ' +
                   task.creator.fullname +
-                  '\nPerformer: ' +
+                  '\nИсполнитель: ' +
                   task.performer.fullname,
             ),
             trailing: Row(

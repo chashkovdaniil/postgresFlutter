@@ -37,7 +37,7 @@ class ParticipantsPage extends HookConsumerWidget {
                 builder: (context) => const AddParticipantsDialog(),
               );
             },
-            child: const Text('Add participant'),
+            child: const Text('Добавить участника'),
           ),
         const Expanded(
           child: ParticipantsBodyPage(),

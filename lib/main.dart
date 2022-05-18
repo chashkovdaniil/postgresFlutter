@@ -45,6 +45,11 @@ class MyApp extends HookConsumerWidget {
             }),
           ),
         ),
+        dialogTheme: DialogTheme(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+        ),
         primarySwatch: Colors.red,
         tabBarTheme: const TabBarTheme(
           labelColor: Colors.black,

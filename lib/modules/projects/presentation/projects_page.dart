@@ -42,7 +42,7 @@ class ProjectsPage extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           NavBar(
-            title: ProjectsPage.route.toUpperCase(),
+            title: 'Проекты'.toUpperCase(),
             actions: [
               ElevatedButton.icon(
                 onPressed: () {
@@ -53,7 +53,7 @@ class ProjectsPage extends HookConsumerWidget {
                     },
                   );
                 },
-                label: const Text('New project'),
+                label: const Text('Новый проект'),
                 icon: const Icon(Icons.add),
               ),
             ],
@@ -103,7 +103,7 @@ class CreateProjectDialog extends HookConsumerWidget {
       key: formKey,
       child: AlertDialog(
         title: const Text(
-          'Create project',
+          'Создание проекта',
           // style: Theme.of(context).textTheme.headline6,
         ),
         content: Padding(
@@ -116,13 +116,13 @@ class CreateProjectDialog extends HookConsumerWidget {
                 controller: titleFieldController,
                 validator: (value) {
                   if (value != null && value.isEmpty) {
-                    return 'Fill field';
+                    return 'Заполните поле!';
                   }
                   return null;
                 },
                 maxLength: 50,
                 decoration: const InputDecoration(
-                  label: Text('Title'),
+                  label: Text('Название'),
                 ),
               ),
             ],
@@ -133,7 +133,7 @@ class CreateProjectDialog extends HookConsumerWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text('Close'),
+            child: const Text('Закрыть'),
           ),
           TextButton(
             onPressed: () {
@@ -150,7 +150,7 @@ class CreateProjectDialog extends HookConsumerWidget {
                 Navigator.pop(context);
               }
             },
-            child: const Text('Create'),
+            child: const Text('Создать'),
           ),
         ],
       ),

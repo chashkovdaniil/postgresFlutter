@@ -43,7 +43,7 @@ class TasksPage extends HookConsumerWidget {
                   },
                 );
               },
-              child: const Text('Add task'),
+              child: const Text('Добавить задание'),
             ),
             const SizedBox(width: 50),
             DropdownButton<String>(

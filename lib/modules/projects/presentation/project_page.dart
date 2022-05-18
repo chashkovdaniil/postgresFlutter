@@ -51,10 +51,10 @@ class ProjectPageState extends ConsumerState<ProjectPage> {
         ],
       ),
       const Tab(
-        child: Text('Chat'),
+        child: Text('Чат'),
       ),
       const Tab(
-        child: Text('Participants'),
+        child: Text('Участники'),
       ),
     ];
     final tabsController = useTabController(initialLength: tabs.length);
@@ -118,7 +118,7 @@ class ProjectPageActions extends HookConsumerWidget {
             projectsManager.delete(project);
             Navigator.pop(context);
           },
-          child: const Text('Delete project'),
+          child: const Text('Удалить проект'),
         )
     ];
     return items.isEmpty
@@ -162,6 +162,6 @@ class TasksTabButton extends HookConsumerWidget {
         ),
       );
     }
-    return Text('Tasks (${project.countDoneTasks}/${project.countTasks})');
+    return Text('Задачи (${project.countDoneTasks}/${project.countTasks})');
   }
 }

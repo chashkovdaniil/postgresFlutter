@@ -44,7 +44,7 @@ class NavBar extends HookConsumerWidget {
               onPressed: userManager.signOut,
               child: Row(
                 children: const [
-                  Text('Sign out'),
+                  Text('Выйти'),
                   SizedBox(width: 8),
                   Icon(Icons.exit_to_app),
                 ],

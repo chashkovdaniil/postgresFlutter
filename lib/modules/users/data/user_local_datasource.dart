@@ -10,10 +10,11 @@ class UserLocalDatasource implements UserDatasource {
   }) : _postgresService = postgresService;
   @override
   Future<User> create(RegisterUser registerUser) async {
-    await _postgresService.execute(
+    final responseCreation = await _postgresService.mappedResultsQuery(
       'INSERT INTO users '
       '(name, last_name, patronymic, birthdate, email, phone, permission, photo, password) '
-      'VALUES (@name, @last_name, @patronymic, @birthdate, @email, @phone, @permission, @photo, @password)',
+      'VALUES (@name, @last_name, @patronymic, @birthdate, @email, @phone, @permission, @photo, @password) '
+      'RETURNING *',
       values: {
         'name': registerUser.name,
         'last_name': registerUser.lastName,
@@ -26,6 +27,7 @@ class UserLocalDatasource implements UserDatasource {
         'photo': registerUser.photo.path,
       },
     );
+
     final response = await _postgresService.mappedResultsQuery(
       'SELECT * FROM users WHERE email = @email',
       values: {'email': registerUser.email},

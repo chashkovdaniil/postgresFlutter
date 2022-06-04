@@ -124,9 +124,14 @@ class SelectUserField extends ConsumerWidget {
   @override
   Widget build(context, ref) {
     final users = ref.watch(
-      ProjectsProvider.projectStateProvider
-          .select((s) => s.currentProject?.users),
+      ProjectsProvider.projectStateProvider.select(
+        (value) => value.participants,
+      ),
     );
+    // final users = ref.watch(
+    //   ProjectsProvider.projectStateProvider
+    //       .select((s) => s.currentProject?.users),
+    // );
     if (users == null) {
       return const CircularProgressIndicator();
     }

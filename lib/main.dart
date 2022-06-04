@@ -23,6 +23,7 @@ class MyApp extends HookConsumerWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        useMaterial3: true,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             padding: MaterialStateProperty.all(
@@ -43,6 +44,7 @@ class MyApp extends HookConsumerWidget {
 
               return Colors.red;
             }),
+            foregroundColor: MaterialStateProperty.all(Colors.white),
           ),
         ),
         dialogTheme: DialogTheme(

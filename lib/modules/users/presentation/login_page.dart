@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -72,9 +74,18 @@ class LoginPage extends HookConsumerWidget {
                         MainPage.route,
                       );
                     } catch (err) {
+                      print(err);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(err.toString()),
+                          content: Text(
+                            utf8
+                                .decode(
+                                  latin1.encode(
+                                    err.toString(),
+                                  ),
+                                )
+                                .toString(),
+                          ),
                         ),
                       );
                     }

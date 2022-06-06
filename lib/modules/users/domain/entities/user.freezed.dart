@@ -32,7 +32,8 @@ class _$UserTearOff {
       @FileConverter() required File photo,
       required String permission,
       required String password,
-      @JsonKey(fromJson: User.dateTimeFromJson) DateTime? birthdate}) {
+      @JsonKey(fromJson: User.dateTimeFromJson) DateTime? birthdate,
+      @JsonKey(name: 'post') String? post}) {
     return _User(
       id: id,
       name: name,
@@ -44,6 +45,7 @@ class _$UserTearOff {
       permission: permission,
       password: password,
       birthdate: birthdate,
+      post: post,
     );
   }
 
@@ -70,6 +72,8 @@ mixin _$User {
   String get password => throw _privateConstructorUsedError;
   @JsonKey(fromJson: User.dateTimeFromJson)
   DateTime? get birthdate => throw _privateConstructorUsedError;
+  @JsonKey(name: 'post')
+  String? get post => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -90,7 +94,8 @@ abstract class $UserCopyWith<$Res> {
       @FileConverter() File photo,
       String permission,
       String password,
-      @JsonKey(fromJson: User.dateTimeFromJson) DateTime? birthdate});
+      @JsonKey(fromJson: User.dateTimeFromJson) DateTime? birthdate,
+      @JsonKey(name: 'post') String? post});
 }
 
 /// @nodoc
@@ -113,6 +118,7 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
     Object? permission = freezed,
     Object? password = freezed,
     Object? birthdate = freezed,
+    Object? post = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -155,6 +161,10 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _value.birthdate
           : birthdate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      post: post == freezed
+          ? _value.post
+          : post // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -174,7 +184,8 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       @FileConverter() File photo,
       String permission,
       String password,
-      @JsonKey(fromJson: User.dateTimeFromJson) DateTime? birthdate});
+      @JsonKey(fromJson: User.dateTimeFromJson) DateTime? birthdate,
+      @JsonKey(name: 'post') String? post});
 }
 
 /// @nodoc
@@ -198,6 +209,7 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
     Object? permission = freezed,
     Object? password = freezed,
     Object? birthdate = freezed,
+    Object? post = freezed,
   }) {
     return _then(_User(
       id: id == freezed
@@ -240,6 +252,10 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
           ? _value.birthdate
           : birthdate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      post: post == freezed
+          ? _value.post
+          : post // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -257,7 +273,8 @@ class _$_User extends _User {
       @FileConverter() required this.photo,
       required this.permission,
       required this.password,
-      @JsonKey(fromJson: User.dateTimeFromJson) this.birthdate})
+      @JsonKey(fromJson: User.dateTimeFromJson) this.birthdate,
+      @JsonKey(name: 'post') this.post})
       : super._();
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
@@ -285,10 +302,13 @@ class _$_User extends _User {
   @override
   @JsonKey(fromJson: User.dateTimeFromJson)
   final DateTime? birthdate;
+  @override
+  @JsonKey(name: 'post')
+  final String? post;
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, lastName: $lastName, patronymic: $patronymic, email: $email, phone: $phone, photo: $photo, permission: $permission, password: $password, birthdate: $birthdate)';
+    return 'User(id: $id, name: $name, lastName: $lastName, patronymic: $patronymic, email: $email, phone: $phone, photo: $photo, permission: $permission, password: $password, birthdate: $birthdate, post: $post)';
   }
 
   @override
@@ -307,7 +327,8 @@ class _$_User extends _User {
             const DeepCollectionEquality()
                 .equals(other.permission, permission) &&
             const DeepCollectionEquality().equals(other.password, password) &&
-            const DeepCollectionEquality().equals(other.birthdate, birthdate));
+            const DeepCollectionEquality().equals(other.birthdate, birthdate) &&
+            const DeepCollectionEquality().equals(other.post, post));
   }
 
   @override
@@ -322,7 +343,8 @@ class _$_User extends _User {
       const DeepCollectionEquality().hash(photo),
       const DeepCollectionEquality().hash(permission),
       const DeepCollectionEquality().hash(password),
-      const DeepCollectionEquality().hash(birthdate));
+      const DeepCollectionEquality().hash(birthdate),
+      const DeepCollectionEquality().hash(post));
 
   @JsonKey(ignore: true)
   @override
@@ -346,7 +368,8 @@ abstract class _User extends User {
       @FileConverter() required File photo,
       required String permission,
       required String password,
-      @JsonKey(fromJson: User.dateTimeFromJson) DateTime? birthdate}) = _$_User;
+      @JsonKey(fromJson: User.dateTimeFromJson) DateTime? birthdate,
+      @JsonKey(name: 'post') String? post}) = _$_User;
   const _User._() : super._();
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
@@ -374,6 +397,9 @@ abstract class _User extends User {
   @override
   @JsonKey(fromJson: User.dateTimeFromJson)
   DateTime? get birthdate;
+  @override
+  @JsonKey(name: 'post')
+  String? get post;
   @override
   @JsonKey(ignore: true)
   _$UserCopyWith<_User> get copyWith => throw _privateConstructorUsedError;

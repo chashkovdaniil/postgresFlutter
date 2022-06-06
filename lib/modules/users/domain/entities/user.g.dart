@@ -17,6 +17,7 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       permission: json['permission'] as String,
       password: json['password'] as String,
       birthdate: User.dateTimeFromJson(json['birthdate']),
+      post: json['post'] as String?,
     );
 
 Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
@@ -30,4 +31,5 @@ Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
       'permission': instance.permission,
       'password': instance.password,
       'birthdate': instance.birthdate?.toIso8601String(),
+      'post': instance.post,
     };

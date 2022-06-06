@@ -27,7 +27,8 @@ class _$RegisterUserTearOff {
       @FileConverter() required File photo,
       required String password,
       String permission = 'user',
-      DateTime? birthdate}) {
+      DateTime? birthdate,
+      String? post}) {
     return _RegisterUser(
       name: name,
       lastName: lastName,
@@ -38,6 +39,7 @@ class _$RegisterUserTearOff {
       password: password,
       permission: permission,
       birthdate: birthdate,
+      post: post,
     );
   }
 }
@@ -57,6 +59,7 @@ mixin _$RegisterUser {
   String get password => throw _privateConstructorUsedError;
   String get permission => throw _privateConstructorUsedError;
   DateTime? get birthdate => throw _privateConstructorUsedError;
+  String? get post => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RegisterUserCopyWith<RegisterUser> get copyWith =>
@@ -77,7 +80,8 @@ abstract class $RegisterUserCopyWith<$Res> {
       @FileConverter() File photo,
       String password,
       String permission,
-      DateTime? birthdate});
+      DateTime? birthdate,
+      String? post});
 }
 
 /// @nodoc
@@ -99,6 +103,7 @@ class _$RegisterUserCopyWithImpl<$Res> implements $RegisterUserCopyWith<$Res> {
     Object? password = freezed,
     Object? permission = freezed,
     Object? birthdate = freezed,
+    Object? post = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -137,6 +142,10 @@ class _$RegisterUserCopyWithImpl<$Res> implements $RegisterUserCopyWith<$Res> {
           ? _value.birthdate
           : birthdate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      post: post == freezed
+          ? _value.post
+          : post // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -157,7 +166,8 @@ abstract class _$RegisterUserCopyWith<$Res>
       @FileConverter() File photo,
       String password,
       String permission,
-      DateTime? birthdate});
+      DateTime? birthdate,
+      String? post});
 }
 
 /// @nodoc
@@ -181,6 +191,7 @@ class __$RegisterUserCopyWithImpl<$Res> extends _$RegisterUserCopyWithImpl<$Res>
     Object? password = freezed,
     Object? permission = freezed,
     Object? birthdate = freezed,
+    Object? post = freezed,
   }) {
     return _then(_RegisterUser(
       name: name == freezed
@@ -219,6 +230,10 @@ class __$RegisterUserCopyWithImpl<$Res> extends _$RegisterUserCopyWithImpl<$Res>
           ? _value.birthdate
           : birthdate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      post: post == freezed
+          ? _value.post
+          : post // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -235,7 +250,8 @@ class _$_RegisterUser implements _RegisterUser {
       @FileConverter() required this.photo,
       required this.password,
       this.permission = 'user',
-      this.birthdate});
+      this.birthdate,
+      this.post});
 
   @override
   final String name;
@@ -257,10 +273,12 @@ class _$_RegisterUser implements _RegisterUser {
   final String permission;
   @override
   final DateTime? birthdate;
+  @override
+  final String? post;
 
   @override
   String toString() {
-    return 'RegisterUser(name: $name, lastName: $lastName, patronymic: $patronymic, email: $email, phone: $phone, photo: $photo, password: $password, permission: $permission, birthdate: $birthdate)';
+    return 'RegisterUser(name: $name, lastName: $lastName, patronymic: $patronymic, email: $email, phone: $phone, photo: $photo, password: $password, permission: $permission, birthdate: $birthdate, post: $post)';
   }
 
   @override
@@ -278,7 +296,8 @@ class _$_RegisterUser implements _RegisterUser {
             const DeepCollectionEquality().equals(other.password, password) &&
             const DeepCollectionEquality()
                 .equals(other.permission, permission) &&
-            const DeepCollectionEquality().equals(other.birthdate, birthdate));
+            const DeepCollectionEquality().equals(other.birthdate, birthdate) &&
+            const DeepCollectionEquality().equals(other.post, post));
   }
 
   @override
@@ -292,7 +311,8 @@ class _$_RegisterUser implements _RegisterUser {
       const DeepCollectionEquality().hash(photo),
       const DeepCollectionEquality().hash(password),
       const DeepCollectionEquality().hash(permission),
-      const DeepCollectionEquality().hash(birthdate));
+      const DeepCollectionEquality().hash(birthdate),
+      const DeepCollectionEquality().hash(post));
 
   @JsonKey(ignore: true)
   @override
@@ -310,7 +330,8 @@ abstract class _RegisterUser implements RegisterUser {
       @FileConverter() required File photo,
       required String password,
       String permission,
-      DateTime? birthdate}) = _$_RegisterUser;
+      DateTime? birthdate,
+      String? post}) = _$_RegisterUser;
 
   @override
   String get name;
@@ -331,6 +352,8 @@ abstract class _RegisterUser implements RegisterUser {
   String get permission;
   @override
   DateTime? get birthdate;
+  @override
+  String? get post;
   @override
   @JsonKey(ignore: true)
   _$RegisterUserCopyWith<_RegisterUser> get copyWith =>

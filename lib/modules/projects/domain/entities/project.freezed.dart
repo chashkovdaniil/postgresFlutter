@@ -28,6 +28,8 @@ class _$ProjectTearOff {
       @JsonKey(name: 'count_tasks') required int countTasks,
       @JsonKey(name: 'count_done_tasks') required int countDoneTasks,
       @JsonKey(name: 'tasks') List<Task>? tasks,
+      @JsonKey(name: 'description', defaultValue: '') String description = '',
+      @JsonKey(name: 'budget', defaultValue: 0.0) double budget = 0.0,
       @JsonKey(name: 'users') List<ProjectUser>? users,
       @JsonKey(name: 'admins') List<ProjectUser>? admins}) {
     return _Project(
@@ -36,6 +38,8 @@ class _$ProjectTearOff {
       countTasks: countTasks,
       countDoneTasks: countDoneTasks,
       tasks: tasks,
+      description: description,
+      budget: budget,
       users: users,
       admins: admins,
     );
@@ -61,6 +65,10 @@ mixin _$Project {
   int get countDoneTasks => throw _privateConstructorUsedError;
   @JsonKey(name: 'tasks')
   List<Task>? get tasks => throw _privateConstructorUsedError;
+  @JsonKey(name: 'description', defaultValue: '')
+  String get description => throw _privateConstructorUsedError;
+  @JsonKey(name: 'budget', defaultValue: 0.0)
+  double get budget => throw _privateConstructorUsedError;
   @JsonKey(name: 'users')
   List<ProjectUser>? get users => throw _privateConstructorUsedError;
   @JsonKey(name: 'admins')
@@ -81,6 +89,8 @@ abstract class $ProjectCopyWith<$Res> {
       @JsonKey(name: 'count_tasks') int countTasks,
       @JsonKey(name: 'count_done_tasks') int countDoneTasks,
       @JsonKey(name: 'tasks') List<Task>? tasks,
+      @JsonKey(name: 'description', defaultValue: '') String description,
+      @JsonKey(name: 'budget', defaultValue: 0.0) double budget,
       @JsonKey(name: 'users') List<ProjectUser>? users,
       @JsonKey(name: 'admins') List<ProjectUser>? admins});
 }
@@ -100,6 +110,8 @@ class _$ProjectCopyWithImpl<$Res> implements $ProjectCopyWith<$Res> {
     Object? countTasks = freezed,
     Object? countDoneTasks = freezed,
     Object? tasks = freezed,
+    Object? description = freezed,
+    Object? budget = freezed,
     Object? users = freezed,
     Object? admins = freezed,
   }) {
@@ -124,6 +136,14 @@ class _$ProjectCopyWithImpl<$Res> implements $ProjectCopyWith<$Res> {
           ? _value.tasks
           : tasks // ignore: cast_nullable_to_non_nullable
               as List<Task>?,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      budget: budget == freezed
+          ? _value.budget
+          : budget // ignore: cast_nullable_to_non_nullable
+              as double,
       users: users == freezed
           ? _value.users
           : users // ignore: cast_nullable_to_non_nullable
@@ -147,6 +167,8 @@ abstract class _$ProjectCopyWith<$Res> implements $ProjectCopyWith<$Res> {
       @JsonKey(name: 'count_tasks') int countTasks,
       @JsonKey(name: 'count_done_tasks') int countDoneTasks,
       @JsonKey(name: 'tasks') List<Task>? tasks,
+      @JsonKey(name: 'description', defaultValue: '') String description,
+      @JsonKey(name: 'budget', defaultValue: 0.0) double budget,
       @JsonKey(name: 'users') List<ProjectUser>? users,
       @JsonKey(name: 'admins') List<ProjectUser>? admins});
 }
@@ -167,6 +189,8 @@ class __$ProjectCopyWithImpl<$Res> extends _$ProjectCopyWithImpl<$Res>
     Object? countTasks = freezed,
     Object? countDoneTasks = freezed,
     Object? tasks = freezed,
+    Object? description = freezed,
+    Object? budget = freezed,
     Object? users = freezed,
     Object? admins = freezed,
   }) {
@@ -191,6 +215,14 @@ class __$ProjectCopyWithImpl<$Res> extends _$ProjectCopyWithImpl<$Res>
           ? _value.tasks
           : tasks // ignore: cast_nullable_to_non_nullable
               as List<Task>?,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      budget: budget == freezed
+          ? _value.budget
+          : budget // ignore: cast_nullable_to_non_nullable
+              as double,
       users: users == freezed
           ? _value.users
           : users // ignore: cast_nullable_to_non_nullable
@@ -212,6 +244,8 @@ class _$_Project implements _Project {
       @JsonKey(name: 'count_tasks') required this.countTasks,
       @JsonKey(name: 'count_done_tasks') required this.countDoneTasks,
       @JsonKey(name: 'tasks') this.tasks,
+      @JsonKey(name: 'description', defaultValue: '') this.description = '',
+      @JsonKey(name: 'budget', defaultValue: 0.0) this.budget = 0.0,
       @JsonKey(name: 'users') this.users,
       @JsonKey(name: 'admins') this.admins});
 
@@ -234,6 +268,12 @@ class _$_Project implements _Project {
   @JsonKey(name: 'tasks')
   final List<Task>? tasks;
   @override
+  @JsonKey(name: 'description', defaultValue: '')
+  final String description;
+  @override
+  @JsonKey(name: 'budget', defaultValue: 0.0)
+  final double budget;
+  @override
   @JsonKey(name: 'users')
   final List<ProjectUser>? users;
   @override
@@ -242,7 +282,7 @@ class _$_Project implements _Project {
 
   @override
   String toString() {
-    return 'Project(id: $id, title: $title, countTasks: $countTasks, countDoneTasks: $countDoneTasks, tasks: $tasks, users: $users, admins: $admins)';
+    return 'Project(id: $id, title: $title, countTasks: $countTasks, countDoneTasks: $countDoneTasks, tasks: $tasks, description: $description, budget: $budget, users: $users, admins: $admins)';
   }
 
   @override
@@ -257,6 +297,9 @@ class _$_Project implements _Project {
             const DeepCollectionEquality()
                 .equals(other.countDoneTasks, countDoneTasks) &&
             const DeepCollectionEquality().equals(other.tasks, tasks) &&
+            const DeepCollectionEquality()
+                .equals(other.description, description) &&
+            const DeepCollectionEquality().equals(other.budget, budget) &&
             const DeepCollectionEquality().equals(other.users, users) &&
             const DeepCollectionEquality().equals(other.admins, admins));
   }
@@ -269,6 +312,8 @@ class _$_Project implements _Project {
       const DeepCollectionEquality().hash(countTasks),
       const DeepCollectionEquality().hash(countDoneTasks),
       const DeepCollectionEquality().hash(tasks),
+      const DeepCollectionEquality().hash(description),
+      const DeepCollectionEquality().hash(budget),
       const DeepCollectionEquality().hash(users),
       const DeepCollectionEquality().hash(admins));
 
@@ -290,6 +335,8 @@ abstract class _Project implements Project {
       @JsonKey(name: 'count_tasks') required int countTasks,
       @JsonKey(name: 'count_done_tasks') required int countDoneTasks,
       @JsonKey(name: 'tasks') List<Task>? tasks,
+      @JsonKey(name: 'description', defaultValue: '') String description,
+      @JsonKey(name: 'budget', defaultValue: 0.0) double budget,
       @JsonKey(name: 'users') List<ProjectUser>? users,
       @JsonKey(name: 'admins') List<ProjectUser>? admins}) = _$_Project;
 
@@ -310,6 +357,12 @@ abstract class _Project implements Project {
   @override
   @JsonKey(name: 'tasks')
   List<Task>? get tasks;
+  @override
+  @JsonKey(name: 'description', defaultValue: '')
+  String get description;
+  @override
+  @JsonKey(name: 'budget', defaultValue: 0.0)
+  double get budget;
   @override
   @JsonKey(name: 'users')
   List<ProjectUser>? get users;
@@ -332,12 +385,16 @@ class _$StartProjectTearOff {
 
   _StartProject call(
       {required String title,
+      required String description,
+      required double budget,
       int? countTasks,
       int? countDoneTasks,
       required List<ProjectUser> users,
       required List<ProjectUser> admins}) {
     return _StartProject(
       title: title,
+      description: description,
+      budget: budget,
       countTasks: countTasks,
       countDoneTasks: countDoneTasks,
       users: users,
@@ -356,6 +413,8 @@ const $StartProject = _$StartProjectTearOff();
 /// @nodoc
 mixin _$StartProject {
   String get title => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
+  double get budget => throw _privateConstructorUsedError;
   int? get countTasks => throw _privateConstructorUsedError;
   int? get countDoneTasks => throw _privateConstructorUsedError;
   List<ProjectUser> get users => throw _privateConstructorUsedError;
@@ -374,6 +433,8 @@ abstract class $StartProjectCopyWith<$Res> {
       _$StartProjectCopyWithImpl<$Res>;
   $Res call(
       {String title,
+      String description,
+      double budget,
       int? countTasks,
       int? countDoneTasks,
       List<ProjectUser> users,
@@ -391,6 +452,8 @@ class _$StartProjectCopyWithImpl<$Res> implements $StartProjectCopyWith<$Res> {
   @override
   $Res call({
     Object? title = freezed,
+    Object? description = freezed,
+    Object? budget = freezed,
     Object? countTasks = freezed,
     Object? countDoneTasks = freezed,
     Object? users = freezed,
@@ -401,6 +464,14 @@ class _$StartProjectCopyWithImpl<$Res> implements $StartProjectCopyWith<$Res> {
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      budget: budget == freezed
+          ? _value.budget
+          : budget // ignore: cast_nullable_to_non_nullable
+              as double,
       countTasks: countTasks == freezed
           ? _value.countTasks
           : countTasks // ignore: cast_nullable_to_non_nullable
@@ -430,6 +501,8 @@ abstract class _$StartProjectCopyWith<$Res>
   @override
   $Res call(
       {String title,
+      String description,
+      double budget,
       int? countTasks,
       int? countDoneTasks,
       List<ProjectUser> users,
@@ -449,6 +522,8 @@ class __$StartProjectCopyWithImpl<$Res> extends _$StartProjectCopyWithImpl<$Res>
   @override
   $Res call({
     Object? title = freezed,
+    Object? description = freezed,
+    Object? budget = freezed,
     Object? countTasks = freezed,
     Object? countDoneTasks = freezed,
     Object? users = freezed,
@@ -459,6 +534,14 @@ class __$StartProjectCopyWithImpl<$Res> extends _$StartProjectCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      budget: budget == freezed
+          ? _value.budget
+          : budget // ignore: cast_nullable_to_non_nullable
+              as double,
       countTasks: countTasks == freezed
           ? _value.countTasks
           : countTasks // ignore: cast_nullable_to_non_nullable
@@ -484,6 +567,8 @@ class __$StartProjectCopyWithImpl<$Res> extends _$StartProjectCopyWithImpl<$Res>
 class _$_StartProject implements _StartProject {
   const _$_StartProject(
       {required this.title,
+      required this.description,
+      required this.budget,
       this.countTasks,
       this.countDoneTasks,
       required this.users,
@@ -495,6 +580,10 @@ class _$_StartProject implements _StartProject {
   @override
   final String title;
   @override
+  final String description;
+  @override
+  final double budget;
+  @override
   final int? countTasks;
   @override
   final int? countDoneTasks;
@@ -505,7 +594,7 @@ class _$_StartProject implements _StartProject {
 
   @override
   String toString() {
-    return 'StartProject(title: $title, countTasks: $countTasks, countDoneTasks: $countDoneTasks, users: $users, admins: $admins)';
+    return 'StartProject(title: $title, description: $description, budget: $budget, countTasks: $countTasks, countDoneTasks: $countDoneTasks, users: $users, admins: $admins)';
   }
 
   @override
@@ -514,6 +603,9 @@ class _$_StartProject implements _StartProject {
         (other.runtimeType == runtimeType &&
             other is _StartProject &&
             const DeepCollectionEquality().equals(other.title, title) &&
+            const DeepCollectionEquality()
+                .equals(other.description, description) &&
+            const DeepCollectionEquality().equals(other.budget, budget) &&
             const DeepCollectionEquality()
                 .equals(other.countTasks, countTasks) &&
             const DeepCollectionEquality()
@@ -526,6 +618,8 @@ class _$_StartProject implements _StartProject {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(title),
+      const DeepCollectionEquality().hash(description),
+      const DeepCollectionEquality().hash(budget),
       const DeepCollectionEquality().hash(countTasks),
       const DeepCollectionEquality().hash(countDoneTasks),
       const DeepCollectionEquality().hash(users),
@@ -545,6 +639,8 @@ class _$_StartProject implements _StartProject {
 abstract class _StartProject implements StartProject {
   const factory _StartProject(
       {required String title,
+      required String description,
+      required double budget,
       int? countTasks,
       int? countDoneTasks,
       required List<ProjectUser> users,
@@ -555,6 +651,10 @@ abstract class _StartProject implements StartProject {
 
   @override
   String get title;
+  @override
+  String get description;
+  @override
+  double get budget;
   @override
   int? get countTasks;
   @override

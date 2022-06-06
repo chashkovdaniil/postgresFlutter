@@ -16,8 +16,17 @@ class TasksPageBody extends HookConsumerWidget {
     );
 
     if (tasks == null) {
-      return const Center(
-        child: CircularProgressIndicator(),
+      return const Expanded(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    if (tasks.isEmpty) {
+      return const Expanded(
+        child: Center(
+          child: Text('Список пуст'),
+        ),
       );
     }
 
@@ -39,7 +48,10 @@ class TasksPageBody extends HookConsumerWidget {
               'Создатель: ' +
                   task.creator.fullname +
                   '\nИсполнитель: ' +
-                  task.performer.fullname,
+                  task.performer.fullname +
+                  '\nСтоимость: ' +
+                  task.cost.toString() +
+                  '₽',
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,

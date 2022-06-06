@@ -35,9 +35,7 @@ class ParticipantsBodyPage extends ConsumerWidget {
       itemBuilder: (context, index) {
         final participant = participants.elementAt(index);
         final participantFullnameAndEmail = Text(
-          '${participant.lastName} '
-          '${participant.name} '
-          '${participant.patronymic} '
+          '${participant.fullname} '
           '(${participant.email})',
         );
 
@@ -56,7 +54,12 @@ class ParticipantsBodyPage extends ConsumerWidget {
             children: [
               participantFullnameAndEmail,
               if (participant.role == ProjectUserRoles.admin)
-                const Icon(Icons.star),
+                Text(
+                  ' [РУКОВОДИТЕЛЬ]',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Colors.green,
+                      ),
+                ),
             ],
           ),
           trailing: isAllowedAdmin && participant.id != user.id

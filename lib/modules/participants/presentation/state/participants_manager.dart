@@ -40,6 +40,7 @@ class ParticipantsManager {
 
     if (project != null) {
       final participants = await projectsRepository.participants(project);
+      participants.removeWhere((element) => element.id == 0);
       setParticipants(participants);
     }
   }

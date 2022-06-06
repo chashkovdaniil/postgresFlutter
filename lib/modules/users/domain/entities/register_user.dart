@@ -17,5 +17,6 @@ class RegisterUser with _$RegisterUser {
     required String password,
     @Default('user') String permission,
     DateTime? birthdate,
+    String? post,
   }) = _RegisterUser;
 }

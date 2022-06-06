@@ -31,7 +31,8 @@ class _$TaskTearOff {
       @JsonKey(name: 'is_done')
           bool isDone = false,
       @JsonKey(fromJson: Task.priorityFromJson)
-          TaskPriority priority = TaskPriority.nonUrgent}) {
+          TaskPriority priority = TaskPriority.nonUrgent,
+      required double cost}) {
     return _Task(
       id: id,
       title: title,
@@ -40,6 +41,7 @@ class _$TaskTearOff {
       performer: performer,
       isDone: isDone,
       priority: priority,
+      cost: cost,
     );
   }
 
@@ -62,6 +64,7 @@ mixin _$Task {
   bool get isDone => throw _privateConstructorUsedError;
   @JsonKey(fromJson: Task.priorityFromJson)
   TaskPriority get priority => throw _privateConstructorUsedError;
+  double get cost => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -79,7 +82,8 @@ abstract class $TaskCopyWith<$Res> {
       ProjectUser creator,
       ProjectUser performer,
       @JsonKey(name: 'is_done') bool isDone,
-      @JsonKey(fromJson: Task.priorityFromJson) TaskPriority priority});
+      @JsonKey(fromJson: Task.priorityFromJson) TaskPriority priority,
+      double cost});
 
   $ProjectUserCopyWith<$Res> get creator;
   $ProjectUserCopyWith<$Res> get performer;
@@ -102,6 +106,7 @@ class _$TaskCopyWithImpl<$Res> implements $TaskCopyWith<$Res> {
     Object? performer = freezed,
     Object? isDone = freezed,
     Object? priority = freezed,
+    Object? cost = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -132,6 +137,10 @@ class _$TaskCopyWithImpl<$Res> implements $TaskCopyWith<$Res> {
           ? _value.priority
           : priority // ignore: cast_nullable_to_non_nullable
               as TaskPriority,
+      cost: cost == freezed
+          ? _value.cost
+          : cost // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 
@@ -162,7 +171,8 @@ abstract class _$TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
       ProjectUser creator,
       ProjectUser performer,
       @JsonKey(name: 'is_done') bool isDone,
-      @JsonKey(fromJson: Task.priorityFromJson) TaskPriority priority});
+      @JsonKey(fromJson: Task.priorityFromJson) TaskPriority priority,
+      double cost});
 
   @override
   $ProjectUserCopyWith<$Res> get creator;
@@ -188,6 +198,7 @@ class __$TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res>
     Object? performer = freezed,
     Object? isDone = freezed,
     Object? priority = freezed,
+    Object? cost = freezed,
   }) {
     return _then(_Task(
       id: id == freezed
@@ -218,6 +229,10 @@ class __$TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res>
           ? _value.priority
           : priority // ignore: cast_nullable_to_non_nullable
               as TaskPriority,
+      cost: cost == freezed
+          ? _value.cost
+          : cost // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -234,7 +249,8 @@ class _$_Task implements _Task {
       @JsonKey(name: 'is_done')
           this.isDone = false,
       @JsonKey(fromJson: Task.priorityFromJson)
-          this.priority = TaskPriority.nonUrgent});
+          this.priority = TaskPriority.nonUrgent,
+      required this.cost});
 
   factory _$_Task.fromJson(Map<String, dynamic> json) => _$$_TaskFromJson(json);
 
@@ -254,10 +270,12 @@ class _$_Task implements _Task {
   @override
   @JsonKey(fromJson: Task.priorityFromJson)
   final TaskPriority priority;
+  @override
+  final double cost;
 
   @override
   String toString() {
-    return 'Task(id: $id, title: $title, description: $description, creator: $creator, performer: $performer, isDone: $isDone, priority: $priority)';
+    return 'Task(id: $id, title: $title, description: $description, creator: $creator, performer: $performer, isDone: $isDone, priority: $priority, cost: $cost)';
   }
 
   @override
@@ -272,7 +290,8 @@ class _$_Task implements _Task {
             const DeepCollectionEquality().equals(other.creator, creator) &&
             const DeepCollectionEquality().equals(other.performer, performer) &&
             const DeepCollectionEquality().equals(other.isDone, isDone) &&
-            const DeepCollectionEquality().equals(other.priority, priority));
+            const DeepCollectionEquality().equals(other.priority, priority) &&
+            const DeepCollectionEquality().equals(other.cost, cost));
   }
 
   @override
@@ -284,7 +303,8 @@ class _$_Task implements _Task {
       const DeepCollectionEquality().hash(creator),
       const DeepCollectionEquality().hash(performer),
       const DeepCollectionEquality().hash(isDone),
-      const DeepCollectionEquality().hash(priority));
+      const DeepCollectionEquality().hash(priority),
+      const DeepCollectionEquality().hash(cost));
 
   @JsonKey(ignore: true)
   @override
@@ -299,14 +319,14 @@ class _$_Task implements _Task {
 
 abstract class _Task implements Task {
   const factory _Task(
-          {int? id,
-          required String title,
-          required String description,
-          required ProjectUser creator,
-          required ProjectUser performer,
-          @JsonKey(name: 'is_done') bool isDone,
-          @JsonKey(fromJson: Task.priorityFromJson) TaskPriority priority}) =
-      _$_Task;
+      {int? id,
+      required String title,
+      required String description,
+      required ProjectUser creator,
+      required ProjectUser performer,
+      @JsonKey(name: 'is_done') bool isDone,
+      @JsonKey(fromJson: Task.priorityFromJson) TaskPriority priority,
+      required double cost}) = _$_Task;
 
   factory _Task.fromJson(Map<String, dynamic> json) = _$_Task.fromJson;
 
@@ -326,6 +346,8 @@ abstract class _Task implements Task {
   @override
   @JsonKey(fromJson: Task.priorityFromJson)
   TaskPriority get priority;
+  @override
+  double get cost;
   @override
   @JsonKey(ignore: true)
   _$TaskCopyWith<_Task> get copyWith => throw _privateConstructorUsedError;

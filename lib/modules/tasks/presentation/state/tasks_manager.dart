@@ -10,6 +10,7 @@ import 'package:postgresUn/modules/users/presentation/state/user_state.dart';
 import '../../domain/task.dart';
 
 enum TasksSort { date, title, isDone }
+
 enum TasksSortByAplha { asc, desc }
 
 extension TasksSortX on TasksSort {
@@ -80,6 +81,7 @@ class TasksManager {
     required String title,
     required String description,
     bool isDone = false,
+    double cost = 0.0,
   }) async {
     final user = userState.user;
     final project = projectStateHolder.currentProject;
@@ -98,6 +100,7 @@ class TasksManager {
       creator: creator ?? projectUser,
       performer: performer,
       isDone: isDone,
+      cost: cost,
     );
     if (task.id == null) {
       await addTask(task);

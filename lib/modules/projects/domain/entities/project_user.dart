@@ -22,8 +22,11 @@ class ProjectUser with _$ProjectUser {
     @FileConverter() required File photo,
     @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
         required ProjectUserRoles role,
+    @JsonKey(name: 'post') String? post,
   }) = _ProjectUser;
-  String get fullname => '$lastName $name $patronymic';
+  String get fullname {
+    return '${post == null ? '' : '[$post] - '} $lastName $name $patronymic';
+  }
 
   factory ProjectUser.fromUser(User user, ProjectUserRoles role) {
     return ProjectUser(
@@ -35,6 +38,7 @@ class ProjectUser with _$ProjectUser {
       phone: user.phone,
       photo: user.photo,
       role: role,
+      post: user.post,
     );
   }
   factory ProjectUser.fromJson(Map<String, dynamic> json) =>

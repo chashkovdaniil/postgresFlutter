@@ -20,10 +20,11 @@ class User with _$User {
     required String permission,
     required String password,
     @JsonKey(fromJson: User.dateTimeFromJson) DateTime? birthdate,
+    @JsonKey(name: 'post') String? post,
   }) = _User;
 
   String get fullname {
-    return '$lastName $name $patronymic';
+    return '${post ?? ''} $lastName $name $patronymic';
   }
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

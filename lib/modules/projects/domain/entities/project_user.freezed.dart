@@ -38,7 +38,9 @@ class _$ProjectUserTearOff {
       @FileConverter()
           required File photo,
       @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
-          required ProjectUserRoles role}) {
+          required ProjectUserRoles role,
+      @JsonKey(name: 'post')
+          String? post}) {
     return _ProjectUser(
       id: id,
       name: name,
@@ -48,6 +50,7 @@ class _$ProjectUserTearOff {
       phone: phone,
       photo: photo,
       role: role,
+      post: post,
     );
   }
 
@@ -77,6 +80,8 @@ mixin _$ProjectUser {
   File get photo => throw _privateConstructorUsedError;
   @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
   ProjectUserRoles get role => throw _privateConstructorUsedError;
+  @JsonKey(name: 'post')
+  String? get post => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -105,7 +110,9 @@ abstract class $ProjectUserCopyWith<$Res> {
       @FileConverter()
           File photo,
       @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
-          ProjectUserRoles role});
+          ProjectUserRoles role,
+      @JsonKey(name: 'post')
+          String? post});
 }
 
 /// @nodoc
@@ -126,6 +133,7 @@ class _$ProjectUserCopyWithImpl<$Res> implements $ProjectUserCopyWith<$Res> {
     Object? phone = freezed,
     Object? photo = freezed,
     Object? role = freezed,
+    Object? post = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -160,6 +168,10 @@ class _$ProjectUserCopyWithImpl<$Res> implements $ProjectUserCopyWith<$Res> {
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as ProjectUserRoles,
+      post: post == freezed
+          ? _value.post
+          : post // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -187,7 +199,9 @@ abstract class _$ProjectUserCopyWith<$Res>
       @FileConverter()
           File photo,
       @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
-          ProjectUserRoles role});
+          ProjectUserRoles role,
+      @JsonKey(name: 'post')
+          String? post});
 }
 
 /// @nodoc
@@ -210,6 +224,7 @@ class __$ProjectUserCopyWithImpl<$Res> extends _$ProjectUserCopyWithImpl<$Res>
     Object? phone = freezed,
     Object? photo = freezed,
     Object? role = freezed,
+    Object? post = freezed,
   }) {
     return _then(_ProjectUser(
       id: id == freezed
@@ -244,6 +259,10 @@ class __$ProjectUserCopyWithImpl<$Res> extends _$ProjectUserCopyWithImpl<$Res>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as ProjectUserRoles,
+      post: post == freezed
+          ? _value.post
+          : post // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -267,7 +286,9 @@ class _$_ProjectUser extends _ProjectUser {
       @FileConverter()
           required this.photo,
       @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
-          required this.role})
+          required this.role,
+      @JsonKey(name: 'post')
+          this.post})
       : super._();
 
   factory _$_ProjectUser.fromJson(Map<String, dynamic> json) =>
@@ -297,10 +318,13 @@ class _$_ProjectUser extends _ProjectUser {
   @override
   @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
   final ProjectUserRoles role;
+  @override
+  @JsonKey(name: 'post')
+  final String? post;
 
   @override
   String toString() {
-    return 'ProjectUser(id: $id, name: $name, lastName: $lastName, patronymic: $patronymic, email: $email, phone: $phone, photo: $photo, role: $role)';
+    return 'ProjectUser(id: $id, name: $name, lastName: $lastName, patronymic: $patronymic, email: $email, phone: $phone, photo: $photo, role: $role, post: $post)';
   }
 
   @JsonKey(ignore: true)
@@ -331,7 +355,9 @@ abstract class _ProjectUser extends ProjectUser {
       @FileConverter()
           required File photo,
       @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
-          required ProjectUserRoles role}) = _$_ProjectUser;
+          required ProjectUserRoles role,
+      @JsonKey(name: 'post')
+          String? post}) = _$_ProjectUser;
   const _ProjectUser._() : super._();
 
   factory _ProjectUser.fromJson(Map<String, dynamic> json) =
@@ -361,6 +387,9 @@ abstract class _ProjectUser extends ProjectUser {
   @override
   @JsonKey(name: 'role', fromJson: ProjectUser.roleFromJson)
   ProjectUserRoles get role;
+  @override
+  @JsonKey(name: 'post')
+  String? get post;
   @override
   @JsonKey(ignore: true)
   _$ProjectUserCopyWith<_ProjectUser> get copyWith =>

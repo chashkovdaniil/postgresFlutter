@@ -30,6 +30,8 @@ class ProjectsLocalDatasource extends ProjectsDatasource {
       admins: project.admins,
       users: project.users,
       title: project.title,
+      budget: project.budget,
+      description: project.description,
     );
   }
 
@@ -168,8 +170,8 @@ class ProjectsLocalDatasource extends ProjectsDatasource {
   @override
   Future<List<ProjectUser>> participants(Project project) async {
     const query = '''
-      SELECT users.*, roles.name AS  role_name
-      FROM project_user INNER JOIN users ON project_user.user_id = users.id 
+      SELECT users.*, roles.name AS  role_name, positions.name AS post
+      FROM project_user INNER JOIN users ON project_user.user_id = users.id LEFT JOIN positions ON users.post_id = positions.id
       INNER JOIN roles ON project_user.role_id = roles.id WHERE project_id = @project_id
     ''';
     final response = await _postgresService.mappedResultsQuery(
@@ -177,15 +179,20 @@ class ProjectsLocalDatasource extends ProjectsDatasource {
       values: {'project_id': project.id},
     );
 
-    return [
+    final result = [
       for (var tables in response)
         ProjectUser.fromJson(
           tables['users']!
             ..putIfAbsent(
               'role',
               () => tables['roles']!['role_name'],
+            )
+            ..putIfAbsent(
+              'post',
+              () => tables['positions']!['post'],
             ),
         ),
     ];
+    return result;
   }
 }

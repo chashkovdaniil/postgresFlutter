@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:postgresUn/core/constants.dart';
@@ -99,6 +100,8 @@ class CreateProjectDialog extends HookConsumerWidget {
     final manager = ref.watch(ProjectsProvider.projectsManager);
     final formKey = GlobalKey<FormState>(debugLabel: 'createProjectForm');
     final titleFieldController = useTextEditingController();
+    final descriptionFieldController = useTextEditingController();
+    final budgetFieldController = useTextEditingController();
     return Form(
       key: formKey,
       child: AlertDialog(
@@ -125,6 +128,36 @@ class CreateProjectDialog extends HookConsumerWidget {
                   label: Text('Название'),
                 ),
               ),
+              TextFormField(
+                controller: descriptionFieldController,
+                validator: (value) {
+                  if (value != null && value.isEmpty) {
+                    return 'Заполните поле!';
+                  }
+                  return null;
+                },
+                minLines: 1,
+                maxLines: null,
+                decoration: const InputDecoration(
+                  label: Text('Описание'),
+                ),
+              ),
+              TextFormField(
+                controller: budgetFieldController,
+                validator: (value) {
+                  if (value != null && value.isEmpty) {
+                    return 'Заполните поле!';
+                  }
+                  return null;
+                },
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]*'))
+                ],
+                decoration: const InputDecoration(
+                  label: Text('Стоимость'),
+                  hintText: '0',
+                ),
+              ),
             ],
           ),
         ),
@@ -145,6 +178,8 @@ class CreateProjectDialog extends HookConsumerWidget {
                   title: titleFieldController.text,
                   users: users,
                   admins: users,
+                  description: descriptionFieldController.text,
+                  budget: double.parse(budgetFieldController.text),
                 );
                 manager.create(startProject);
                 Navigator.pop(context);

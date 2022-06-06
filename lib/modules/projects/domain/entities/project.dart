@@ -14,6 +14,10 @@ class Project with _$Project {
     @JsonKey(name: 'count_tasks') required int countTasks,
     @JsonKey(name: 'count_done_tasks') required int countDoneTasks,
     @JsonKey(name: 'tasks') List<Task>? tasks,
+    @JsonKey(name: 'description', defaultValue: '')
+    @Default('')
+        String description,
+    @JsonKey(name: 'budget', defaultValue: 0.0) @Default(0.0) double budget,
     @JsonKey(name: 'users') List<ProjectUser>? users,
     @JsonKey(name: 'admins') List<ProjectUser>? admins,
   }) = _Project;
@@ -26,6 +30,8 @@ class Project with _$Project {
 class StartProject with _$StartProject {
   const factory StartProject({
     required String title,
+    required String description,
+    required double budget,
     int? countTasks,
     int? countDoneTasks,
     required List<ProjectUser> users,

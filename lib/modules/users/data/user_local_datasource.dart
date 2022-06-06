@@ -25,11 +25,12 @@ class UserLocalDatasource implements UserDatasource {
         'permission': registerUser.permission,
         'password': registerUser.password,
         'photo': registerUser.photo.path,
+        'post': registerUser.post,
       },
     );
 
     final response = await _postgresService.mappedResultsQuery(
-      'SELECT * FROM users WHERE email = @email',
+      'SELECT users.*, positions.name as post FROM  users LEFT JOIN positions ON users.post_id = positions.id  WHERE email = @email',
       values: {'email': registerUser.email},
     );
     final user = response[0]['users'];
@@ -66,6 +67,7 @@ class UserLocalDatasource implements UserDatasource {
         'permission': user.permission,
         'password': user.password,
         'photo': user.photo,
+        'post': user.post,
       },
     );
   }

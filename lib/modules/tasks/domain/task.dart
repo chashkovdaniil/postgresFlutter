@@ -18,6 +18,7 @@ class Task with _$Task {
     @JsonKey(fromJson: Task.priorityFromJson)
     @Default(TaskPriority.nonUrgent)
         TaskPriority priority,
+    required double cost,
   }) = _Task;
 
   factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);

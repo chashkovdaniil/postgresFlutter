@@ -111,6 +111,30 @@ class ProjectPageActions extends HookConsumerWidget {
       return const SizedBox.shrink();
     }
     final items = [
+      PopupMenuItem(
+        value: 'openDescription',
+        onTap: () {
+          Future.delayed(
+            Duration.zero,
+            () => showGeneralDialog(
+              context: context,
+              pageBuilder: (context, __, ___) => AlertDialog(
+                title: Text('Описание проекта'),
+                content: SingleChildScrollView(
+                  child: Text(project.description),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: Navigator.of(context).pop,
+                    child: Text('Закрыть'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+        child: Text('Читать описание'),
+      ),
       if (project.admins!.any((element) => element.id == user.id))
         PopupMenuItem(
           value: 0,
@@ -143,7 +167,7 @@ class ProjectPageTitle extends HookConsumerWidget {
     if (project == null) {
       return const Center(child: LoadingWidget());
     }
-    return Text(project.title);
+    return Text('${project.title} (бюджет: ${project.budget}₽)');
   }
 }
 

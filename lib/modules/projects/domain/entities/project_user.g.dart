@@ -16,6 +16,7 @@ _$_ProjectUser _$$_ProjectUserFromJson(Map<String, dynamic> json) =>
       phone: json['phone'] as int,
       photo: const FileConverter().fromJson(json['photo'] as String),
       role: ProjectUser.roleFromJson(json['role']),
+      post: json['post'] as String?,
     );
 
 Map<String, dynamic> _$$_ProjectUserToJson(_$_ProjectUser instance) =>
@@ -28,6 +29,7 @@ Map<String, dynamic> _$$_ProjectUserToJson(_$_ProjectUser instance) =>
       'phone': instance.phone,
       'photo': const FileConverter().toJson(instance.photo),
       'role': _$ProjectUserRolesEnumMap[instance.role],
+      'post': instance.post,
     };
 
 const _$ProjectUserRolesEnumMap = {

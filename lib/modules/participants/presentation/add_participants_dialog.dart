@@ -30,7 +30,7 @@ class AddParticipantsDialog extends HookConsumerWidget {
 
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.7,
+        maxWidth: MediaQuery.of(context).size.width * 0.6,
       ),
       child: Form(
         key: formKey,

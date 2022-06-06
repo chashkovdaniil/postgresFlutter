@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:postgresUn/core/providers/projects_provider.dart';
 import 'package:postgresUn/core/providers/user_provider.dart';
+import 'package:postgresUn/modules/participants/participants_provider.dart';
 import 'package:postgresUn/modules/projects/domain/entities/project.dart';
 import 'package:postgresUn/modules/projects/domain/entities/project_user.dart';
 import 'package:postgresUn/modules/tasks/domain/task.dart';
@@ -20,6 +22,9 @@ class DialogTask extends HookConsumerWidget {
   @override
   Widget build(context, ref) {
     final tasksManager = ref.read(TasksProvider.tasksManagerProvider);
+    final costController = useTextEditingController(
+      text: task == null ? '' : task!.cost.toString(),
+    );
     final titleController = useTextEditingController(
       text: task == null ? '' : task!.title,
     );
@@ -52,6 +57,21 @@ class DialogTask extends HookConsumerWidget {
                 maxLength: 50,
                 decoration: const InputDecoration(
                   label: Text('Заголовок'),
+                ),
+              ),
+              TextFormField(
+                controller: costController,
+                validator: (val) {
+                  if (val == null || val.isEmpty) {
+                    return 'Заполните поле!';
+                  }
+                  return null;
+                },
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                ],
+                decoration: const InputDecoration(
+                  label: Text('Стоимость'),
                 ),
               ),
               Expanded(
@@ -111,7 +131,7 @@ class DialogTask extends HookConsumerWidget {
   }
 }
 
-class SelectUserField extends ConsumerWidget {
+class SelectUserField extends HookConsumerWidget {
   const SelectUserField({
     Key? key,
     required this.onChange,
@@ -123,15 +143,21 @@ class SelectUserField extends ConsumerWidget {
 
   @override
   Widget build(context, ref) {
+    final participantsManager = ref.watch(
+      ParticipantProvider.participantsManagerProvider,
+    );
+    useEffect(
+      () {
+        participantsManager.onInit();
+        return null;
+      },
+      const [],
+    );
     final users = ref.watch(
       ProjectsProvider.projectStateProvider.select(
         (value) => value.participants,
       ),
     );
-    // final users = ref.watch(
-    //   ProjectsProvider.projectStateProvider
-    //       .select((s) => s.currentProject?.users),
-    // );
     if (users == null) {
       return const CircularProgressIndicator();
     }

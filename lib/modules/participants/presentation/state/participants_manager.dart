@@ -28,7 +28,7 @@ class ParticipantsManager {
 
   Future<void> onInit() async {
     final stream = Stream.periodic(const Duration(milliseconds: 1000));
-    _participantsStream = stream.listen((event) async {
+    _participantsStream ??= stream.listen((event) async {
       await loadParticipants();
     });
   }
@@ -48,8 +48,15 @@ class ParticipantsManager {
   void setParticipants(List<ProjectUser> participants) =>
       projectManager.setParticipants(participants);
 
-  Future<void> addParticipant(Project project, ProjectUser projectUser) async =>
-      projectsRepository.addParticipant(project, projectUser);
+  Future<void> addParticipant(Project project, ProjectUser projectUser) async {
+    if (projectStateHolder.state.participants?.any(
+          (element) => element.id == projectUser.id,
+        ) ==
+        true) {
+      return;
+    }
+    return projectsRepository.addParticipant(project, projectUser);
+  }
 
   Future<void> removeParticipant(Project project, ProjectUser user) =>
       projectsRepository.removeParticipant(project, user);

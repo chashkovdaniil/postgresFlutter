@@ -24,6 +24,15 @@ class MyApp extends HookConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
+        colorScheme: const ColorScheme.light(
+          primary: Colors.red,
+          secondary: Colors.white,
+          onPrimary: Color(0xff393939),
+          surface: Colors.white,
+          onSurface: Colors.black,
+          background: Colors.white,
+          onBackground: Colors.black,
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             padding: MaterialStateProperty.all(
@@ -47,6 +56,9 @@ class MyApp extends HookConsumerWidget {
             foregroundColor: MaterialStateProperty.all(Colors.white),
           ),
         ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          foregroundColor: Colors.white,
+        ),
         dialogTheme: DialogTheme(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
@@ -69,7 +81,7 @@ class MyApp extends HookConsumerWidget {
         RegisterPage.route: (_) => const RegisterPage(),
         ProjectPage.route: (_) => const ProjectPage(),
       },
-      scrollBehavior: ScrollBehavior(),
+      scrollBehavior: const ScrollBehavior(),
     );
   }
 }

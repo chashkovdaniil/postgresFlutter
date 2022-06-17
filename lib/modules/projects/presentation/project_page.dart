@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:postgresUn/core/constants.dart';
 import 'package:postgresUn/core/providers/projects_provider.dart';
 import 'package:postgresUn/core/providers/user_provider.dart';
+import 'package:postgresUn/modules/report/ui/report_page.dart';
 import 'package:postgresUn/modules/tasks/presentation/dialog_task.dart';
 import 'package:postgresUn/modules/tasks/presentation/tasks_page.dart';
 
@@ -113,26 +114,12 @@ class ProjectPageActions extends HookConsumerWidget {
     final items = [
       PopupMenuItem(
         value: 'openDescription',
-        onTap: () {
-          Future.delayed(
-            Duration.zero,
-            () => showGeneralDialog(
-              context: context,
-              pageBuilder: (context, __, ___) => AlertDialog(
-                title: Text('Описание проекта'),
-                content: SingleChildScrollView(
-                  child: Text(project.description),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: Navigator.of(context).pop,
-                    child: Text('Закрыть'),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
+        onTap: () => _openReport(context),
+        child: Text('Создать отчёт'),
+      ),
+      PopupMenuItem(
+        value: 'openDescription',
+        onTap: () => _openDialogDescription(context, project.description),
         child: Text('Читать описание'),
       ),
       if (project.admins!.any((element) => element.id == user.id))
@@ -152,6 +139,38 @@ class ProjectPageActions extends HookConsumerWidget {
               return items;
             },
           );
+  }
+
+  void _openDialogDescription(BuildContext context, String description) {
+    Future.delayed(
+      Duration.zero,
+      () => showGeneralDialog(
+        context: context,
+        pageBuilder: (context, __, ___) => AlertDialog(
+          title: Text('Описание проекта'),
+          content: SingleChildScrollView(
+            child: Text(description),
+          ),
+          actions: [
+            TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: Text('Закрыть'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _openReport(BuildContext context) {
+    Future.delayed(
+      Duration.zero,
+      () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ReportPage(),
+        ),
+      ),
+    );
   }
 }
 

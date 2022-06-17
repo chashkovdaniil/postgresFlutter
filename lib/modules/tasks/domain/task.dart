@@ -19,6 +19,8 @@ class Task with _$Task {
     @Default(TaskPriority.nonUrgent)
         TaskPriority priority,
     required double cost,
+    @JsonKey(name: 'created_at', fromJson: Task.createdAtFromJson)
+        required DateTime createdAt,
   }) = _Task;
 
   factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
@@ -33,4 +35,6 @@ class Task with _$Task {
         return TaskPriority.nonUrgent;
     }
   }
+
+  static DateTime createdAtFromJson(dynamic val) => val as DateTime;
 }

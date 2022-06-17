@@ -18,6 +18,7 @@ _$_Task _$$_TaskFromJson(Map<String, dynamic> json) => _$_Task(
           ? TaskPriority.nonUrgent
           : Task.priorityFromJson(json['priority']),
       cost: (json['cost'] as num).toDouble(),
+      createdAt: Task.createdAtFromJson(json['created_at']),
     );
 
 Map<String, dynamic> _$$_TaskToJson(_$_Task instance) => <String, dynamic>{
@@ -29,6 +30,7 @@ Map<String, dynamic> _$$_TaskToJson(_$_Task instance) => <String, dynamic>{
       'is_done': instance.isDone,
       'priority': _$TaskPriorityEnumMap[instance.priority],
       'cost': instance.cost,
+      'created_at': instance.createdAt.toIso8601String(),
     };
 
 const _$TaskPriorityEnumMap = {

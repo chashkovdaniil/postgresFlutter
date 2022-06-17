@@ -101,6 +101,7 @@ class TasksManager {
       performer: performer,
       isDone: isDone,
       cost: cost,
+      createdAt: DateTime.now(),
     );
     if (task.id == null) {
       await addTask(task);

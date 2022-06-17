@@ -32,7 +32,9 @@ class _$TaskTearOff {
           bool isDone = false,
       @JsonKey(fromJson: Task.priorityFromJson)
           TaskPriority priority = TaskPriority.nonUrgent,
-      required double cost}) {
+      required double cost,
+      @JsonKey(name: 'created_at', fromJson: Task.createdAtFromJson)
+          required DateTime createdAt}) {
     return _Task(
       id: id,
       title: title,
@@ -42,6 +44,7 @@ class _$TaskTearOff {
       isDone: isDone,
       priority: priority,
       cost: cost,
+      createdAt: createdAt,
     );
   }
 
@@ -65,6 +68,8 @@ mixin _$Task {
   @JsonKey(fromJson: Task.priorityFromJson)
   TaskPriority get priority => throw _privateConstructorUsedError;
   double get cost => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at', fromJson: Task.createdAtFromJson)
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -81,9 +86,13 @@ abstract class $TaskCopyWith<$Res> {
       String description,
       ProjectUser creator,
       ProjectUser performer,
-      @JsonKey(name: 'is_done') bool isDone,
-      @JsonKey(fromJson: Task.priorityFromJson) TaskPriority priority,
-      double cost});
+      @JsonKey(name: 'is_done')
+          bool isDone,
+      @JsonKey(fromJson: Task.priorityFromJson)
+          TaskPriority priority,
+      double cost,
+      @JsonKey(name: 'created_at', fromJson: Task.createdAtFromJson)
+          DateTime createdAt});
 
   $ProjectUserCopyWith<$Res> get creator;
   $ProjectUserCopyWith<$Res> get performer;
@@ -107,6 +116,7 @@ class _$TaskCopyWithImpl<$Res> implements $TaskCopyWith<$Res> {
     Object? isDone = freezed,
     Object? priority = freezed,
     Object? cost = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -141,6 +151,10 @@ class _$TaskCopyWithImpl<$Res> implements $TaskCopyWith<$Res> {
           ? _value.cost
           : cost // ignore: cast_nullable_to_non_nullable
               as double,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 
@@ -170,9 +184,13 @@ abstract class _$TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
       String description,
       ProjectUser creator,
       ProjectUser performer,
-      @JsonKey(name: 'is_done') bool isDone,
-      @JsonKey(fromJson: Task.priorityFromJson) TaskPriority priority,
-      double cost});
+      @JsonKey(name: 'is_done')
+          bool isDone,
+      @JsonKey(fromJson: Task.priorityFromJson)
+          TaskPriority priority,
+      double cost,
+      @JsonKey(name: 'created_at', fromJson: Task.createdAtFromJson)
+          DateTime createdAt});
 
   @override
   $ProjectUserCopyWith<$Res> get creator;
@@ -199,6 +217,7 @@ class __$TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res>
     Object? isDone = freezed,
     Object? priority = freezed,
     Object? cost = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_Task(
       id: id == freezed
@@ -233,6 +252,10 @@ class __$TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res>
           ? _value.cost
           : cost // ignore: cast_nullable_to_non_nullable
               as double,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -250,7 +273,9 @@ class _$_Task implements _Task {
           this.isDone = false,
       @JsonKey(fromJson: Task.priorityFromJson)
           this.priority = TaskPriority.nonUrgent,
-      required this.cost});
+      required this.cost,
+      @JsonKey(name: 'created_at', fromJson: Task.createdAtFromJson)
+          required this.createdAt});
 
   factory _$_Task.fromJson(Map<String, dynamic> json) => _$$_TaskFromJson(json);
 
@@ -272,10 +297,13 @@ class _$_Task implements _Task {
   final TaskPriority priority;
   @override
   final double cost;
+  @override
+  @JsonKey(name: 'created_at', fromJson: Task.createdAtFromJson)
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'Task(id: $id, title: $title, description: $description, creator: $creator, performer: $performer, isDone: $isDone, priority: $priority, cost: $cost)';
+    return 'Task(id: $id, title: $title, description: $description, creator: $creator, performer: $performer, isDone: $isDone, priority: $priority, cost: $cost, createdAt: $createdAt)';
   }
 
   @override
@@ -291,7 +319,8 @@ class _$_Task implements _Task {
             const DeepCollectionEquality().equals(other.performer, performer) &&
             const DeepCollectionEquality().equals(other.isDone, isDone) &&
             const DeepCollectionEquality().equals(other.priority, priority) &&
-            const DeepCollectionEquality().equals(other.cost, cost));
+            const DeepCollectionEquality().equals(other.cost, cost) &&
+            const DeepCollectionEquality().equals(other.createdAt, createdAt));
   }
 
   @override
@@ -304,7 +333,8 @@ class _$_Task implements _Task {
       const DeepCollectionEquality().hash(performer),
       const DeepCollectionEquality().hash(isDone),
       const DeepCollectionEquality().hash(priority),
-      const DeepCollectionEquality().hash(cost));
+      const DeepCollectionEquality().hash(cost),
+      const DeepCollectionEquality().hash(createdAt));
 
   @JsonKey(ignore: true)
   @override
@@ -324,9 +354,13 @@ abstract class _Task implements Task {
       required String description,
       required ProjectUser creator,
       required ProjectUser performer,
-      @JsonKey(name: 'is_done') bool isDone,
-      @JsonKey(fromJson: Task.priorityFromJson) TaskPriority priority,
-      required double cost}) = _$_Task;
+      @JsonKey(name: 'is_done')
+          bool isDone,
+      @JsonKey(fromJson: Task.priorityFromJson)
+          TaskPriority priority,
+      required double cost,
+      @JsonKey(name: 'created_at', fromJson: Task.createdAtFromJson)
+          required DateTime createdAt}) = _$_Task;
 
   factory _Task.fromJson(Map<String, dynamic> json) = _$_Task.fromJson;
 
@@ -348,6 +382,9 @@ abstract class _Task implements Task {
   TaskPriority get priority;
   @override
   double get cost;
+  @override
+  @JsonKey(name: 'created_at', fromJson: Task.createdAtFromJson)
+  DateTime get createdAt;
   @override
   @JsonKey(ignore: true)
   _$TaskCopyWith<_Task> get copyWith => throw _privateConstructorUsedError;

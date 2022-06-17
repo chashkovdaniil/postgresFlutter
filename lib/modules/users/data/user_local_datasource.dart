@@ -88,6 +88,16 @@ class UserLocalDatasource implements UserDatasource {
   }
 
   @override
+  Future<List<User>> users() async {
+    const query = 'SELECT * FROM users';
+    final result = await _postgresService.mappedResultsQuery(query);
+    if (result.isEmpty) {
+      throw Exception('Users not found');
+    }
+    return result.map((e) => User.fromJson(e['users']!)).toList();
+  }
+
+  @override
   Future<User> userByEmail(String email) async {
     const query = 'SELECT * FROM users WHERE email = @email';
     final result = await _postgresService.mappedResultsQuery(

@@ -26,7 +26,7 @@ class MessagesManager {
 
   Future<void> onInit() async {
     final stream = Stream.periodic(const Duration(milliseconds: 1000));
-    _messagesStream = stream.listen((event) async {
+    _messagesStream ??= stream.listen((event) async {
       await loadMessage();
     });
   }

@@ -30,6 +30,9 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
+  Future<List<User>> users() => _localDatasource.users();
+
+  @override
   Future<User> userByEmail(String email) {
     return _localDatasource.userByEmail(email);
   }

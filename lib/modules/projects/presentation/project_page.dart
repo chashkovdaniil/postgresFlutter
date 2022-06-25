@@ -115,7 +115,7 @@ class ProjectPageActions extends HookConsumerWidget {
       PopupMenuItem(
         value: 'openDescription',
         onTap: () => _openReport(context),
-        child: Text('Создать отчёт'),
+        child: Text('Создать отчёт по проекту'),
       ),
       PopupMenuItem(
         value: 'openDescription',

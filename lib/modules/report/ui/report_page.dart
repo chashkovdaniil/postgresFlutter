@@ -28,6 +28,7 @@ class ReportPage extends ConsumerStatefulWidget {
 }
 
 class _ReportPageState extends ConsumerState<ReportPage> {
+  final nameReportFieldController = TextEditingController();
   DateTimeRange? dateRange;
   User? forUser;
   bool showProjectInfo = true;
@@ -40,6 +41,12 @@ class _ReportPageState extends ConsumerState<ReportPage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    nameReportFieldController.dispose();
+    super.dispose();
   }
 
   @override
@@ -120,8 +127,19 @@ class _ReportPageState extends ConsumerState<ReportPage> {
         title: const Text('Отчет'),
         bottom: PreferredSize(
           child: Wrap(
+            spacing: 10,
             alignment: WrapAlignment.start,
             children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Название'),
+              ),
+              SizedBox(
+                width: 300,
+                child: TextField(
+                  controller: nameReportFieldController,
+                ),
+              ),
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text('Для кого отчет'),
@@ -231,13 +249,16 @@ class _ReportPageState extends ConsumerState<ReportPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          if (forUser == null || dateRange == null) {
+          if (forUser == null ||
+              dateRange == null ||
+              nameReportFieldController.text.isEmpty) {
             showDialog(
               context: context,
               builder: (_) => AlertDialog(
                 title: const Text('Ошибка'),
-                content:
-                    const Text('Не выбран период либо пользователь для отчета'),
+                content: const Text(
+                  'Не выбран период либо пользователь для отчета,а может не указано название отчета',
+                ),
                 actions: [
                   TextButton(
                     onPressed: Navigator.of(context).pop,
@@ -250,6 +271,7 @@ class _ReportPageState extends ConsumerState<ReportPage> {
           }
 
           report
+            ..add(nameReportFieldController.text)
             ..add(
               'Период,'
               '${dateRange!.start.day}.${dateRange!.start.month}.${dateRange!.start.year},'
@@ -257,7 +279,8 @@ class _ReportPageState extends ConsumerState<ReportPage> {
             )
             ..add(
               'Отчет подготовил ${currentUser!.fullname} для ${forUser!.fullname}',
-            );
+            )
+            ..add('');
           if (showProjectInfo) {
             _addProjectIInfo(tasks ?? [], report, project);
           }
@@ -292,22 +315,21 @@ class _ReportPageState extends ConsumerState<ReportPage> {
   void _addProjectIInfo(
       List<Task> tasks, List<String> report, Project project) {
     double budgetResult;
-    if (tasks.isEmpty) {
+    final doneTasks = tasks.where((t) => t.isDone);
+    if (doneTasks.isEmpty) {
       budgetResult = 0.0;
     } else {
-      budgetResult = tasks
-          .where((t) => t.isDone)
+      budgetResult = doneTasks
           .map((e) => e.cost)
           .reduce((value, element) => value + element);
     }
     report
-      ..add('Проект')
+      ..add('Данные о проекте')
       ..add(
-        'ID , Название ,Описание , Бюджет , Потрачено , Остаток , Всего заданий , Выполнено заданий',
+        'Название ,Описание , Бюджет , Потрачено , Остаток , Всего заданий , Выполнено заданий',
       )
       ..add(
         [
-          project.id.toString(),
           project.title.replaceAll('\n', ''),
           project.description.replaceAll('\n', ''),
           project.budget.toString(),
@@ -316,7 +338,8 @@ class _ReportPageState extends ConsumerState<ReportPage> {
           project.countTasks.toString(),
           project.countDoneTasks.toString(),
         ].join(','),
-      );
+      )
+      ..add('');
   }
 
   void _addTasks(List<Task> tasks, List<String> report, Project project) {
@@ -326,7 +349,6 @@ class _ReportPageState extends ConsumerState<ReportPage> {
       )
       ..add(
         [
-          'ID',
           'Название',
           'Описание',
           'Статус',
@@ -338,7 +360,6 @@ class _ReportPageState extends ConsumerState<ReportPage> {
     for (final task in tasks) {
       report.add(
         [
-          task.id.toString(),
           task.title.replaceAll('\n', ''),
           task.description.replaceAll('\n', ''),
           task.isDone ? 'Выполнено' : '-',
@@ -348,6 +369,7 @@ class _ReportPageState extends ConsumerState<ReportPage> {
         ].join(','),
       );
     }
+    report.add('');
   }
 
   void _addParticipants(
@@ -358,7 +380,6 @@ class _ReportPageState extends ConsumerState<ReportPage> {
       )
       ..add(
         [
-          'ID',
           'ФИО',
           'Email',
           'Телефон',
@@ -370,7 +391,6 @@ class _ReportPageState extends ConsumerState<ReportPage> {
     for (final user in participants) {
       report.add(
         [
-          user.id.toString(),
           '${user.lastName} ${user.name} ${user.patronymic}',
           user.email,
           user.phone.toString(),
@@ -388,6 +408,7 @@ class _ReportPageState extends ConsumerState<ReportPage> {
         ].join(','),
       );
     }
+    report.add('');
   }
 }
 
@@ -531,13 +552,12 @@ class ReportPageProject extends HookConsumerWidget {
     ];
 
     double budgetResult;
-    if (tasks.isEmpty) {
+    final doneTasks = tasks.where((t) => t.isDone);
+    if (doneTasks.isEmpty) {
       budgetResult = 0.0;
     } else {
-      budgetResult = tasks
-          .where((t) => t.isDone)
-          .map((e) => e.cost)
-          .reduce((value, element) => value + element);
+      final costs = doneTasks.map((e) => e.cost);
+      budgetResult = costs.reduce((value, element) => value + element);
     }
 
     return Column(

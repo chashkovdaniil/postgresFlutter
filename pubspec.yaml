@@ -49,6 +49,7 @@ dependencies:
   path_provider: ^2.0.8
   syncfusion_flutter_pdfviewer: ^20.1.59-beta
   searchfield: ^0.6.6
+  objectdb: ^1.2.1+1
 
 
 dev_dependencies:

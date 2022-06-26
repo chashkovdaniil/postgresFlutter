@@ -154,7 +154,7 @@ class CreateProjectDialog extends HookConsumerWidget {
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9]*'))
                 ],
                 decoration: const InputDecoration(
-                  label: Text('Стоимость'),
+                  label: Text('Затраты'),
                   hintText: '0',
                 ),
               ),

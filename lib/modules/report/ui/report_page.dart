@@ -352,7 +352,7 @@ class _ReportPageState extends ConsumerState<ReportPage> {
           'Название',
           'Описание',
           'Статус',
-          'Стоимость',
+          'Затраты',
           'Создатель',
           'Исполнитель',
         ].join(','),
@@ -426,7 +426,7 @@ class ReportPageTasks extends HookConsumerWidget {
       const _TableTitle('Название'),
       const _TableTitle('Описание'),
       const _TableTitle('Статус'),
-      const _TableTitle('Стоимость'),
+      const _TableTitle('Затраты'),
       const _TableTitle('Создатель'),
       const _TableTitle('Исполнитель'),
     ];

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:postgresUn/core/constants.dart';
@@ -103,6 +104,7 @@ class ProjectPageActions extends HookConsumerWidget {
   Widget build(context, ref) {
     final user = ref.watch(UserProvider.userState).user!;
     final projectsManager = ref.watch(ProjectsProvider.projectsManager);
+    final projectManager = ref.watch(ProjectsProvider.projectManagerProvider);
 
     final project = ref.watch(
       ProjectsProvider.projectStateProvider.select((s) => s.currentProject),
@@ -112,6 +114,13 @@ class ProjectPageActions extends HookConsumerWidget {
       return const SizedBox.shrink();
     }
     final items = [
+      PopupMenuItem(
+        value: 'openDescription',
+        onTap: () => _openChangeBudget(context, project.budget, (newBudget) {
+          projectManager.updateProjectInfo(budget: newBudget);
+        }),
+        child: Text('Изменить бюджет'),
+      ),
       PopupMenuItem(
         value: 'openDescription',
         onTap: () => _openReport(context),
@@ -150,6 +159,39 @@ class ProjectPageActions extends HookConsumerWidget {
           title: Text('Описание проекта'),
           content: SingleChildScrollView(
             child: Text(description),
+          ),
+          actions: [
+            TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: Text('Закрыть'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _openChangeBudget(
+    BuildContext context,
+    double budget,
+    ValueChanged<double> onChanged,
+  ) {
+    Future.delayed(
+      Duration.zero,
+      () => showGeneralDialog(
+        context: context,
+        pageBuilder: (context, __, ___) => AlertDialog(
+          title: Text('Редактировать бюджет'),
+          content: SingleChildScrollView(
+            child: TextFormField(
+              initialValue: budget.toString(),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]+\.?[0-9]?')),
+              ],
+              onChanged: (val) {
+                onChanged(double.parse(val.isEmpty ? budget.toString() : val));
+              },
+            ),
           ),
           actions: [
             TextButton(

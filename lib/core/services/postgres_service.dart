@@ -9,7 +9,7 @@ class PostgresService {
     password: 'user',
     timeZone: DateTime.now().timeZoneName,
   );
-  void init() async {
+  Future<void> init() async {
     await _connection.open();
   }
 

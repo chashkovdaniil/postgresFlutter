@@ -71,7 +71,7 @@ class DialogTask extends HookConsumerWidget {
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                 ],
                 decoration: const InputDecoration(
-                  label: Text('Стоимость'),
+                  label: Text('Затраты'),
                 ),
               ),
               Expanded(

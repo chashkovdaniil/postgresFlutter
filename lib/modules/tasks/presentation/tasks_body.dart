@@ -49,7 +49,7 @@ class TasksPageBody extends HookConsumerWidget {
                   task.creator.fullname +
                   '\nИсполнитель: ' +
                   task.performer.fullname +
-                  '\nСтоимость: ' +
+                  '\nЗатраты: ' +
                   task.cost.toString() +
                   '₽',
             ),

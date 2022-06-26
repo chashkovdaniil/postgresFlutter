@@ -45,6 +45,19 @@ class ProjectManager {
     stateHolder.setProject(project, isAllowedAdmin);
   }
 
+  void updateProjectInfo({double? budget, String? title}) {
+    // ignore: invalid_use_of_protected_member
+    final project = stateHolder.state.currentProject;
+    if (project != null) {
+      final updatedProject = project.copyWith(
+        title: title ?? project.title,
+        budget: budget ?? project.budget,
+      );
+      projectsRepository.update(updatedProject);
+      stateHolder.setProject(updatedProject);
+    }
+  }
+
   void selectTasksSort(TasksSort tasksSort) =>
       stateHolder.setTasksSort(tasksSort);
   void selectTasksSortByAlpha(TasksSortByAplha tasksSortByAplha) =>

@@ -91,9 +91,13 @@ class ProjectsLocalDatasource extends ProjectsDatasource {
 
   @override
   Future<void> update(Project project) async {
-    const query = 'UPDATE projects SET title = @title '
-        'WHERE project_id = @project_id';
-    await _postgresService.execute(query);
+    const query = 'UPDATE projects SET title = @title, budget = @budget '
+        'WHERE id = @id';
+    await _postgresService.execute(query, values: {
+      'id': project.id,
+      'title': project.title,
+      'budget': project.budget,
+    });
   }
 
   @override

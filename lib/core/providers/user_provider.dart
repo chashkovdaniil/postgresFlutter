@@ -17,7 +17,10 @@ class UserProvider {
     (ref) => UserRepositoryImpl(localDatasource: ref.watch(localDatasource)),
   );
   static Provider<UserManager> userManager = Provider(
-    (ref) => UserManager(userRepository: ref.watch(userRepository)),
+    (ref) => UserManager(
+      userRepository: ref.watch(userRepository),
+      localDB: ref.watch(ServiceProvider.localDB),
+    ),
   );
   static final StateNotifierProvider<UserManager, UserState> userState =
       StateNotifierProvider((ref) => ref.watch(userManager));

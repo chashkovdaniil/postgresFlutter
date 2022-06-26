@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:postgres/postgres.dart';
+import 'package:postgresUn/core/providers/service_provider.dart';
 import 'package:postgresUn/core/providers/user_provider.dart';
+import 'package:postgresUn/modules/app_loader/ui/app_loader_page.dart';
+import 'package:postgresUn/modules/app_loader/ui/app_loading_page.dart';
 import 'package:postgresUn/modules/home/presentation/home_page.dart';
 import 'package:postgresUn/modules/projects/presentation/project_page.dart';
 import 'package:postgresUn/modules/users/presentation/login_page.dart';
@@ -14,7 +17,7 @@ void main() {
   ));
 }
 
-class MyApp extends HookConsumerWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
@@ -80,14 +83,17 @@ class MyApp extends HookConsumerWidget {
         LoginPage.route: (_) => const LoginPage(),
         RegisterPage.route: (_) => const RegisterPage(),
         ProjectPage.route: (_) => const ProjectPage(),
+        AppLoadingPage.routeName: (_) => const AppLoadingPage(),
+        AppLoaderPage.routeName: (_) => const AppLoaderPage(),
       },
+      initialRoute: AppLoaderPage.routeName,
       scrollBehavior: const ScrollBehavior(),
     );
   }
 }
 
 class MainPage extends HookConsumerWidget {
-  static const String route = '/';
+  static const String route = '/main';
   const MainPage({Key? key}) : super(key: key);
 
   @override
